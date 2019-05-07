@@ -25,6 +25,11 @@ export default new Router({
       component: () => import("./views/Search")
     },
     {
+      path: "/select",
+      name: "select",
+      component: () => import("./views/selectClass")
+    },
+    {
       path: "/composition",
       name: "composition",
       // route level code-splitting
