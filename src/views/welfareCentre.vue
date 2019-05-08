@@ -39,6 +39,7 @@
           </div>
         </div>
       </div>
+
       <div class="-sign-bottom">
         <div class="-sign-bottom-wrap">
           <div class="-one">+999</div>
@@ -129,8 +130,13 @@
       </div>
     </div>
 
-    <van-popup v-model="isShowPopup" @click-overlay="closePopup">
-      内容
+    <van-popup v-model="isShowPopup" @click-overlay="closePopup" class="p-welfareCentre-popupOne">
+      <div class="p-welfareCentre-popupOne-img">
+        <img class="-img" src="../assets/image/fuli/icon-coin-bigger.png"/>
+      </div>
+      <div class="p-welfareCentre-popupOne-text">恭喜你，获得学分</div>
+      <div class="p-welfareCentre-popupOne-num">+1000</div>
+      <div class="p-welfareCentre-popupOne-btn">邀请好友一起学</div>
     </van-popup>
 
     <van-popup v-model="isShowPrizeSure" :close-on-click-overlay="false" class="p-welfareCentre-popupTwo">
@@ -212,7 +218,7 @@
         this.isShowPrizeSure = true
       },
       toConfirm() {
-       this.$router.push({
+        this.$router.push({
           path: '/exchangeSuccess'
         })
         this.closePopup()
@@ -536,14 +542,13 @@
         }
 
         .-item-down {
-          border-radius: 50%;
-          width: 24px;
-          height: 24px;
-          border: 2px solid rgba(255, 252, 240, 1);
           overflow: hidden;
 
           img {
-            width: 100%;
+            border: 2px solid rgba(255, 252, 240, 1);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
           }
         }
 
@@ -775,6 +780,57 @@
           height: 6px;
           margin-left: 4px;
         }
+      }
+    }
+
+    &-popupOne {
+      margin: 0 auto;
+      width: 100%;
+      background: none;
+      text-align: center;
+
+      &-img {
+        @include flex-center;
+
+        margin: 0 auto;
+        background: url("../assets/image/fuli/light.png") no-repeat;
+        background-size: 100%;
+        width: 130px;
+        height: 127px;
+
+        .-img {
+          width: 84%;
+        }
+      }
+
+      &-text {
+        height: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        line-height: 20px;
+      }
+
+      &-num {
+        height: 50px;
+        font-size: 36px;
+        font-weight: 500;
+        color: rgba(249, 158, 84, 1);
+        line-height: 50px;
+      }
+
+      &-btn {
+        text-align: center;
+        margin: 72px auto 0;
+        width:197px;
+        height:48px;
+        background:rgba(247,104,104,1);
+        border-radius:6px;
+        line-height: 50px;
+        font-size: 17px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 1);
+        line-height: 50px;
       }
     }
 
