@@ -4,7 +4,7 @@
       <van-icon color="#98A3A5" name="arrow-left" />
       <span @click="toBack">返回</span>
     </div>
-    <div class="p-exchangeRecords-item" v-for="(item,index) of 0" :key="index">
+    <div class="p-exchangeRecords-item" v-for="(item,index) of dataList" :key="index">
       <div class="-time">2019-04-23 16:53:24</div>
       <div class="-content">
         <div class="-content-img">
@@ -20,7 +20,12 @@
         </div>
       </div>
     </div>
-    <div class="p-exchangeRecords-noData"></div>
+    <div class="p-exchangeRecords-noData" v-if="!dataList.length">
+      <img class="-no-img" src="../assets/image/noData/no-1.png">
+      <div class="-no-text">抱歉，暂时没有兑换记录~ </div>
+      <div class="-no-text-two">赶快去赚取学分</div>
+      <div class="-no-btn">我要赚学分</div>
+    </div>
   </div>
 </template>
 
@@ -30,8 +35,7 @@ export default {
   name: 'exchangeRecords',
   data() {
     return {
-      dataList: [],
-      value: ""
+      dataList: []
     };
   },
   methods: {
@@ -131,8 +135,39 @@ export default {
   }
 
   &-noData {
+    margin-top: 96px;
+    text-align: center;
 
+    .-no-img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .-no-text {
+      color:#98A3A5;
+      font-size: 12px;
+    }
+
+    .-no-text-two {
+      font-size:13px;
+      font-weight:400;
+      color:#F99E54;
+      line-height:17px;
+    }
+
+    .-no-btn {
+      margin: 16px auto 0;
+      text-align: center;
+      width:113px;
+      height:36px;
+      border-radius:6px;
+      border:1px solid rgba(216,220,221,1);
+      font-size:13px;
+      font-family:PingFangSC-Regular;
+      font-weight:400;
+      color:rgba(53,54,55,1);
+      line-height:36px;
+    }
   }
-
 }
 </style>
