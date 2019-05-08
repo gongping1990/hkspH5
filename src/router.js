@@ -47,6 +47,11 @@ export default new Router({
       path: "/exchangeRecords",
       name: "exchangeRecords",
       component: () => import("./views/exchangeRecords")
+    },
+    {
+      path: "/exchangeSuccess",
+      name: "exchangeSuccess",
+      component: () => import("./views/exchangeSuccess")
     }
   ]
 });

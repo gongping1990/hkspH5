@@ -202,6 +202,9 @@
         this.isShowPrizeSure = true
       },
       toConfirm() {
+       this.$router.push({
+          path: '/exchangeSuccess'
+        })
         this.closePopup()
       },
       closePopup() {
