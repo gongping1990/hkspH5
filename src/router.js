@@ -83,6 +83,11 @@ export default new Router({
       path: "/prizeInfo",
       name: "prizeInfo",
       component: () => import("./views/prizeInfo")
+    },
+    {
+      path: "/fractionRank",
+      name: "fractionRank",
+      component: () => import("./views/fractionRank")
     }
   ]
 });

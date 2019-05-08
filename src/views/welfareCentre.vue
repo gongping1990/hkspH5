@@ -89,7 +89,7 @@
       </div>
       <div class="p-welfareCentre-rank-num">
         <div class="-num-text">已经有<span>52,437,689位</span>家长加入赚取学分</div>
-        <div class="-num-btn">查看全部 ></div>
+        <div class="-num-btn" @click="toRank">查看全部 ></div>
       </div>
       <div class="p-welfareCentre-rank-user">
         <div class="-user-wrap">
@@ -197,6 +197,11 @@
       toInfo() {
         this.$router.push({
           path: '/prizeInfo'
+        })
+      },
+      toRank() {
+        this.$router.push({
+          path: '/fractionRank'
         })
       },
       toSign() {
@@ -614,11 +619,11 @@
 
         .-user-img {
           margin-right: 8px;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
 
           img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             width: 100%;
           }
         }

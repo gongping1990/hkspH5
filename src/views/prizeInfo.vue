@@ -1,7 +1,7 @@
 <template>
   <div class="p-prizeInfo">
     <div class="p-prizeInfo-header">
-      <div class="-header-back">
+      <div class="-header-back" @click="toBack">
         <van-icon color="#FFFFFF" name="arrow-left"/>
         <span>返回</span>
       </div>
@@ -53,6 +53,13 @@
           }
         ],
         explain: "<p><span style='color: rgb(249, 150, 59);'>说明： 1.全…; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选</span></p>', text: '说明： 1.全国大陆地区普通快递包邮&nbsp; &nbsp; &nbsp; &nbsp; &nbs…nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选"
+      }
+    },
+    methods: {
+      toBack () {
+        this.$router.push({
+          path: "/welfareCentre"
+        });
       }
     }
   }
