@@ -16,6 +16,11 @@ export default new Router({
           path: "",
           name: "home",
           component: () => import("./views/Home")
+        },
+        {
+          path: "study",
+          name: "study",
+          component: () => import("./views/study")
         }
       ]
     },
@@ -23,6 +28,27 @@ export default new Router({
       path: "/search",
       name: "search",
       component: () => import("./views/Search")
+    },
+    {
+      path: "/collection",
+      name: "collection",
+      component: () => import("./views/Collection")
+    },
+    {
+      path: "/feedbook",
+      name: "feedbook",
+      component: () => import("./views/Feedbook")
+    },
+    {
+      path: "/feedbook-content",
+      name: "feedbookContent",
+      component: () => import("./views/FeedbookContent")
+    },
+
+    {
+      path: "/feedbook-detail",
+      name: "feedbookDetail",
+      component: () => import("./views/FeedbookDetail")
     },
     {
       path: "/select",

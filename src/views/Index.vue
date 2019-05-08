@@ -1,20 +1,78 @@
 <template>
   <div class="index">
     <router-view class="index-page"></router-view>
-    <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="search" dot>标签</van-tabbar-item>
-      <van-tabbar-item icon="friends-o" info="5">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o" info="20">标签</van-tabbar-item>
+    <van-tabbar v-model="active" active-color="#24B592">
+      <van-tabbar-item>
+        <span>语文</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.chinesePre : icon.chineseDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item>
+        <span>数学</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.mathPre : icon.mathDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item>
+        <span>英语</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.englishPre : icon.englishDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item>
+        <span>学习天地</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.fieldPre : icon.fieldDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item>
+        <span>福利中心</span>
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.wekfarePre : icon.wekfareDef"
+        />
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script>
+import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
+import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
+import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
+import mathPre from "../assets/image/tab/tabbar-button-math-pre.png";
+import englishDef from "../assets/image/tab/tabbar-button-english-def.png";
+import englishPre from "../assets/image/tab/tabbar-button-english-pre.png";
+import fieldDef from "../assets/image/tab/tabbar-button-field-def.png";
+import fieldPre from "../assets/image/tab/tabbar-button-field-pre.png";
+import wekfareDef from "../assets/image/tab/tabbar-button-welfare-def.png";
+import wekfarePre from "../assets/image/tab/tabbar-button-welfare-pre.png";
 export default {
   data() {
     return {
-      active: 1
+      active: 0,
+      icon: {
+        chineseDef,
+        chinesePre,
+        mathDef,
+        mathPre,
+        englishDef,
+        englishPre,
+        fieldDef,
+        fieldPre,
+        wekfareDef,
+        wekfarePre
+      }
     };
   }
 };

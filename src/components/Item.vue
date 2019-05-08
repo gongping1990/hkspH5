@@ -5,10 +5,12 @@
       <span class="item-subtitle">127,257人已学完</span>
       <div class="item-icon-wrap">
         <div class="item-share">
-          <van-icon name="share" size="18px" /><span>分享</span>
+          <i class="share-icon"></i>
+          <span>分享</span>
         </div>
         <div class="item-collection">
-          <van-icon name="like-o" size="18px" /><span>收藏</span>
+          <i class="like-icon"></i>
+          <span>收藏</span>
         </div>
       </div>
     </div>
@@ -35,6 +37,23 @@ export default {
   padding: 16px;
   background-color: #fff;
   border-bottom: 1px solid #fafafa;
+  .share-icon,
+  .like-icon,
+  .unlike-icon {
+    @include bg("/yuwen/icon-share.png");
+    margin-right: 6px;
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+  .unlike-icon {
+    @include bg("/yuwen/icon-unlike.png");
+    height: 14px;
+  }
+  .like-icon {
+    @include bg("/yuwen/icon-unlike.png");
+    height: 14px;
+  }
   &-left {
     flex: 1;
   }

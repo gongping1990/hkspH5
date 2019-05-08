@@ -77,15 +77,18 @@
         </div>
       </cube-scroll>
     </cube-sticky>
+    <Share v-if="false"></Share>
   </div>
 </template>
 
 <script>
+import Share from "@/components/Share";
 import Item from "@/components/Item";
 export default {
   name: "home",
   components: {
-    Item
+    Item,
+    Share
   },
   data() {
     return {

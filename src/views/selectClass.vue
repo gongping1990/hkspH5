@@ -31,7 +31,7 @@
       <div class="textbook-list">
         <div class="textbook-item active">
           <div class="textbook-item-img">
-            <img src="" />
+            <img src="../assets/image/yingdao/fm.png" />
             <div class="textbook-item-mask">
               <van-icon name="checked" size="28px" color="#24B592" />
             </div>
@@ -40,25 +40,25 @@
         </div>
         <div class="textbook-item">
           <div class="textbook-item-img">
-            <img src="" />
+            <img src="../assets/image/yingdao/fm.png" />
           </div>
           <span class="textbook-item-text">人教版</span>
         </div>
         <div class="textbook-item">
           <div class="textbook-item-img">
-            <img src="" />
+            <img src="../assets/image/yingdao/fm.png" />
           </div>
           <span class="textbook-item-text">北师大版</span>
         </div>
         <div class="textbook-item">
           <div class="textbook-item-img">
-            <img src="" />
+            <img src="../assets/image/yingdao/fm.png" />
           </div>
           <span class="textbook-item-text">部编版</span>
         </div>
         <div class="textbook-item">
           <div class="textbook-item-img">
-            <img src="" />
+            <img src="../assets/image/yingdao/fm.png" />
           </div>
           <span class="textbook-item-text">人教版</span>
         </div>
@@ -222,11 +222,11 @@ export default {
     &.btn {
       flex-direction: row;
       margin-bottom: 24px;
-    }
-    .select-item {
-      flex: 1;
-      &:last-child {
-        margin-left: 24px;
+      .select-item {
+        flex: 1;
+        &:last-child {
+          margin-left: 24px;
+        }
       }
     }
   }
