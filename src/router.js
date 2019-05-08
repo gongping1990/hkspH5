@@ -60,9 +60,24 @@ export default new Router({
       name: "composition",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      // which is lazy-loaded whe n the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Composition.vue")
+    },
+    {
+      path: "/welfareCentre",
+      name: "welfareCentre",
+      component: () => import("./views/welfareCentre")
+    },
+    {
+      path: "/exchangeRecords",
+      name: "exchangeRecords",
+      component: () => import("./views/exchangeRecords")
+    },
+    {
+      path: "/exchangeSuccess",
+      name: "exchangeSuccess",
+      component: () => import("./views/exchangeSuccess")
     }
   ]
 });
