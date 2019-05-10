@@ -1,7 +1,7 @@
 <template>
   <div class="feedbook">
     <div class="header">
-      <div class="back-btn">
+      <div class="back-btn" @click="$router.go(-1)">
         <van-icon name="arrow-left" color="#98A3A5" />返回
       </div>
       <div class="status">

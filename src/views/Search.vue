@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div class="header van-hairline--bottom">
-      <div class="back-btn">
+      <div class="back-btn" @click="$router.go(-1)">
         <van-icon color="#98A3A5" name="arrow-left" />
         <span>返回</span>
       </div>
@@ -22,6 +22,11 @@
         <div class="hot-item" v-for="i in 10" :key="i">写人</div>
       </div>
     </div>
+    <div class="empty" v-else-if="isEmpty">
+      <img src="../assets/image/noData/no-2.png" />
+      <span>抱歉，暂时没有找到你想要的内容~</span>
+      <p>换个关键词试试吧！</p>
+    </div>
     <div class="scroll" v-else>
       <cube-scroll ref="scroll">
         <div class="list">
@@ -40,7 +45,8 @@ export default {
   },
   data() {
     return {
-      value: ""
+      value: "",
+      isEmpty: true
     };
   },
   methods: {

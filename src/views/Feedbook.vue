@@ -1,34 +1,48 @@
 <template>
   <div class="feedbook">
-    <van-cell-group>
-      <van-cell is-link v-for="i in 20" :key="i">
-        <template slot="title">
-          <div class="feedbook-title">
-            <i class="feedbook-badge"></i>
-            <p class="feedbook-text">小学语文改怎么写，小学数学该怎</p>
-          </div>
-        </template>
-        <template slot="label">
-          <div class="feedbook-label">
-            <div class="feedbook-label-left">
-              <i class="feedbook-icon dhf"></i>
-              <span>待回复</span>
+    <div class="empty" v-if="isEmpty">
+      <img src="../assets/image/noData/no-3.png" />
+      <span>抱歉，你还没有对我们进行评价~ </span>
+      <p>说说你的想法吧</p>
+      <div class="empty-btn">建议和反馈</div>
+    </div>
+    <div v-else>
+      <van-cell-group>
+        <van-cell to="/feedbook-detail" is-link v-for="i in 20" :key="i">
+          <template slot="title">
+            <div class="feedbook-title">
+              <i class="feedbook-badge"></i>
+              <p class="feedbook-text">小学语文改怎么写，小学数学该怎</p>
             </div>
-            <div class="feedbook-time">2017-10-30</div>
-          </div>
-        </template>
-      </van-cell>
-    </van-cell-group>
-    <div class="feedbook-footer">
-      <router-link to="/feedbook-content" class="feedbook-btn">
-        我要反馈
-      </router-link>
+          </template>
+          <template slot="label">
+            <div class="feedbook-label">
+              <div class="feedbook-label-left">
+                <i class="feedbook-icon dhf"></i>
+                <span>待回复</span>
+              </div>
+              <div class="feedbook-time">2017-10-30</div>
+            </div>
+          </template>
+        </van-cell>
+      </van-cell-group>
+      <div class="feedbook-footer">
+        <router-link to="/feedbook-content" class="feedbook-btn">
+          我要反馈
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      isEmpty: false
+    };
+  }
+};
 </script>
 
 <style lang="scss" scoped>

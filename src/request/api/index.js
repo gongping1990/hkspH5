@@ -4,6 +4,9 @@ import course from "./course";
 import operate from "./operate";
 import wechat from "./wechat";
 import order from "./order";
+import banner from "./banner";
+import useroperate from "./useroperate";
+import article from "./article";
 
 export default {
   user,
@@ -11,5 +14,8 @@ export default {
   course,
   operate,
   wechat,
-  order
+  order,
+  banner,
+  useroperate,
+  article
 };

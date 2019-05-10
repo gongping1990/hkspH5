@@ -5,25 +5,25 @@ import qs from "querystring";
 const operate = {
   // 手机登录
   updateWxRemind() {
-    return axios.post("/poem/operate/updateWxRemind");
+    return axios.post("/sp/operate/updateWxRemind");
   },
   getUserCards() {
-    return axios.get("/poem/operate/getUserCards");
+    return axios.get("/sp/operate/getUserCards");
   },
   learnDay(params) {
-    return axios.post("/poem/operate/addLearn", qs.stringify(params));
+    return axios.post("/sp/operate/addLearn", qs.stringify(params));
   },
   listLearnHistory(params) {
-    return axios.get("/poem/operate/listLearnHistory", { params });
+    return axios.get("/sp/operate/listLearnHistory", { params });
   },
   addCard(params) {
-    return axios.post("/poem/operate/addCard", qs.stringify(params));
+    return axios.post("/sp/operate/addCard", qs.stringify(params));
   },
   shareByLessonDetails(params) {
-    return axios.get("/poem/operate/shareByLessonDetails", { params });
+    return axios.get("/sp/operate/shareByLessonDetails", { params });
   },
   like(params) {
-    return axios.get("/poem/operate/like", { params });
+    return axios.get("/sp/operate/like", { params });
   }
 };
 

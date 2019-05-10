@@ -2,7 +2,7 @@
   <div class="index">
     <router-view class="index-page"></router-view>
     <van-tabbar v-model="active" active-color="#24B592">
-      <van-tabbar-item>
+      <van-tabbar-item to="/">
         <span>语文</span>
         <img
           slot="icon"
@@ -10,7 +10,7 @@
           :src="props.active ? icon.chinesePre : icon.chineseDef"
         />
       </van-tabbar-item>
-      <van-tabbar-item>
+      <van-tabbar-item to="/?type=2">
         <span>数学</span>
         <img
           slot="icon"
@@ -18,7 +18,7 @@
           :src="props.active ? icon.mathPre : icon.mathDef"
         />
       </van-tabbar-item>
-      <van-tabbar-item>
+      <van-tabbar-item to="/?type=3">
         <span>英语</span>
         <img
           slot="icon"
@@ -26,7 +26,7 @@
           :src="props.active ? icon.englishPre : icon.englishDef"
         />
       </van-tabbar-item>
-      <van-tabbar-item>
+      <van-tabbar-item to="/study">
         <span>学习天地</span>
         <img
           slot="icon"

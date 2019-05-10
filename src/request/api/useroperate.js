@@ -2,11 +2,11 @@ import axios from "../http";
 // eslint-disable-next-line no-unused-vars
 import qs from "querystring";
 
-const common = {
+const useroperate = {
   // 手机登录
-  sendCode(params) {
-    return axios.get("/sp/common/sendCode", { params });
+  listByBroadcast() {
+    return axios.get("/sp/useroperate/listByBroadcast");
   }
 };
 
-export default common;
+export default useroperate;

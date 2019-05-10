@@ -5,10 +5,10 @@ import qs from "querystring";
 const order = {
   // 下单
   newOrder(params) {
-    return axios.post("/poem/order/newOrder", qs.stringify(params));
+    return axios.post("/sp/order/newOrder", qs.stringify(params));
   },
   getOrderDetails(params) {
-    return axios.get("/poem/order/getOrderDetails", { params });
+    return axios.get("/sp/order/getOrderDetails", { params });
   }
 };
 

@@ -10,9 +10,42 @@
       </div>
       <i class="__dialog-close"></i>
     </div>
+    <div class="__dialog qrcode" v-if="false">
+      <div class="__dialog-content">
+        <div class="__dialog-info">
+          <img src="" />
+          <div class="__dialog-info-text">
+            <p>小学语文</p>
+            <span>为小学生提供语文学习指导</span>
+          </div>
+        </div>
+        <div class="__dialog-qrcode">
+          <img src="" />
+          <div class="__dialog-aq">
+            <i class="aq-icon"></i>
+            <span>安全认证</span>
+          </div>
+          <p>长按二维码识别并关注公众号</p>
+        </div>
+        <div class="__dialog-btn">我已关注，别再推荐</div>
+      </div>
+      <i class="__dialog-close"></i>
+    </div>
+    <Share v-if="showShare"></Share>
   </div>
 </template>
-
+<script>
+import { mapState } from "vuex";
+import Share from "@/components/Share";
+export default {
+  components: {
+    Share
+  },
+  computed: {
+    ...mapState(["showShare"])
+  }
+};
+</script>
 <style lang="scss">
 @import url("./assets/style/common.scss");
 .__dialog {
@@ -62,6 +95,106 @@
     height: 26px;
     background: url("./assets/image/share-dialog/icon-cancel.png") no-repeat;
     background-size: 100%;
+  }
+  &.qrcode {
+    .__dialog-content {
+      position: relative;
+      align-items: flex-start;
+      padding-top: 48px;
+      width: 269px;
+      height: 331px;
+      background-image: url("./assets/image/share/weixin-dialog.png");
+    }
+    .__dialog-btn {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 32px;
+      font-size: 12px;
+      color: #98a3a5;
+      background-color: #f6f6f6;
+      border-radius: 0 0 6px 6px;
+    }
+    .__dialog-qrcode {
+      @include flex-column-center;
+      align-self: center;
+      margin-top: 54px;
+      img {
+        margin-bottom: 4px;
+        width: 87px;
+        height: 87px;
+      }
+      p {
+        font-size: 12px;
+        font-weight: normal;
+        color: #353637;
+      }
+    }
+    .__dialog-aq {
+      @include flex-center;
+      margin-bottom: 12px;
+      font-size: 10px;
+      color: #3bc9a7;
+      span {
+        margin-bottom: 0;
+      }
+      .aq-icon {
+        display: block;
+        margin-right: 4px;
+        width: 10px;
+        height: 12px;
+        background: url("./assets/image/share/gz-icon-safe.png") no-repeat;
+        background-size: 100%;
+      }
+    }
+    .__dialog-info {
+      display: flex;
+      align-items: center;
+      margin-left: 24px;
+      img {
+        margin-right: 6px;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+      }
+      &-text {
+        font-size: 10px;
+        color: #fff;
+        p {
+          font-size: 14px;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+.empty {
+  @include flex-column-center;
+  padding-top: 77px;
+  line-height: 20px;
+  &-btn {
+    @include flex-center;
+    margin-top: 16px;
+    width: 113px;
+    height: 36px;
+    font-size: 13px;
+    color: #353637;
+    border-radius: 6px;
+    border: 1px solid rgba(216, 220, 221, 1);
+  }
+  img {
+    width: 180px;
+    height: 180px;
+  }
+  span {
+    font-size: 12px;
+    color: #98a3a5;
+  }
+  p {
+    font-size: 13px;
+    color: #f99e54;
   }
 }
 </style>

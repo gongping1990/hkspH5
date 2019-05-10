@@ -1,7 +1,7 @@
 <template>
   <div class="share" @click="close">
     <img class="share-img" :src="img" />
-    <div class="share-dialog" @click.stop="() => {}">
+    <div class="share-dialog" v-if="active" @click.stop="() => {}">
       <h2>推荐朋友圈文案</h2>
       <p>
         小学学习库有丰富的小学同步预习、复习内容和实用的小学兴趣学习工具，目前已经有5298位家长和孩子在这里学习，快来跟我们一起学习吧
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import firendImg from "../assets/image/share/firend-arrow.png";
 import weixinImg from "../assets/image/share/weixin-arrow.png";
 export default {
@@ -55,9 +56,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["CHANGE_SHOW_SHARE"]),
     close() {
       console.log(11);
       this.$emit("close");
+      this.CHANGE_SHOW_SHARE();
     },
     changeActive(index) {
       this.active = index;

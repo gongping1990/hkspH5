@@ -1,6 +1,6 @@
 <template>
   <div class="collection">
-    <cube-sticky :pos="scrollY" ref="sticky">
+    <cube-sticky @change="changeSticky" :pos="scrollY" ref="sticky">
       <cube-scroll
         ref="scroll"
         :scroll-events="['scroll']"
@@ -10,36 +10,48 @@
       >
         <div class="header" ref="header">
           <div class="header-action">
-            <div class="back-btn">
+            <div class="back-btn" @click="$router.go(-1)">
               <van-icon name="arrow-left" />
               <span>返回</span>
             </div>
-            <div class="feedbook">
+            <router-link to="/feedbook" class="feedbook">
               <span>建议和反馈</span>
               <i class="feedbook-icon"></i>
-            </div>
+            </router-link>
           </div>
           <div class="user">
             <img class="user-avatar" src="" />
             <span>飞向企鹅的猪</span>
           </div>
         </div>
-        <cube-sticky-ele>
-          <div class="sticky-wrap" ref="stickyEle">
+        <cube-sticky-ele ref="stickyEle">
+          <div class="sticky-wrap" ref="stickyWrap">
             <div class="tab van-hairline--bottom">
-              <div class="tab-item active">我的收藏 (8)</div>
-              <div class="tab-item">学习记录 (32)</div>
-            </div>
-            <div v-if="false" class="search-wrap van-hairline--bottom">
-              <div class="search">
-                <i class="search-icon"></i>
-                <span>搜索收藏的内容</span>
+              <div
+                class="tab-item"
+                :class="{ active: !tabActive }"
+                @click="changeTab(0)"
+              >
+                我的收藏 (8)
+              </div>
+              <div
+                class="tab-item"
+                :class="{ active: tabActive }"
+                @click="changeTab(1)"
+              >
+                学习记录 (32)
               </div>
             </div>
-            <div class="calendar">
+            <div v-if="!tabActive" class="search-wrap van-hairline--bottom">
+              <router-link to="/search" class="search">
+                <i class="search-icon"></i>
+                <span>搜索收藏的内容</span>
+              </router-link>
+            </div>
+            <div class="calendar" v-else>
               <Calendar
-                v-if="showCalendar"
                 ref="Calendar"
+                v-if="showCalendar"
                 :showHeader="false"
                 :sundayStart="true"
                 :markDate="readDate"
@@ -81,9 +93,23 @@
             </div>
           </div>
         </cube-sticky-ele>
-
-        <div class="list">
-          <Item v-for="i in 20" :key="i"></Item>
+        <div class="list" v-if="!tabActive">
+          <div class="empty" v-if="isEmpty">
+            <img src="../assets/image/noData/no-4.png" />
+            <span>抱歉，暂时没有收藏记录~</span>
+          </div>
+          <div v-else>
+            <Item v-for="i in 20" :key="i"></Item>
+          </div>
+        </div>
+        <div class="list" v-else>
+          <div class="empty" v-if="isEmpty">
+            <img src="../assets/image/noData/no-5.png" />
+            <span>抱歉，暂时没有学习记录~</span>
+          </div>
+          <div v-else>
+            <Item v-for="i in 20" :key="i" :showAction="false"></Item>
+          </div>
         </div>
       </cube-scroll>
     </cube-sticky>
@@ -103,7 +129,7 @@ export default {
       options: {
         pullUpLoad: {
           txt: {
-            more: "加载更多",
+            more: "",
             noMore: "没有更多数据了"
           }
         }
@@ -113,7 +139,9 @@ export default {
       scrollY: 0,
       activeDate: "2019/05/07",
       month: "",
-      showCalendar: false
+      showCalendar: false,
+      tabActive: 0,
+      isEmpty: false
     };
   },
   computed: {
@@ -141,14 +169,30 @@ export default {
     }
   },
   methods: {
-    changeCalendar() {
-      let { sticky, scroll, header } = this.$refs;
-      this.showCalendar = !this.showCalendar;
-      sticky.refresh();
-      scroll.refresh();
-      setTimeout(() => {
+    resetScroll() {
+      let { sticky, scroll, header, stickyEle, stickyWrap } = this.$refs;
+      this.$nextTick(() => {
+        stickyEle.$el.setAttribute(
+          "style",
+          `height: ${stickyWrap.offsetHeight}px`
+        );
+        sticky.refresh();
+        scroll.refresh();
         scroll.scrollTo(0, -header.offsetHeight);
-      }, 100);
+      });
+    },
+    changeSticky() {
+      // if (index == -1 && this.showCalendar) {
+      //   this.showCalendar = false;
+      // }
+    },
+    changeTab(index) {
+      this.tabActive = index;
+      this.resetScroll();
+    },
+    changeCalendar() {
+      this.showCalendar = !this.showCalendar;
+      this.resetScroll();
     },
     choseDay(time) {
       this.activeDate = time;
@@ -173,6 +217,7 @@ export default {
   },
   created() {
     this.month = this.$day(new Date()).format("YYYY-MM");
+    this.options.pullUpLoad = false;
   }
 };
 </script>
@@ -180,7 +225,19 @@ export default {
 <style lang="scss" scoped>
 .collection {
   height: 100vh;
+  .list {
+    min-height: calc(100vh - 108px);
+  }
   .calendar {
+    position: relative;
+    &-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      background-color: #fff;
+      z-index: 99;
+    }
     &-btn {
       @include flex-center;
       margin: 0 auto;

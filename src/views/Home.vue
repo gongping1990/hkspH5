@@ -1,10 +1,27 @@
 <template>
   <div class="home" ref="page">
+    <div class="guide" v-if="!categoryData" @click="changeGuideStep">
+      <img
+        v-if="guideStep == 1"
+        class="guide-one"
+        src="../assets/image/yingdao/yd1.png"
+      />
+      <img
+        v-if="guideStep == 2"
+        class="guide-two"
+        src="../assets/image/yingdao/yd2.png"
+      />
+      <img
+        v-if="guideStep == 3"
+        class="guide-three"
+        src="../assets/image/yingdao/yd3.png"
+      />
+    </div>
     <cube-sticky
+      ref="stickyWrap"
       @change="changeHandler"
       @diff-change="diffChange"
       :pos="scrollY"
-      :offset="50"
     >
       <cube-scroll
         ref="scroll"
@@ -12,6 +29,7 @@
         :options="options"
         @scroll="scrollHandler"
         @pulling-up="onPullingUp"
+        :data="articleList"
       >
         <div class="home-wrap" ref="wrap">
           <div class="header">
@@ -20,19 +38,23 @@
               <van-icon name="arrow-down" color="#98A3A5" />
             </div>
             <div class="user">
-              <span>飞向企鹅的猪</span><img class="user-avatar" src="" />
+              <span>{{ userInfo.nickname }}</span
+              ><img class="user-avatar" :src="userInfo.headimgurl" />
             </div>
           </div>
           <div class="banner">
-            <img class="banner-img" src="" />
+            <van-swipe :autoplay="3000" indicator-color="white">
+              <van-swipe-item v-for="item in bannerList" :key="item.id">
+                <img class="banner-img" :src="item.url" />
+              </van-swipe-item>
+            </van-swipe>
           </div>
           <div class="message-banner">
-            <van-swipe :autoplay="3000" indicator-color="white">
-              <van-swipe-item>
+            <van-swipe :autoplay="3000" indicator-color="#24B592">
+              <van-swipe-item v-for="(item, i) in broadList" :key="i">
                 <div class="message-banner-item">
                   <div class="message-banner-left">
-                    <h3>欢迎来到学习宝</h3>
-                    <p>一起与<span>57689位</span>家长辅导孩子学习</p>
+                    <p>{{ item.content }}</p>
                   </div>
                   <div class="message-banner-right"></div>
                 </div>
@@ -41,8 +63,8 @@
           </div>
         </div>
         <div class="home-scroll">
-          <cube-sticky-ele ele-key="11">
-            <div class="sticky-wrap">
+          <cube-sticky-ele ref="stickyEle">
+            <div class="sticky-wrap" ref="sticky">
               <div class="header scroll-header" v-if="isSticky">
                 <div class="select-class">
                   三年级/部编版（下）
@@ -59,11 +81,11 @@
                 </div>
               </div>
               <div class="tab">
-                <div class="tab-item">
-                  <span class="active">同步学习</span>
+                <div class="tab-item" @click="changeTab(1)">
+                  <span :class="{ active: tabActive == 1 }">同步学习</span>
                 </div>
-                <div class="tab-item" @click="scrollTop">
-                  <span>精品学习</span>
+                <div class="tab-item" @click="changeTab(2)">
+                  <span :class="{ active: tabActive == 2 }">精品学习</span>
                 </div>
               </div>
             </div>
@@ -71,42 +93,51 @@
 
           <div class="scroll" ref="scrollList">
             <div class="scroll-list">
-              <Item v-for="item in 10" :key="item"></Item>
+              <div v-for="item in articleList" :key="item.id">
+                <Item :data="item"></Item>
+              </div>
             </div>
           </div>
         </div>
       </cube-scroll>
     </cube-sticky>
-    <Share v-if="false"></Share>
   </div>
 </template>
 
 <script>
-import Share from "@/components/Share";
 import Item from "@/components/Item";
 export default {
   name: "home",
   components: {
-    Item,
-    Share
+    Item
   },
   data() {
     return {
-      options: {
-        pullUpLoad: {
-          txt: {
-            more: "加载更多",
-            noMore: "没有更多数据了"
-          }
-        }
-      },
+      options: {},
       scrollY: 0,
-      isSticky: false
+      isSticky: false,
+      categoryData: {},
+      bannerList: [],
+      broadList: [],
+      articleList: [],
+      tabActive: 1,
+      subject: 1,
+      guideStep: 1
     };
   },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    gradeData() {
+      return this.$store.state.gradeData;
+    }
+  },
   watch: {
+    $route(n) {
+      console.log(n);
+    },
     isScrollBottom(n) {
-      console.log(11);
       let { scroll } = this.$refs;
       if (n) {
         scroll.enable();
@@ -123,18 +154,28 @@ export default {
       setTimeout(() => {
         scroll.disable();
       }, 500);
-      console.log(scroll);
       page.addEventListener("scroll", () => {
         let pageScrollTop = page.scrollTop;
         this.isScrollBottom = pageScrollTop == wrapHeight;
       });
     },
+    changeTab(index) {
+      this.tabActive = index;
+      this.scrollTop();
+      this.getArticleList();
+    },
     scrollTop() {
-      let { scroll, scrollList } = this.$refs;
-      scroll.scroll.scrollToElement(scrollList, 0, 0, -90);
+      let { scroll, scrollList, sticky, stickyEle, stickyWrap } = this.$refs;
+      this.isSticky = true;
+      this.$nextTick(() => {
+        stickyEle.$el.setAttribute("style", `height: ${sticky.offsetHeight}px`);
+        stickyWrap.refresh();
+        scroll.refresh();
+        scroll.scroll.scrollToElement(scrollList, 0, 0, -sticky.offsetHeight);
+        this.scrollY = -scroll.scroll.y;
+      });
     },
     onPullingUp() {
-      console.log(111);
       setTimeout(() => {
         this.$refs.scroll.forceUpdate();
       }, 1000);
@@ -150,11 +191,81 @@ export default {
     },
     scrollHandler(params) {
       this.scrollY = -params.y;
+    },
+    //切换引导步骤
+    changeGuideStep() {
+      let { type } = this.$route.query;
+      if (this.guideStep == 3) {
+        this.$router.push(`/select?type=${type ? type : 1}`);
+        window.localStorage.setItem("first", 1);
+      }
+      this.guideStep += 1;
+    },
+    init() {
+      this.first = window.localStorage.getItem("first");
+      this.getBanner();
+      this.getUserCategory();
+    },
+    // 获取banner
+    getBanner() {
+      this.$api.banner
+        .bannerList({
+          subjectId: this.subject
+        })
+        .then(({ data }) => {
+          this.bannerList = data.resultData.records;
+        });
+    },
+    // 获取最新播报
+    listByBroadcast() {
+      this.$api.useroperate.listByBroadcast().then(({ data }) => {
+        this.broadList = data.resultData;
+      });
+    },
+    // 获取学习列表
+    getArticleList() {
+      this.$toast.loading();
+      let { gradeData } = this;
+      if (!gradeData.grade) {
+        return;
+      }
+      gradeData.type = this.tabActive;
+      this.$api.article.getArticleList(gradeData).then(({ data }) => {
+        this.$toast.clear();
+        this.articleList = data.resultData;
+      });
+    },
+    // 获取用户选择的年级等信息
+    getUserCategory() {
+      let { subject } = this;
+      this.$api.article
+        .getUserCategory({
+          subject
+        })
+        .then(async ({ data }) => {
+          this.categoryData = data.resultData;
+          if (this.categoryData) {
+            let { grade, teachEdition, term } = this.categoryData;
+            this.$store.commit("UPDATE_GRADE_DATA", {
+              grade,
+              term,
+              subject,
+              teachEdition
+            });
+            this.getArticleList();
+          }
+          if (this.first) {
+            this.guideStep = 3;
+          }
+        });
     }
   },
-  mounted() {
-    // this.initScroll();
-    // console.log(this.$refs.wrap.offsetHeight);
+  created() {
+    let { type } = this.$route.query;
+    this.subject = type ? type : 1;
+    console.log(this.subject);
+    this.init();
+    this.listByBroadcast();
   }
 };
 </script>
@@ -162,6 +273,32 @@ export default {
 .home {
   &-wrap {
     padding-bottom: 1px;
+  }
+  .guide {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    img {
+      position: absolute;
+      width: 240px;
+    }
+    &-one {
+      top: 229px;
+      left: 32px;
+    }
+    &-two {
+      top: 229px;
+      right: 32px;
+    }
+    &-three {
+      top: 7px;
+      left: 11px;
+      width: 332px !important;
+    }
   }
   .sticky-wrap {
     background-color: #fff;
@@ -219,10 +356,10 @@ export default {
         margin-bottom: 3px;
       }
       p {
-        font-size: 12px;
-        span {
-          color: #f76868;
-        }
+        font-size: 14px;
+        color: #353637;
+        line-height: 18px;
+        margin-bottom: 3px;
       }
     }
     &-right {
@@ -236,7 +373,11 @@ export default {
     width: 343px;
     height: 120px;
     border-radius: 6px;
-    background-color: #98a3a5;
+    &-img {
+      width: 343px;
+      height: 120px;
+      border-radius: 6px;
+    }
   }
   .header {
     @include flex-center;
