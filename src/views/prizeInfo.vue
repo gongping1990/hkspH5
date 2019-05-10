@@ -2,7 +2,7 @@
   <div class="p-prizeInfo">
     <div class="p-prizeInfo-header">
       <div class="-header-back" @click="toBack">
-        <van-icon color="#FFFFFF" name="arrow-left"/>
+        <van-icon color="#FFFFFF" name="arrow-left" />
         <span>返回</span>
       </div>
       <div class="-header-name">
@@ -11,8 +11,12 @@
     </div>
     <div class="p-prizeInfo-swipe">
       <van-swipe :autoplay="3000" indicator-color="#24B592">
-        <van-swipe-item v-for="(item,index) of bannerList" :key="index" class="-swipe-item">
-          <img class="-swipe-item-img" :src="item.url">
+        <van-swipe-item
+          v-for="(item, index) of bannerList"
+          :key="index"
+          class="-swipe-item"
+        >
+          <img class="-swipe-item-img" :src="item.url" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -30,153 +34,152 @@
       </div>
     </div>
     <div class="p-prizeInfo-footer">
-      <img class="-icon" src="../assets/image/fuli/coin.png"/>
+      <img class="-icon" src="../assets/image/fuli/coin.png" />
       <div class="-text">1238学分兑换</div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "prizeInfo",
-    data() {
-      return {
-        bannerList: [
-          {
-            url: 'https://pub.file.k12.vip/2019/04/25/1121293295378092034.jpg'
-          },
-          {
-            url: 'https://pub.file.k12.vip/2019/04/25/1121320305816043522.png'
-          },
-          {
-            url: 'https://pub.file.k12.vip/2019/03/04/1102391104851939329.png'
-          }
-        ],
-        explain: "<p><span style='color: rgb(249, 150, 59);'>说明： 1.全…; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选</span></p>', text: '说明： 1.全国大陆地区普通快递包邮&nbsp; &nbsp; &nbsp; &nbsp; &nbs…nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选"
-      }
-    },
-    methods: {
-      toBack () {
-        this.$router.push({
-          path: "/welfareCentre"
-        });
-      }
+export default {
+  name: "prizeInfo",
+  data() {
+    return {
+      bannerList: [
+        {
+          url: "https://pub.file.k12.vip/2019/04/25/1121293295378092034.jpg"
+        },
+        {
+          url: "https://pub.file.k12.vip/2019/04/25/1121320305816043522.png"
+        },
+        {
+          url: "https://pub.file.k12.vip/2019/03/04/1102391104851939329.png"
+        }
+      ],
+      explain:
+        "<p><span style='color: rgb(249, 150, 59);'>说明： 1.全…; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选</span></p>', text: '说明： 1.全国大陆地区普通快递包邮&nbsp; &nbsp; &nbsp; &nbsp; &nbs…nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选"
+    };
+  },
+  methods: {
+    toBack() {
+      this.$router.push({
+        path: "/welfareCentre"
+      });
     }
   }
+};
 </script>
 
 <style scoped lang="scss">
-  .p-prizeInfo {
+.p-prizeInfo {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 20px 0 16px;
 
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 13px 20px 0 16px;
+    .-header-back {
+      @include flex-center;
 
-      .-header-back {
-        @include flex-center;
+      width: 52px;
+      height: 28px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 14px;
 
-        width: 52px;
-        height: 28px;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 14px;
-
-        span {
-          height: 20px;
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(255, 255, 255, 1);
-          line-height: 20px;
-        }
-      }
-
-      .-header-name {
+      span {
         height: 20px;
         font-size: 14px;
         font-weight: 500;
-        color: #AFAFAF;
+        color: rgba(255, 255, 255, 1);
         line-height: 20px;
       }
     }
 
-    &-swipe {
-      margin-top: 16px;
-      border-bottom: 1px solid #D8DCDD;
+    .-header-name {
+      height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #afafaf;
+      line-height: 20px;
+    }
+  }
 
-      .-swipe-item {
-        @include flex-y-center;
+  &-swipe {
+    margin-top: 16px;
+    border-bottom: 1px solid #d8dcdd;
 
+    .-swipe-item {
+      @include flex-y-center;
+
+      width: 100%;
+      height: 241px !important;
+
+      &-img {
         width: 100%;
-        height: 241px!important;
-
-        &-img {
-          width: 100%;
-        }
-      }
-    }
-
-    &-content {
-
-      .-content-title {
-        border-bottom: 1px solid #D8DCDD;
-        padding: 16px;
-        font-size:18px;
-        font-weight:500;
-        color:rgba(53,54,55,1);
-        line-height:25px;
-      }
-
-      .-content-prize {
-        border-bottom: 1px solid #D8DCDD;
-        padding: 16px;
-        font-size:14px;
-        font-weight:400;
-        color:rgba(53,54,55,0.6);
-        line-height:20px;
-        text-decoration: line-through;
-      }
-
-      .-content-explain {
-        padding: 16px;
-      }
-
-      .-content-detail {
-        &-title {
-          text-align: center;
-          width:100%;
-          height:52px;
-          background:rgba(246,246,246,1);
-          font-size:14px;
-          font-weight:500;
-          color:rgba(53,54,55,1);
-          line-height:52px;
-        }
-      }
-    }
-
-    &-footer {
-      @include flex-center;
-
-      position: fixed;
-      bottom: 0;
-      width:100%;
-      height:48px;
-      background:rgba(247,104,104,1);
-
-      .-icon {
-        width: 24px;
-        height: 24px;
-      }
-
-      .-text {
-        margin-left: 4px;
-        height:24px;
-        font-size:17px;
-        font-weight:500;
-        color:rgba(255,255,255,1);
-        line-height:24px;
       }
     }
   }
+
+  &-content {
+    .-content-title {
+      border-bottom: 1px solid #d8dcdd;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(53, 54, 55, 1);
+      line-height: 25px;
+    }
+
+    .-content-prize {
+      border-bottom: 1px solid #d8dcdd;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(53, 54, 55, 0.6);
+      line-height: 20px;
+      text-decoration: line-through;
+    }
+
+    .-content-explain {
+      padding: 16px;
+    }
+
+    .-content-detail {
+      &-title {
+        text-align: center;
+        width: 100%;
+        height: 52px;
+        background: rgba(246, 246, 246, 1);
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(53, 54, 55, 1);
+        line-height: 52px;
+      }
+    }
+  }
+
+  &-footer {
+    @include flex-center;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 48px;
+    background: rgba(247, 104, 104, 1);
+
+    .-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .-text {
+      margin-left: 4px;
+      height: 24px;
+      font-size: 17px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      line-height: 24px;
+    }
+  }
+}
 </style>
