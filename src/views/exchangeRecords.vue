@@ -1,6 +1,6 @@
 <template>
   <div class="p-exchangeRecords">
-    <div class="p-exchangeRecords-header">
+    <div class="p-exchangeRecords-header" v-if="dataList.length">
       <van-icon color="#98A3A5" name="arrow-left" />
       <span @click="toBack">返回</span>
     </div>
@@ -9,19 +9,19 @@
       v-for="(item, index) of dataList"
       :key="index"
     >
-      <div class="-time">2019-04-23 16:53:24</div>
+      <div class="-time">{{item.gmtCreate | timeFormat}}</div>
       <div class="-content">
         <div class="-content-img">
           <img
-            src="https://pub.file.k12.vip/2019/05/07/1125702765063303170.png"
+            :src="item.coverImg"
           />
         </div>
         <div class="-content-text">
-          <div class="-title">iPhone X🅂 Max in6.5-512G</div>
-          <div class="-prize">原价：12,299元</div>
+          <div class="-title">{{item.name}}</div>
+          <div class="-prize">原价：{{item.price}}元</div>
           <div class="-num">
             <img class="-icon" src="../assets/image/fuli/coin.png" />
-            <div class="-text">1238分</div>
+            <div class="-text">{{item.credit}}分</div>
           </div>
         </div>
       </div>
@@ -30,18 +30,32 @@
       <img class="-no-img" src="../assets/image/noData/no-1.png" />
       <div class="-no-text">抱歉，暂时没有兑换记录~</div>
       <div class="-no-text-two">赶快去赚取学分</div>
-      <div class="-no-btn">我要赚学分</div>
+      <div class="-no-btn" @click="toBack">我要赚学分</div>
     </div>
   </div>
 </template>
 
 <script>
+  import dayjs from 'dayjs';
 export default {
   name: "exchangeRecords",
   data() {
     return {
+      tab: {
+        page: 1,
+        pageSize: 10,
+        total: ''
+      },
       dataList: []
     };
+  },
+  filters: {
+    timeFormat: function (data) {
+      return dayjs(+data).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  mounted() {
+    this.getList()
   },
   methods: {
     toBack() {
@@ -49,7 +63,16 @@ export default {
         path: "/welfareCentre"
       });
     },
-    onSearch() {}
+    getList() {
+      this.$api.prize.getConvertOrderRecord({
+        current: this.tab.page,
+        size: this.tab.pageSize
+      }).then(({ data }) => {
+        // if (data.)
+        this.dataList = data.resultData.records;
+        this.tab.total = data.resultData.total;
+      });
+    }
   }
 };
 </script>

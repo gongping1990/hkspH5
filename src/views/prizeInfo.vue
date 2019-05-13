@@ -16,27 +16,36 @@
           :key="index"
           class="-swipe-item"
         >
-          <img class="-swipe-item-img" :src="item.url" />
+          <img class="-swipe-item-img" :src="item" />
         </van-swipe-item>
       </van-swipe>
     </div>
     <div class="p-prizeInfo-content">
       <div class="-content-title">
-        苹果最新款iPhone X🅂 Max in6.5-512G 原厂原装手机
+        {{dataDetail.name}}
       </div>
       <div class="-content-prize">
-        原价：12,299元
+        原价：{{dataDetail.price}}元
       </div>
-      <div class="-content-explain" v-html="explain"></div>
+      <div class="-content-explain" v-html="dataDetail.directions"></div>
       <div class="-content-detail">
         <div class="-content-detail-title">— 商品详情 —</div>
-        <div></div>
+        <div>{{dataDetail.details}}</div>
       </div>
     </div>
-    <div class="p-prizeInfo-footer">
+    <div class="p-prizeInfo-footer" @click="openModal">
       <img class="-icon" src="../assets/image/fuli/coin.png" />
-      <div class="-text">1238学分兑换</div>
+      <div class="-text">{{dataDetail.credit}}学分兑换</div>
     </div>
+
+    <van-popup v-model="isShowPrizeSure" :close-on-click-overlay="false" class="p-prizeInfo-popupTwo">
+      <div class="p-prizeInfo-popupTwo-sure">
+        <p class="-title">您正在兑换</p>
+        <p class="-content">{{dataDetail.name}}</p>
+        <div class="-btn" @click="toConfirm">确定</div>
+        <div class="-text" @click="openModal">取消</div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -45,25 +54,42 @@ export default {
   name: "prizeInfo",
   data() {
     return {
-      bannerList: [
-        {
-          url: "https://pub.file.k12.vip/2019/04/25/1121293295378092034.jpg"
-        },
-        {
-          url: "https://pub.file.k12.vip/2019/04/25/1121320305816043522.png"
-        },
-        {
-          url: "https://pub.file.k12.vip/2019/03/04/1102391104851939329.png"
-        }
-      ],
-      explain:
-        "<p><span style='color: rgb(249, 150, 59);'>说明： 1.全…; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选</span></p>', text: '说明： 1.全国大陆地区普通快递包邮&nbsp; &nbsp; &nbsp; &nbsp; &nbs…nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.款式随机发货，暂不支持自选"
+      isShowPrizeSure: false,
+      dataDetail: '',
+      bannerList: []
     };
   },
+  mounted() {
+    this.getPrizeDetail()
+  },
   methods: {
+    toConfirm(){
+      this.$api.prize.convertPrize({
+        id: this.$route.query.id
+      }).then(({ data }) => {
+        this.$router.push({
+          path: '/exchangeSuccess',
+          query: {
+            id: data.resultData
+          }
+        })
+        this.openModal()
+      });
+    },
+    openModal(){
+      this.isShowPrizeSure = !this.isShowPrizeSure
+    },
     toBack() {
       this.$router.push({
         path: "/welfareCentre"
+      });
+    },
+    getPrizeDetail() {
+      this.$api.prize.prizeDetails({
+        id: this.$route.query.id
+      }).then(({ data }) => {
+        this.dataDetail = data.resultData;
+        this.bannerList = JSON.parse(this.dataDetail.showImgs)
       });
     }
   }
@@ -115,6 +141,7 @@ export default {
       height: 241px !important;
 
       &-img {
+        height: 80%;
         width: 100%;
       }
     }
@@ -180,6 +207,55 @@ export default {
       color: rgba(255, 255, 255, 1);
       line-height: 24px;
     }
+  }
+
+  &-popupTwo {
+    width: 254px;
+    height: 208px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 6px;
+
+    &-sure {
+      text-align: center;
+      margin: 20px;
+
+      .-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(53, 54, 55, 1);
+        line-height: 20px;
+      }
+
+      .-content {
+        margin-top: 12px;
+        height: 42px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 1);
+        line-height: 22px;
+      }
+
+      .-btn {
+        margin: 24px auto 10px;
+        text-align: center;
+        width: 160px;
+        height: 40px;
+        background: rgba(36, 181, 146, 1);
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        line-height: 40px;
+      }
+
+      .-text {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(152, 163, 165, 1);
+        line-height: 20px;
+      }
+    }
+
   }
 }
 </style>

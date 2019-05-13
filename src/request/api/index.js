@@ -8,6 +8,9 @@ import banner from "./banner";
 import useroperate from "./useroperate";
 import article from "./article";
 import category from "./category";
+import prize from "./prize";
+import credit from "./credit";
+import welfare from "./welfare";
 
 export default {
   user,
@@ -19,5 +22,8 @@ export default {
   banner,
   useroperate,
   article,
-  category
+  category,
+  prize,
+  credit,
+  welfare
 };
