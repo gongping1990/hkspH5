@@ -6,6 +6,9 @@ const useroperate = {
   // 手机登录
   listByBroadcast() {
     return axios.get("/sp/useroperate/listByBroadcast");
+  },
+  getCreditByUser(params) {
+    return axios.post("/sp/useroperate/getCreditByUser", qs.stringify(params));
   }
 };
 
