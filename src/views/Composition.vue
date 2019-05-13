@@ -5,43 +5,64 @@
         <van-icon color="#98A3A5" name="arrow-left" />
         <span>返回</span>
       </div>
-      <div class="search">
+      <router-link to="/search" class="search">
         <span>搜索想找的内容</span>
-      </div>
+      </router-link>
     </div>
-    <cube-sticky class="sticky" :pos="scrollY">
-      <cube-scroll
-        ref="scroll"
-        :scroll-events="['scroll']"
-        @scroll="scrollHandler"
-      >
-        <div class="banner"></div>
-        <cube-sticky-ele ele-key="22">
-          <div class="tab" ref="tab">
-            <div class="tab-header">
-              <span class="tab-header-item active">写作技巧</span>
-              <span class="tab-header-item">优秀范文</span>
-              <span class="tab-header-item">经典素材</span>
-            </div>
+    <div class="sticky">
+      <cube-sticky ref="stickyWrap" :pos="scrollY">
+        <cube-scroll
+          ref="scroll"
+          :data="articleList"
+          :options="options"
+          :scroll-events="['scroll']"
+          @scroll="scrollHandler"
+          @pulling-up="onPullingUp"
+        >
+          <div class="scroll-wrap">
+            <div class="banner"></div>
+            <cube-sticky-ele ref="stickyEle" ele-key="22">
+              <div class="tab" ref="tab">
+                <div class="tab-header">
+                  <span
+                    class="tab-header-item"
+                    :class="{ active: columnId == item.id }"
+                    v-for="(item, i) in columnList"
+                    :key="item.id"
+                    @click="changeTab(i, item)"
+                  >
+                    {{ item.title }}
+                  </span>
+                </div>
 
-            <div class="tab-content">
-              <div
-                @click="scrollTop"
-                class="tab-content-item"
-                v-for="item in 8"
-                :key="item"
-              >
-                写人
+                <div class="tab-content" v-if="activeList.length">
+                  <div
+                    class="tab-content-item"
+                    :class="{ active: item.id == categoryId }"
+                    v-for="item in activeList"
+                    :key="item.id"
+                    @click="changeCategory(item)"
+                  >
+                    {{ item.title }}
+                  </div>
+                </div>
               </div>
+            </cube-sticky-ele>
+            <div class="empty" v-if="isEmpty">
+              <img src="../assets/image/noData/no-1.png" />
+              <span>抱歉，暂时没有内容~</span>
+            </div>
+            <div class="list" ref="scrollList" v-else>
+              <Item
+                v-for="item in articleList"
+                :key="item.id"
+                :data="item"
+              ></Item>
             </div>
           </div>
-        </cube-sticky-ele>
-
-        <div class="list" ref="list">
-          <Item v-for="i in 10" :key="i"></Item>
-        </div>
-      </cube-scroll>
-    </cube-sticky>
+        </cube-scroll>
+      </cube-sticky>
+    </div>
   </div>
 </template>
 
@@ -53,19 +74,113 @@ export default {
   },
   data() {
     return {
-      scrollY: 0
+      options: {
+        pullUpLoad: {
+          txt: { more: "", noMore: "没有更多内容了" }
+        }
+      },
+      scrollY: 0,
+      columnList: [],
+      columnId: 0,
+      categoryId: 0,
+      activeList: [],
+      articleList: [],
+      size: 10,
+      current: 1,
+      total: 0,
+      isEmpty: false
     };
   },
   methods: {
+    onPullingUp() {
+      let { total } = this;
+      let { scroll } = this.$refs;
+      console.log(this.articleList.length, total);
+      if (this.articleList.length >= total) {
+        scroll.forceUpdate();
+      } else {
+        this.current += 1;
+        this.getArticleList();
+      }
+    },
+    changeCategory(item) {
+      this.categoryId = item.id;
+      this.current = 1;
+      this.articleList = [];
+      this.total = 0;
+      this.isEmpty = false;
+      this.scrollTop();
+      this.getArticleList();
+    },
+    changeTab(index, item) {
+      this.current = 1;
+      this.articleList = [];
+      this.total = 0;
+      this.isEmpty = false;
+      this.columnId = item.id;
+      this.activeList = this.columnList[index].children;
+      this.categoryId = this.columnList[index].children[0].id;
+      this.scrollTop();
+      this.getArticleList();
+    },
     scrollTop() {
-      let { tab, scroll, list } = this.$refs;
-      let tabHeight = tab.offsetHeight;
-      console.log(tabHeight);
-      scroll.scroll.scrollToElement(list, 0, 0, -tabHeight);
+      let { scroll, tab, stickyEle, stickyWrap } = this.$refs;
+      this.$nextTick(() => {
+        stickyEle.$el.setAttribute("style", `height: ${tab.offsetHeight}px`);
+        stickyWrap.refresh();
+        scroll.refresh();
+        scroll.scroll.scrollToElement(tab, 0, 0, 0);
+      });
     },
     scrollHandler({ y }) {
       this.scrollY = -y;
+    },
+    getColumnList() {
+      let { subject, id } = this.$route.query;
+      this.$api.category
+        .columnList({
+          id,
+          subject
+        })
+        .then(({ data }) => {
+          this.columnList = data.resultData;
+          this.columnId = this.columnList[0].id;
+          this.activeList = this.columnList[0].children;
+          this.categoryId = this.columnList[0].children[0].id;
+          this.$refs.scroll.refresh();
+          this.$refs.stickyWrap.refresh();
+          this.getArticleList();
+        });
+    },
+    getArticleList() {
+      let { categoryId, current, size, subject } = this;
+
+      this.$api.article
+        .articleList({
+          categoryId,
+          current,
+          size,
+          subject
+        })
+        .then(({ data }) => {
+          this.articleList = [...this.articleList, ...data.resultData.records];
+          this.total = data.resultData.total;
+          if (!data.resultData.records.length) {
+            this.options.pullUpLoad = false;
+            this.isEmpty = true;
+          } else {
+            this.isEmpty = false;
+            this.options.pullUpLoad = {
+              txt: { more: "", noMore: "没有更多内容了" }
+            };
+          }
+        });
     }
+  },
+  created() {
+    let { subject } = this.$route.query;
+    this.subject = subject;
+    this.getColumnList();
   }
 };
 </script>
@@ -74,6 +189,13 @@ export default {
 .composition {
   .sticky {
     height: calc(100vh - 62px);
+  }
+  .scroll-wrap {
+    min-height: 100vh;
+  }
+  .empty {
+    padding-top: 0;
+    height: calc(100vh - 62px - 140px);
   }
   .header {
     @include flex-center;
@@ -144,6 +266,10 @@ export default {
         font-size: 12px;
         background: rgba(246, 246, 246, 1);
         border-radius: 13px;
+        &.active {
+          background: #24b592;
+          color: #fff;
+        }
       }
     }
   }

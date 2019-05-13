@@ -7,6 +7,7 @@ import order from "./order";
 import banner from "./banner";
 import useroperate from "./useroperate";
 import article from "./article";
+import category from "./category";
 
 export default {
   user,
@@ -17,5 +18,6 @@ export default {
   order,
   banner,
   useroperate,
-  article
+  article,
+  category
 };

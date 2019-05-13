@@ -2,9 +2,24 @@
   <div class="study">
     <div class="header van-hairline--bottom">
       <div class="header-left">
-        <span class="subject active">语文</span>
-        <span class="subject">数学</span>
-        <span class="subject">英语</span>
+        <span
+          class="subject"
+          :class="{ active: active == 1 }"
+          @click="changeTab(1)"
+          >语文</span
+        >
+        <span
+          class="subject"
+          :class="{ active: active == 2 }"
+          @click="changeTab(2)"
+          >数学</span
+        >
+        <span
+          class="subject"
+          :class="{ active: active == 3 }"
+          @click="changeTab(3)"
+          >英语</span
+        >
       </div>
       <div class="search">
         <i class="search-icon"></i>
@@ -15,9 +30,11 @@
       <cube-scroll ref="scroll" :options="options" @pulling-up="onPullingUp">
         <div class="scroll-content">
           <h2 class="scroll-title">实用学习工具</h2>
-          <div class="tool">
+          <div class="tool" v-if="active == 1">
             <div class="tool-left">
-              <img src="../assets/image/study/zwbd.png" />
+              <router-link to="/composition?id=1125293952905711617&subject=1">
+                <img src="../assets/image/study/zwbd.png" />
+              </router-link>
             </div>
             <div class="tool-right">
               <div class="tool-item">
@@ -32,8 +49,10 @@
           <div class="list">
             <div class="item" v-for="i in 20" :key="i">
               <img class="item-img" src="" />
-              <p>汉字</p>
-              <span>通过幽默诙谐的讲述方式来讲述故事。</span>
+              <div class="van-hairline--bottom">
+                <p>汉字</p>
+                <span>通过幽默诙谐的讲述方式来讲述故事。</span>
+              </div>
             </div>
           </div>
         </div>
@@ -46,6 +65,7 @@
 export default {
   data() {
     return {
+      active: 1,
       options: {
         pullUpLoad: {
           txt: {
@@ -62,6 +82,9 @@ export default {
       setTimeout(() => {
         this.$refs.scroll.forceUpdate();
       }, 1000);
+    },
+    changeTab(index) {
+      this.active = index;
     }
   }
 };
@@ -70,28 +93,24 @@ export default {
 <style lang="scss" scoped>
 .study {
   .list {
-    display: flex;
-    flex-wrap: wrap;
     .item {
-      margin-right: 12px;
-      margin-bottom: 24px;
-      width: 106px;
-      height: 166px;
-      &:nth-child(3n) {
-        margin-right: 0;
-      }
+      display: flex;
+      margin-bottom: 32px;
       &-img {
-        width: 106px;
-        height: 106px;
+        margin-right: 16px;
+        width: 80px;
+        height: 80px;
         border-radius: 6px;
-        border: 1px solid rgba(216, 220, 221, 1);
+      }
+      div {
+        flex: 1;
       }
       p {
         @include text-overflow;
-        margin-top: 8px;
         margin-bottom: 2px;
-        font-size: 13px;
+        font-size: 16px;
         line-height: 18px;
+        font-weight: 500;
         color: #222222;
       }
       span {

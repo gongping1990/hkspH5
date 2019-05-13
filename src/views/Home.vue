@@ -33,8 +33,8 @@
       >
         <div class="home-wrap" ref="wrap">
           <div class="header">
-            <div class="select-class">
-              三年级/部编版（下）
+            <div class="select-class" @click="clickSelect">
+              {{ !categoryData ? "选择年级" : categoryData.name }}
               <van-icon name="arrow-down" color="#98A3A5" />
             </div>
             <div class="user">
@@ -50,7 +50,7 @@
             </van-swipe>
           </div>
           <div class="message-banner">
-            <van-swipe :autoplay="3000" indicator-color="#24B592">
+            <van-swipe :autoplay="30000" indicator-color="#24B592">
               <van-swipe-item v-for="(item, i) in broadList" :key="i">
                 <div class="message-banner-item">
                   <div class="message-banner-left">
@@ -92,15 +92,31 @@
           </cube-sticky-ele>
 
           <div class="scroll" ref="scrollList">
-            <div class="scroll-list">
-              <div v-for="item in articleList" :key="item.id">
-                <Item :data="item"></Item>
+            <div class="empty" v-if="isEmpty">
+              <img src="../assets/image/noData/no-1.png" />
+              <span>抱歉，暂时没有文章~</span>
+            </div>
+            <div class="scroll-list" v-else>
+              <div
+                :ref="'item' + item.id"
+                v-for="item in articleList"
+                :key="item.id"
+              >
+                <Item
+                  :data="item"
+                  @click="clickItem"
+                  :isLast="item.point"
+                ></Item>
               </div>
             </div>
           </div>
         </div>
       </cube-scroll>
     </cube-sticky>
+    <div class="last-study" v-if="lastStudyId" @click="clickLastStudy">
+      <van-icon color="#F99E54" name="arrow-up" />
+      <span>回到上次学习</span>
+    </div>
   </div>
 </template>
 
@@ -122,7 +138,8 @@ export default {
       articleList: [],
       tabActive: 1,
       subject: 1,
-      guideStep: 1
+      guideStep: 1,
+      isEmpty: false
     };
   },
   computed: {
@@ -131,11 +148,24 @@ export default {
     },
     gradeData() {
       return this.$store.state.gradeData;
+    },
+    lastStudyId() {
+      let id = 0;
+      let item = this.articleList.find(e => {
+        return e.point;
+      });
+      item && (id = item.id);
+      return id;
     }
   },
   watch: {
     $route(n) {
       console.log(n);
+      let { type } = n.query;
+      this.subject = type ? type : 1;
+      this.articleList = [];
+      console.log(this.subject);
+      this.init();
     },
     isScrollBottom(n) {
       let { scroll } = this.$refs;
@@ -159,19 +189,32 @@ export default {
         this.isScrollBottom = pageScrollTop == wrapHeight;
       });
     },
+    clickLastStudy() {
+      let { lastStudyId } = this;
+      this.scrollTop(this.$refs["item" + lastStudyId][0]);
+    },
+    clickSelect() {
+      let { type } = this.$route.query;
+      this.$router.push(`/select?type=${type ? type : 1}`);
+    },
+    clickItem(item) {
+      window.location.href = item.link;
+    },
     changeTab(index) {
       this.tabActive = index;
       this.scrollTop();
       this.getArticleList();
     },
-    scrollTop() {
+    scrollTop(el) {
       let { scroll, scrollList, sticky, stickyEle, stickyWrap } = this.$refs;
+      let $el = el ? el : scrollList;
+      console.log($el);
       this.isSticky = true;
       this.$nextTick(() => {
         stickyEle.$el.setAttribute("style", `height: ${sticky.offsetHeight}px`);
         stickyWrap.refresh();
         scroll.refresh();
-        scroll.scroll.scrollToElement(scrollList, 0, 0, -sticky.offsetHeight);
+        scroll.scroll.scrollToElement($el, 0, 0, -sticky.offsetHeight);
         this.scrollY = -scroll.scroll.y;
       });
     },
@@ -233,6 +276,7 @@ export default {
       this.$api.article.getArticleList(gradeData).then(({ data }) => {
         this.$toast.clear();
         this.articleList = data.resultData;
+        this.isEmpty = !this.articleList.length;
       });
     },
     // 获取用户选择的年级等信息
@@ -242,7 +286,7 @@ export default {
         .getUserCategory({
           subject
         })
-        .then(async ({ data }) => {
+        .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
             let { grade, teachEdition, term } = this.categoryData;
@@ -253,6 +297,8 @@ export default {
               teachEdition
             });
             this.getArticleList();
+          } else {
+            this.isEmpty = true;
           }
           if (this.first) {
             this.guideStep = 3;
@@ -273,6 +319,23 @@ export default {
 .home {
   &-wrap {
     padding-bottom: 1px;
+  }
+  .last-study {
+    @include flex-center;
+    position: absolute;
+    right: 0;
+    bottom: 240px;
+    width: 118px;
+    height: 26px;
+    font-size: 13px;
+    color: #f99e54;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 100px 0px 0px 100px;
+    z-index: 99;
+    span {
+      margin-left: 4px;
+    }
   }
   .guide {
     position: absolute;
@@ -348,6 +411,7 @@ export default {
       height: 78px;
     }
     &-left {
+      flex: 1;
       margin-left: 16px;
       h3 {
         font-size: 16px;
@@ -363,9 +427,16 @@ export default {
       }
     }
     &-right {
-      margin-right: 21px;
-      width: 89px;
-      height: 40px;
+      @include flex-center;
+      margin-left: 17px;
+      width: 78px;
+      height: 78px;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 0px 6px 6px 0px;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
     }
   }
   .banner {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="item"
-    :class="{ 'van-hairline--bottom': showAction }"
+    :class="{ 'van-hairline--bottom': showAction, isLast: isLast }"
     @click="clickItem"
   >
     <div class="item-left" :class="{ 'van-hairline--bottom': !showAction }">
@@ -20,6 +20,9 @@
     </div>
     <div class="item-right">
       <img :src="data.img" />
+      <div class="last-mask" v-if="isLast">
+        <div>上次学到</div>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +39,10 @@ export default {
     showAction: {
       type: Boolean,
       default: true
+    },
+    isLast: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -83,6 +90,23 @@ export default {
   justify-content: space-between;
   padding: 16px;
   background-color: #fff;
+  .last-mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    & > div {
+      @include flex-center;
+      width: 72px;
+      height: 17px;
+      font-size: 10px;
+      color: #fff;
+      background: rgba(249, 158, 84, 1);
+      border-radius: 6px 6px 0px 0px;
+    }
+  }
   .share-icon,
   .like-icon,
   .unlike-icon {
@@ -118,10 +142,12 @@ export default {
     color: #d8dcdd;
   }
   &-right {
+    position: relative;
     margin-left: 31px;
     width: 72px;
     height: 72px;
     border-radius: 6px;
+    overflow: hidden;
     img {
       width: 72px;
       height: 72px;
@@ -141,8 +167,11 @@ export default {
       }
     }
   }
-  & &.active {
+  &.isLast {
     background-color: #fafafa;
+    .item-title {
+      color: #98a3a5;
+    }
   }
 }
 </style>

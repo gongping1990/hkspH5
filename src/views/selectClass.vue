@@ -164,14 +164,13 @@ export default {
       return this.$store.state.userInfo;
     },
     isNewUser() {
-      console.log(this.userInfo);
       let { categoryData } = this;
       if (!categoryData && this.userInfo.phone == "") {
         return 0;
-      } else if (!categoryData) {
-        return 1;
-      } else {
+      } else if (this.userInfo.phone == "") {
         return 2;
+      } else {
+        return 1;
       }
     },
     gradeData() {
@@ -233,7 +232,7 @@ export default {
     },
     // 获取学习列表
     getArticleList(params) {
-      this.$api.article.getArticleList(params).then(({ data }) => {
+      return this.$api.article.getArticleList(params).then(({ data }) => {
         this.articleList = data.resultData;
       });
     },
@@ -258,7 +257,11 @@ export default {
           subject
         })
         .then(({ data }) => {
+          let { grade, term, teachEdition } = data.resultData;
           this.categoryData = data.resultData;
+          this.grade = grade;
+          this.term = term;
+          this.edition = teachEdition;
         });
     },
     // 验证码发送倒计时

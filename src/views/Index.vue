@@ -74,6 +74,33 @@ export default {
         wekfarePre
       }
     };
+  },
+  watch: {
+    $route() {
+      this.init();
+    }
+  },
+  methods: {
+    init() {
+      let route = this.$route;
+      if (route.name == "home") {
+        let { type } = route.query;
+        if (type == 2) {
+          this.active = 1;
+        } else if (type == 3) {
+          this.active = 2;
+        } else {
+          this.active = 0;
+        }
+      } else if (route.name == "study") {
+        this.active = 3;
+      } else {
+        this.active = 4;
+      }
+    }
+  },
+  created() {
+    this.init();
   }
 };
 </script>

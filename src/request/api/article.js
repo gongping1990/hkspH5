@@ -21,6 +21,9 @@ const article = {
   // 文章点击
   articleClick(params) {
     return axios.post("/sp/article/articleClick", qs.stringify(params));
+  },
+  articleList(params) {
+    return axios.get("/sp/article/articleList/" + params.subject, { params });
   }
 };
 
