@@ -34,7 +34,7 @@
           :src="props.active ? icon.fieldPre : icon.fieldDef"
         />
       </van-tabbar-item>
-      <van-tabbar-item>
+      <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
         <img
           slot="icon"
