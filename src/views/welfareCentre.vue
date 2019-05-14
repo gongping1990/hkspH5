@@ -43,7 +43,8 @@
       <div class="-sign-bottom">
         <div class="-sign-bottom-wrap" :class="{'-sign-bottom-wrap-two':isTimeToCollectThree}">
           <div class="-one" v-if="dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectThree">+100</div>
-          <img class="-two -animation" v-if="isTimeToCollectThree" src="../assets/image/fuli/button-coin-pre.png"/>
+          <img class="-two -animation" v-if="isTimeToCollectThree" src="../assets/image/fuli/button-coin-pre.png"
+               @click="toGetCredit(3,100)"/>
           <img class="-three" v-if="!dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectThree"
                src="../assets/image/fuli/button-coin-def.png"/>
           <div class="-text" :class="{'-text-two': isTimeToCollectThree}">3分钟</div>
@@ -51,18 +52,20 @@
         <div class="-sign-bottom-line"></div>
         <div class="-sign-bottom-wrap" :class="{'-sign-bottom-wrap-two':isTimeToCollectFive}">
           <div class="-one" v-if="dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectFive">+200</div>
-          <img class="-two -animation" v-if="isTimeToCollectFive" src="../assets/image/fuli/button-coin-pre.png"/>
+          <img class="-two -animation" v-if="isTimeToCollectFive" src="../assets/image/fuli/button-coin-pre.png"
+               @click="toGetCredit(5,200)"/>
           <img class="-three" v-if="!dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectFive"
                src="../assets/image/fuli/button-coin-def.png"/>
-          <div class="-text ">5分钟</div>
+          <div class="-text" :class="{'-text-two': isTimeToCollectThree}">5分钟</div>
         </div>
         <div class="-sign-bottom-line"></div>
         <div class="-sign-bottom-wrap" :class="{'-sign-bottom-wrap-two':isTimeToCollectTen}">
           <div class="-one" v-if="dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectTen">+300</div>
-          <img class="-two -animation" v-if="isTimeToCollectTen" src="../assets/image/fuli/button-coin-pre.png" @click="toSign"/>
+          <img class="-two -animation" v-if="isTimeToCollectTen" src="../assets/image/fuli/button-coin-pre.png"
+               @click="toGetCredit(10,300)"/>
           <img class="-three" v-if="!dataDetail.myCredit.getCreditLearnThree && !isTimeToCollectTen"
                src="../assets/image/fuli/button-coin-def.png"/>
-          <div class="-text">10分钟</div>
+          <div class="-text" :class="{'-text-two': isTimeToCollectThree}">10分钟</div>
         </div>
       </div>
     </div>
@@ -172,7 +175,7 @@
         dataDetail: {
           myCredit: ''
         },
-        dataItem: '',
+        dataItem: {},
         myInfo: '',
         isSign: false,
         isShowPopup: false,
@@ -214,6 +217,16 @@
             this.welfareDetail()
           });
         }
+      },
+      toGetCredit(a, b) {
+        this.$api.useroperate.getCreditByUser({
+          creditAmount: b,
+          source: a,
+        }).then(({data}) => {
+          this.dataItem.credit = b
+          this.isShowPopup = true
+          this.welfareDetail()
+        });
       },
       toExchange(data) {
         this.dataItem = data
@@ -257,11 +270,14 @@
           this.dataDetail = data.resultData;
           this.isSign = this.dataDetail.myCredit.sign
           nowTime = 180000
+
           if (nowTime >= threeTime) {
             this.isTimeToCollectThree = true
-          } else if (nowTime >= FiveTime) {
+          }
+          if (nowTime >= FiveTime) {
             this.isTimeToCollectFive = true
-          } else if (nowTime >= TenTime) {
+          }
+          if (nowTime >= TenTime) {
             this.isTimeToCollectTen = true
           }
         });
