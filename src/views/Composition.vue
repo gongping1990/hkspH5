@@ -1,7 +1,7 @@
 <template>
-  <div class="composition">
-    <div class="header">
-      <div class="back-btn">
+  <div class="composition" :class="{ 'hide-ullup-message': total < 7 }">
+    <div class="header" ref="header">
+      <div class="back-btn" @click="$router.go(-1)">
         <van-icon color="#98A3A5" name="arrow-left" />
         <span>返回</span>
       </div>
@@ -20,10 +20,12 @@
           @pulling-up="onPullingUp"
         >
           <div class="scroll-wrap">
-            <div class="banner"></div>
+            <div class="banner" :class="{ hide: !showBanner }" ref="banner">
+              <img src="../assets/image/study/banner.png" />
+            </div>
             <cube-sticky-ele ref="stickyEle" ele-key="22">
               <div class="tab" ref="tab">
-                <div class="tab-header">
+                <div class="tab-header" v-if="hasChild">
                   <span
                     class="tab-header-item"
                     :class="{ active: columnId == item.id }"
@@ -48,11 +50,16 @@
                 </div>
               </div>
             </cube-sticky-ele>
-            <div class="empty" v-if="isEmpty">
-              <img src="../assets/image/noData/no-1.png" />
-              <span>抱歉，暂时没有内容~</span>
-            </div>
-            <div class="list" ref="scrollList" v-else>
+
+            <div
+              class="list"
+              ref="scrollList"
+              :style="`min-height:calc(100vh - ${listHeight}px)`"
+            >
+              <div class="empty" v-if="isEmpty">
+                <img src="../assets/image/noData/no-1.png" />
+                <span>抱歉，暂时没有内容~</span>
+              </div>
               <Item
                 v-for="item in articleList"
                 :key="item.id"
@@ -88,7 +95,10 @@ export default {
       size: 10,
       current: 1,
       total: 0,
-      isEmpty: false
+      isEmpty: false,
+      hasChild: true,
+      listHeight: 0,
+      showBanner: true
     };
   },
   methods: {
@@ -103,14 +113,30 @@ export default {
         this.getArticleList();
       }
     },
+    getListHeight() {
+      let { tab, header } = this.$refs;
+      let height = 0;
+      let headerMargin = parseFloat(
+        window.getComputedStyle(header, null).getPropertyValue("margin-bottom")
+      );
+      if (tab && header) {
+        height = tab.offsetHeight + header.offsetHeight + headerMargin;
+      }
+      this.listHeight = Math.ceil(height);
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
+    },
     changeCategory(item) {
       this.categoryId = item.id;
       this.current = 1;
       this.articleList = [];
       this.total = 0;
       this.isEmpty = false;
-      this.scrollTop();
-      this.getArticleList();
+      this.getListHeight();
+      this.getArticleList(() => {
+        this.scrollTop();
+      });
     },
     changeTab(index, item) {
       this.current = 1;
@@ -120,16 +146,30 @@ export default {
       this.columnId = item.id;
       this.activeList = this.columnList[index].children;
       this.categoryId = this.columnList[index].children[0].id;
-      this.scrollTop();
-      this.getArticleList();
+      this.getArticleList(() => {
+        this.scrollTop();
+      });
     },
     scrollTop() {
-      let { scroll, tab, stickyEle, stickyWrap } = this.$refs;
+      let {
+        scroll,
+        tab,
+        // scrollList,
+        stickyEle,
+        stickyWrap,
+        banner
+      } = this.$refs;
+      let bannerHeight =
+        banner.offsetHeight +
+        parseInt(
+          getComputedStyle(banner, null).getPropertyValue("margin-bottom")
+        );
+      console.log(bannerHeight);
       this.$nextTick(() => {
         stickyEle.$el.setAttribute("style", `height: ${tab.offsetHeight}px`);
         stickyWrap.refresh();
         scroll.refresh();
-        scroll.scroll.scrollToElement(tab, 0, 0, 0);
+        scroll.scrollTo(0, -bannerHeight, 0);
       });
     },
     scrollHandler({ y }) {
@@ -143,16 +183,30 @@ export default {
           subject
         })
         .then(({ data }) => {
-          this.columnList = data.resultData;
-          this.columnId = this.columnList[0].id;
-          this.activeList = this.columnList[0].children;
-          this.categoryId = this.columnList[0].children[0].id;
-          this.$refs.scroll.refresh();
-          this.$refs.stickyWrap.refresh();
-          this.getArticleList();
+          if (data.resultData.length) {
+            let hasChild = true;
+            this.columnList = data.resultData;
+            this.columnId = this.columnList[0].id;
+            this.columnList.forEach(e => {
+              if (!e.children.length) {
+                hasChild = false;
+              }
+            });
+            this.hasChild = hasChild;
+            if (hasChild) {
+              this.activeList = this.columnList[0].children;
+              this.categoryId = this.columnList[0].children[0].id;
+            } else {
+              this.categoryId = this.columnList[0].id;
+              this.activeList = data.resultData;
+            }
+            this.$refs.scroll.refresh();
+            this.$refs.stickyWrap.refresh();
+            this.getArticleList();
+          }
         });
     },
-    getArticleList() {
+    getArticleList(fn) {
       let { categoryId, current, size, subject } = this;
 
       this.$api.article
@@ -174,6 +228,11 @@ export default {
               txt: { more: "", noMore: "没有更多内容了" }
             };
           }
+          this.getListHeight();
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+            fn && fn();
+          });
         });
     }
   },
@@ -181,6 +240,12 @@ export default {
     let { subject } = this.$route.query;
     this.subject = subject;
     this.getColumnList();
+  },
+  mounted() {
+    if (this.$route.query.id != "1125293952905711617") {
+      console.log(22);
+      this.showBanner = false;
+    }
   }
 };
 </script>
@@ -190,12 +255,14 @@ export default {
   .sticky {
     height: calc(100vh - 62px);
   }
+  .list {
+    min-height: calc(100vh - 62px - 120px);
+  }
   .scroll-wrap {
     min-height: 100vh;
   }
   .empty {
-    padding-top: 0;
-    height: calc(100vh - 62px - 140px);
+    padding-top: 50px;
   }
   .header {
     @include flex-center;
@@ -226,6 +293,15 @@ export default {
     height: 120px;
     background-color: #f6f6f6;
     border-radius: 6px;
+    overflow: hidden;
+    &.hide {
+      height: 0;
+      margin-bottom: 1px;
+    }
+    img {
+      width: 343px;
+      height: 120px;
+    }
   }
   .tab {
     padding-bottom: 12px;
@@ -233,16 +309,20 @@ export default {
     background-color: #fff;
     &-header {
       @include flex-center;
-      justify-content: space-between;
+      justify-content: flex-start;
       margin: 0 16px;
       &-item {
         @include flex-center;
+        margin-left: 39.5px;
         width: 88px;
         height: 30px;
         color: #353637;
         font-size: 14px;
         font-weight: 500;
         border-radius: 6px 6px 0px 0px;
+        &:first-child {
+          margin-left: 0;
+        }
         &.active {
           color: #24b592;
           background-color: rgba($color: #24b592, $alpha: 0.1);

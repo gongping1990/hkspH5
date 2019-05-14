@@ -5,6 +5,7 @@
         ref="scroll"
         :scroll-events="['scroll']"
         :options="options"
+        :data="list"
         @scroll="scrollHandler"
         @pulling-up="onPullingUp"
       >
@@ -20,8 +21,8 @@
             </router-link>
           </div>
           <div class="user">
-            <img class="user-avatar" src="" />
-            <span>飞向企鹅的猪</span>
+            <img class="user-avatar" :src="userInfo.headimgurl" />
+            <span>{{ userInfo.nickname }}</span>
           </div>
         </div>
         <cube-sticky-ele ref="stickyEle">
@@ -32,18 +33,21 @@
                 :class="{ active: !tabActive }"
                 @click="changeTab(0)"
               >
-                我的收藏 (8)
+                我的收藏 ({{ collectList.length }})
               </div>
               <div
                 class="tab-item"
                 :class="{ active: tabActive }"
                 @click="changeTab(1)"
               >
-                学习记录 (32)
+                学习记录 ({{ studyList.length }})
               </div>
             </div>
             <div v-if="!tabActive" class="search-wrap van-hairline--bottom">
-              <router-link to="/search" class="search">
+              <router-link
+                :to="`/collectionSearch?subject=${$route.query.subject}`"
+                class="search"
+              >
                 <i class="search-icon"></i>
                 <span>搜索收藏的内容</span>
               </router-link>
@@ -54,7 +58,7 @@
                 v-if="showCalendar"
                 :showHeader="false"
                 :sundayStart="true"
-                :markDate="readDate"
+                :markDate="readDateList"
                 @changeMonth="changeMonth"
                 @choseDay="choseDay"
               ></Calendar>
@@ -93,22 +97,39 @@
             </div>
           </div>
         </cube-sticky-ele>
-        <div class="list" v-if="!tabActive">
-          <div class="empty" v-if="isEmpty">
+        <div
+          class="list"
+          :style="`min-height:calc(100vh - ${listHeight}px)`"
+          v-if="!tabActive"
+        >
+          <div class="empty" v-if="isCollectEmpty">
             <img src="../assets/image/noData/no-4.png" />
             <span>抱歉，暂时没有收藏记录~</span>
           </div>
           <div v-else>
-            <Item v-for="i in 20" :key="i"></Item>
+            <Item
+              v-for="item in collectList"
+              :key="item.id"
+              :data="item"
+            ></Item>
           </div>
         </div>
-        <div class="list" v-else>
-          <div class="empty" v-if="isEmpty">
+        <div
+          class="list"
+          :style="`min-height:calc(100vh - ${listHeight}px)`"
+          v-else
+        >
+          <div class="empty" v-if="isRecordEmpty">
             <img src="../assets/image/noData/no-5.png" />
             <span>抱歉，暂时没有学习记录~</span>
           </div>
           <div v-else>
-            <Item v-for="i in 20" :key="i" :showAction="false"></Item>
+            <Item
+              v-for="item in studyList"
+              :key="item.id"
+              :data="item"
+              :showAction="false"
+            ></Item>
           </div>
         </div>
       </cube-scroll>
@@ -137,14 +158,25 @@ export default {
       readDate: ["2019/05/08"],
       weekTitle: ["一", "二", "三", "四", "五", "六", "七"],
       scrollY: 0,
-      activeDate: "2019/05/07",
+      activeDate: "",
+      selectDate: "",
       month: "",
       showCalendar: false,
       tabActive: 0,
-      isEmpty: false
+      isCollectEmpty: false,
+      isRecordEmpty: false,
+      current: 1,
+      total: 0,
+      studyList: [],
+      collectList: [],
+      readDateList: [],
+      listHeight: 0
     };
   },
   computed: {
+    list() {
+      return this.tabActive ? this.studyList : this.collectList;
+    },
     weekArr() {
       let new_Date = new Date();
       let timesStamp = new_Date.getTime();
@@ -161,11 +193,26 @@ export default {
           time,
           formatTime,
           isDay: time == currenWeekDay,
-          isMark: false,
-          selected: formatTime == this.activeDate
+          isMark: this.readDateList.find(e => {
+            return e == formatTime;
+          }),
+          selected: formatTime == this.selectDate
         });
       }
       return dates;
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
+    }
+  },
+  watch: {
+    selectDate() {
+      this.getReadRecordArticles();
+    },
+    listHeight() {
+      this.$nextTick(() => {
+        this.$refs.scroll.refresh();
+      });
     }
   },
   methods: {
@@ -188,22 +235,33 @@ export default {
     },
     changeTab(index) {
       this.tabActive = index;
+      this.$nextTick(() => {
+        this.getListHeight();
+      });
       this.resetScroll();
     },
     changeCalendar() {
       this.showCalendar = !this.showCalendar;
+      if (this.showCalendar) {
+        this.$nextTick(() => {
+          this.$refs.Calendar.ChoseMonth(this.activeDate);
+        });
+      }
+      this.$nextTick(() => {
+        this.getListHeight();
+      });
       this.resetScroll();
     },
     choseDay(time) {
       this.activeDate = time;
+      this.selectDate = time;
     },
     changeMonth(time) {
       this.month = this.$day(time).format("YYYY-MM");
     },
     clickWeekDay(time) {
-      console.log(11);
       this.activeDate = time;
-      this.$refs.Calendar.ChoseMonth(time);
+      this.selectDate = time;
     },
     onPullingUp() {
       console.log(111);
@@ -213,11 +271,59 @@ export default {
     },
     scrollHandler(params) {
       this.scrollY = -params.y;
+    },
+    getMyCollectList() {
+      this.$api.article
+        .myCollectList({
+          current: this.current,
+          size: 10,
+          subject: this.$route.query.subject
+        })
+        .then(({ data }) => {
+          this.collectList = data.resultData.records;
+          this.total = data.resultData.total;
+          if (this.total <= 10) {
+            this.options.pullUpLoad = false;
+          }
+          this.isCollectEmpty = !this.collectList.length;
+        });
+    },
+    getReadDate() {
+      this.$api.article
+        .getReadDate({
+          subject: this.$route.query.subject
+        })
+        .then(({ data }) => {
+          this.readDateList = data.resultData;
+          this.selectDate = this.readDateList[0];
+        });
+    },
+    getReadRecordArticles() {
+      this.$api.article
+        .getReadRecordArticles({
+          date: this.selectDate,
+          subject: this.$route.query.subject
+        })
+        .then(({ data }) => {
+          this.studyList = data.resultData;
+          this.isRecordEmpty = !this.studyList.length;
+        });
+    },
+    getListHeight() {
+      let { stickyWrap } = this.$refs;
+      let height = stickyWrap.offsetHeight;
+      this.listHeight = height;
     }
   },
   created() {
+    this.activeDate = this.$day(new Date()).format("YYYY/MM/DD");
+    this.selectDate = this.$day(new Date()).format("YYYY/MM/DD");
     this.month = this.$day(new Date()).format("YYYY-MM");
-    this.options.pullUpLoad = false;
+    this.getMyCollectList();
+    this.getReadDate();
+  },
+  mounted() {
+    this.getListHeight();
   }
 };
 </script>

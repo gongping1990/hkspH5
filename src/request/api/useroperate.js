@@ -6,6 +6,15 @@ const useroperate = {
   // 手机登录
   listByBroadcast() {
     return axios.get("/sp/useroperate/listByBroadcast");
+  },
+  listByHotKeyword() {
+    return axios.get("/sp/useroperate/listByHotKeyword");
+  },
+  getRecommendBySubject(params) {
+    return axios.get("/sp/useroperate/getRecommendBySubject", { params });
+  },
+  remindToShare() {
+    return axios.get("/sp/useroperate/remindToShare");
   }
 };
 

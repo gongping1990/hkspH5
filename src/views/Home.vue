@@ -56,7 +56,9 @@
                   <div class="message-banner-left">
                     <p>{{ item.content }}</p>
                   </div>
-                  <div class="message-banner-right"></div>
+                  <div class="message-banner-right">
+                    <img :src="item.imgurl" />
+                  </div>
                 </div>
               </van-swipe-item>
             </van-swipe>
@@ -70,7 +72,10 @@
                   三年级/部编版（下）
                   <van-icon name="arrow-down" color="#98A3A5" />
                 </div>
-                <div class="collection">
+                <div
+                  class="collection"
+                  @click="$router.push('/collection?subject=' + subject)"
+                >
                   <span>我的收藏</span
                   ><van-icon
                     class="collection-icon"
@@ -117,6 +122,29 @@
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
     </div>
+    <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
+      <div class="__dialog-content">
+        <div class="__dialog-info">
+          <img :src="recommendData.icon" />
+          <div class="__dialog-info-text">
+            <p>{{ recommendData.name }}</p>
+            <span>{{ recommendData.digest }}</span>
+          </div>
+        </div>
+        <div class="__dialog-qrcode">
+          <img :src="recommendData.qrcode" />
+          <div class="__dialog-aq">
+            <i class="aq-icon"></i>
+            <span>安全认证</span>
+          </div>
+          <p>长按二维码识别并关注公众号</p>
+        </div>
+        <div class="__dialog-btn" @click="recommendData.todayRecommend = false">
+          我已关注，别再推荐
+        </div>
+      </div>
+      <i class="__dialog-close"></i>
+    </div>
   </div>
 </template>
 
@@ -139,7 +167,8 @@ export default {
       tabActive: 1,
       subject: 1,
       guideStep: 1,
-      isEmpty: false
+      isEmpty: false,
+      recommendData: {}
     };
   },
   computed: {
@@ -248,6 +277,7 @@ export default {
       this.first = window.localStorage.getItem("first");
       this.getBanner();
       this.getUserCategory();
+      this.getRecommendBySubject();
     },
     // 获取banner
     getBanner() {
@@ -303,6 +333,15 @@ export default {
           if (this.first) {
             this.guideStep = 3;
           }
+        });
+    },
+    getRecommendBySubject() {
+      this.$api.useroperate
+        .getRecommendBySubject({
+          subjectId: this.subject
+        })
+        .then(({ data }) => {
+          this.recommendData = data.resultData;
         });
     }
   },

@@ -21,3 +21,8 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 .van-cell {
   align-items: center;
 }
+.hide-ullup-message {
+  .before-trigger {
+    display: none;
+  }
+}

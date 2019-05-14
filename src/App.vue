@@ -1,35 +1,14 @@
 <template>
   <div id="app" class="app">
     <router-view />
-    <div class="__dialog" v-if="false">
+    <div class="__dialog" v-if="shareData.todayRemind">
       <div class="__dialog-content">
         <span>如果您觉得还不错</span>
         <p>请将学习宝分享给</p>
         <p>更多的孩子和家长吧</p>
         <div class="__dialog-btn">分享给好友吧</div>
       </div>
-      <i class="__dialog-close"></i>
-    </div>
-    <div class="__dialog qrcode" v-if="false">
-      <div class="__dialog-content">
-        <div class="__dialog-info">
-          <img src="" />
-          <div class="__dialog-info-text">
-            <p>小学语文</p>
-            <span>为小学生提供语文学习指导</span>
-          </div>
-        </div>
-        <div class="__dialog-qrcode">
-          <img src="" />
-          <div class="__dialog-aq">
-            <i class="aq-icon"></i>
-            <span>安全认证</span>
-          </div>
-          <p>长按二维码识别并关注公众号</p>
-        </div>
-        <div class="__dialog-btn">我已关注，别再推荐</div>
-      </div>
-      <i class="__dialog-close"></i>
+      <i class="__dialog-close" @click="shareData.todayRemind = false"></i>
     </div>
     <Share v-if="showShare"></Share>
   </div>
@@ -41,8 +20,23 @@ export default {
   components: {
     Share
   },
+  data() {
+    return {
+      shareData: {}
+    };
+  },
   computed: {
     ...mapState(["showShare"])
+  },
+  methods: {
+    remindToShare() {
+      this.$api.useroperate.remindToShare().then(({ data }) => {
+        this.shareData = data.resultData;
+      });
+    }
+  },
+  created() {
+    this.remindToShare();
   }
 };
 </script>

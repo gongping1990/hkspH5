@@ -16,20 +16,7 @@
         </van-search>
       </div>
     </div>
-    <div class="hot" v-if="showKeyWord">
-      <p>热门搜索</p>
-      <div class="hot-list">
-        <div
-          class="hot-item"
-          v-for="item in hotKeywordList"
-          :key="item.id"
-          @click="clickHotKeyWord(item)"
-        >
-          {{ item.content }}
-        </div>
-      </div>
-    </div>
-    <div class="empty" v-else-if="isEmpty">
+    <div class="empty" v-if="isEmpty">
       <img src="../assets/image/noData/no-2.png" />
       <span>抱歉，暂时没有找到你想要的内容~</span>
       <p>换个关键词试试吧！</p>
@@ -67,7 +54,7 @@ export default {
       },
       title: "",
       showKeyWord: false,
-      isEmpty: false,
+      isEmpty: true,
       current: 1,
       size: 10,
       total: 0,
@@ -78,7 +65,7 @@ export default {
   methods: {
     onSearch() {
       this.articleList = [];
-      this.showKeyWord = false;
+      this.isEmpty = false;
       this.$nextTick(() => {
         this.$refs.scroll.scrollTo(0, 0, 0);
         this.current = 1;
@@ -99,30 +86,33 @@ export default {
       this.onSearch();
     },
     getArticleList() {
+      this.$toast.loading();
       let { current, size, title } = this;
       this.$api.article
-        .articleList({
+        .myCollectList({
           current,
           size,
           title,
-          subject: 0
+          subject: this.$route.query.subject
         })
         .then(({ data }) => {
+          this.$toast.clear();
           this.articleList = [...this.articleList, ...data.resultData.records];
           this.total = data.resultData.total;
           this.showKeyWord = false;
           this.isEmpty = !this.articleList.length;
+          if (this.total < 10) {
+            this.options.pullUpLoad = false;
+          } else {
+            this.options.pullUpLoad = {
+              txt: {
+                more: "",
+                noMore: ""
+              }
+            };
+          }
         });
-    },
-    getListByHotKeyword() {
-      this.$api.useroperate.listByHotKeyword().then(({ data }) => {
-        this.hotKeywordList = data.resultData;
-        this.showKeyWord = this.hotKeywordList.length;
-      });
     }
-  },
-  created() {
-    this.getListByHotKeyword();
   }
 };
 </script>

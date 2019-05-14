@@ -6,7 +6,7 @@
       class="textarea"
       v-model="content"
     ></textarea>
-    <div class="btn">提交</div>
+    <div class="btn" @click="addContent">提交</div>
   </div>
 </template>
 
@@ -16,6 +16,27 @@ export default {
     return {
       content: ""
     };
+  },
+  methods: {
+    addContent() {
+      let { content } = this;
+      if (content == "") {
+        this.$toast("反馈内容不能为空！");
+        return;
+      }
+      if (content.length < 6) {
+        this.$toast("反馈内容不能小于6个字！");
+        return;
+      }
+      this.$api.feedback
+        .addContent({
+          content: this.content
+        })
+        .then(() => {
+          this.content = "";
+          this.$toast("反馈已提交！");
+        });
+    }
   }
 };
 </script>

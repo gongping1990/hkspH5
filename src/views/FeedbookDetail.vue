@@ -6,37 +6,60 @@
       </div>
       <div class="status">
         <div class="status-header">
-          <i class="icon dhf"></i>
-          <span class="dhf">已回复</span>
+          <i class="icon" :class="{ dhf: !feedbackData.replyed }"></i>
+          <span :class="{ dhf: !feedbackData.replyed }">
+            {{ feedbackData.replyed ? "已回复" : "待回复" }}
+          </span>
         </div>
-        <span class="time">2017-08-23 23:00</span>
+        <span class="time">{{ feedbackData.replyTime | formatTime }}</span>
       </div>
     </div>
     <div class="content">
       <h2>反馈内容</h2>
       <p>
-        小学语文作文怎么写,小学数学怎么学，小学英语怎么学，小学数学怎么学，小学英语怎么学
+        {{ feedbackData.content }}
       </p>
     </div>
-    <p class="reply-empty" v-if="empty">
+    <p class="reply-empty" v-if="!feedbackData.replyed">
       客服妹子正忙的不可开交，她会尽快回复你的留言～
     </p>
     <div class="reply" v-else>
       <h2>回复内容</h2>
       <p>
-        你好！首先安歇您对我们产品的内容的信任，没有及时回复你，非常抱歉！
-        我们产品会有所有优惠福利！打开微信搜索功能
+        {{ feedbackData.replyContent }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
   data() {
     return {
-      empty: false
+      empty: false,
+      feedbackData: {}
     };
+  },
+  filters: {
+    formatTime(v) {
+      console.log(v);
+      return dayjs(v).format("YYYY-MM-DD hh:mm:ss");
+    }
+  },
+  methods: {
+    getViewFeedback() {
+      this.$api.feedback
+        .viewFeedback({
+          id: this.$route.query.id
+        })
+        .then(({ data }) => {
+          this.feedbackData = data.resultData;
+        });
+    }
+  },
+  created() {
+    this.getViewFeedback();
   }
 };
 </script>
@@ -100,6 +123,7 @@ export default {
       font-size: 18px;
       line-height: 25px;
       color: #98a3a5;
+
       .dhf {
         color: #f99e54;
       }

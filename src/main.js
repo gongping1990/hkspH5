@@ -9,15 +9,26 @@ import "amfe-flexible";
 import "./cube-ui.js";
 import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
-import { isWeiXin, delUrlQuery } from "./utils";
+import { isWeiXin, delUrlQuery, registerWx } from "./utils";
+import Wechat from "./utils/wx";
 
 Vue.prototype.$day = dayjs;
 VueClipboard.config.autoSetContainer = true; // add this line
 Vue.use(VueClipboard);
 Vue.use(Vant);
 
+Vue.prototype.$dayjs = dayjs;
 Vue.prototype.$api = api;
+Vue.prototype.$wechat = Wechat;
 Vue.config.productionTip = false;
+
+if (isWeiXin()) {
+  registerWx({
+    title: "学习库",
+    desc: "测试分享",
+    url: window.origin
+  });
+}
 
 router.beforeEach((to, from, next) => {
   if (to.query.code) {

@@ -8,6 +8,7 @@ import banner from "./banner";
 import useroperate from "./useroperate";
 import article from "./article";
 import category from "./category";
+import feedback from "./feedback";
 
 export default {
   user,
@@ -19,5 +20,6 @@ export default {
   banner,
   useroperate,
   article,
-  category
+  category,
+  feedback
 };

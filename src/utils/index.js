@@ -1,3 +1,5 @@
+import api from "../request/api";
+import Vue from "vue";
 export function isWeiXin() {
   //window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
   var ua = window.navigator.userAgent.toLowerCase();
@@ -26,6 +28,24 @@ export function UA() {
   if (isIOS) {
     return 0;
   }
+}
+
+export function registerWx(params) {
+  const appUrl = encodeURIComponent(location.href.split("#")[0]);
+  api.wechat.share({ appUrl }).then(({ data }) => {
+    Vue.$wechat.config(data.resultData, [
+      "onMenuShareTimeline",
+      "onMenuShareAppMessage"
+    ]);
+    Vue.$wechat.register(() => {
+      Vue.$wechat.shareConfig(
+        params.title ? params.title : data.resultData.title,
+        params.desc ? params.desc : data.resultData.desc,
+        params.url,
+        params.imgUrl ? params.imgUrl : data.resultData.imgUrl
+      );
+    });
+  });
 }
 
 export function setRouter(to, from) {

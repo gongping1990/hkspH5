@@ -21,13 +21,18 @@
           >英语</span
         >
       </div>
-      <div class="search">
+      <div class="search" @click="$router.push('/search')">
         <i class="search-icon"></i>
         <span>搜索</span>
       </div>
     </div>
     <div class="scroll">
-      <cube-scroll ref="scroll" :options="options" @pulling-up="onPullingUp">
+      <cube-scroll
+        :data="recommendList"
+        ref="scroll"
+        :options="options"
+        @pulling-up="onPullingUp"
+      >
         <div class="scroll-content">
           <h2 class="scroll-title">实用学习工具</h2>
           <div class="tool" v-if="active == 1">
@@ -45,13 +50,37 @@
               </div>
             </div>
           </div>
+          <div class="tool sx" v-if="active == 2">
+            <div class="tool-left">
+              <router-link to="/composition?id=1101730862963101697&subject=2">
+                <img src="../assets/image/study/swdt.png" />
+              </router-link>
+            </div>
+          </div>
+          <div class="tool yy" v-if="active == 3">
+            <div class="tool-left">
+              <router-link to="/composition?id=1090575331872714753&subject=3">
+                <img src="../assets/image/study/zrpd.png" />
+              </router-link>
+            </div>
+            <div class="tool-left">
+              <router-link to="/composition?id=1090575335780440066&subject=3">
+                <img src="../assets/image/study/yfbd.png" />
+              </router-link>
+            </div>
+          </div>
           <h2 class="scroll-title">精品内容推荐</h2>
           <div class="list">
-            <div class="item" v-for="i in 20" :key="i">
-              <img class="item-img" src="" />
+            <div
+              class="item"
+              v-for="item in recommendList"
+              :key="item.id"
+              @click="clickItem(item)"
+            >
+              <img class="item-img" :src="item.img" />
               <div class="van-hairline--bottom">
-                <p>汉字</p>
-                <span>通过幽默诙谐的讲述方式来讲述故事。</span>
+                <p>{{ item.name }}</p>
+                <span>{{ item.intro }}</span>
               </div>
             </div>
           </div>
@@ -66,14 +95,8 @@ export default {
   data() {
     return {
       active: 1,
-      options: {
-        pullUpLoad: {
-          txt: {
-            more: "加载更多",
-            noMore: "没有更多数据了"
-          }
-        }
-      }
+      recommendList: [],
+      options: {}
     };
   },
   methods: {
@@ -83,9 +106,28 @@ export default {
         this.$refs.scroll.forceUpdate();
       }, 1000);
     },
+    clickItem(item) {
+      this.$router.push(`/composition?id=${item.id}&subject=${this.active}`);
+    },
     changeTab(index) {
       this.active = index;
+      this.$refs.scroll.scrollTo(0, 0, 0);
+      this.getRecommendContent();
+    },
+    getRecommendContent() {
+      this.$toast.loading();
+      this.$api.article
+        .getRecommendContent({
+          subject: this.active
+        })
+        .then(({ data }) => {
+          this.$toast.clear();
+          this.recommendList = data.resultData;
+        });
     }
+  },
+  created() {
+    this.getRecommendContent();
   }
 };
 </script>
@@ -157,6 +199,22 @@ export default {
         height: 77px;
         box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
         border-radius: 6px;
+      }
+    }
+    &.sx {
+      .tool-left {
+        margin-right: 0;
+        width: 343px;
+        img {
+          width: 343px;
+          height: 131px;
+        }
+      }
+    }
+    &.yy {
+      justify-content: space-between;
+      .tool-left {
+        margin-right: 0;
       }
     }
   }

@@ -30,6 +30,11 @@ export default new Router({
       component: () => import("./views/Search")
     },
     {
+      path: "/collectionSearch",
+      name: "collectionSearch",
+      component: () => import("./views/CollectionSearch")
+    },
+    {
       path: "/collection",
       name: "collection",
       component: () => import("./views/Collection")

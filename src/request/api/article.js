@@ -24,6 +24,20 @@ const article = {
   },
   articleList(params) {
     return axios.get("/sp/article/articleList/" + params.subject, { params });
+  },
+  getRecommendContent(params) {
+    return axios.get("/sp/article/getRecommendContent/" + params.subject);
+  },
+  myCollectList(params) {
+    return axios.get("/sp/article/myCollectList/" + params.subject, { params });
+  },
+  getReadDate(params) {
+    return axios.get("/sp/article/getReadDate/" + params.subject);
+  },
+  getReadRecordArticles(params) {
+    return axios.get("/sp/article/getReadRecordArticles/" + params.subject, {
+      params
+    });
   }
 };
 

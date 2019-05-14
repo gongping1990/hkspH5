@@ -4,24 +4,36 @@
       <img src="../assets/image/noData/no-3.png" />
       <span>抱歉，你还没有对我们进行评价~ </span>
       <p>说说你的想法吧</p>
-      <div class="empty-btn">建议和反馈</div>
+      <router-link to="/feedbook-content" class="empty-btn"
+        >建议和反馈</router-link
+      >
     </div>
     <div v-else>
       <van-cell-group>
-        <van-cell to="/feedbook-detail" is-link v-for="i in 20" :key="i">
+        <van-cell
+          :to="`/feedbook-detail?id=${item.id}`"
+          is-link
+          v-for="item in feedbookList"
+          :key="item.id"
+        >
           <template slot="title">
             <div class="feedbook-title">
-              <i class="feedbook-badge"></i>
-              <p class="feedbook-text">小学语文改怎么写，小学数学该怎</p>
+              <i class="feedbook-badge" v-if="item.replyed"></i>
+              <p class="feedbook-text">{{ item.content }}</p>
             </div>
           </template>
           <template slot="label">
             <div class="feedbook-label">
               <div class="feedbook-label-left">
-                <i class="feedbook-icon dhf"></i>
-                <span>待回复</span>
+                <i
+                  class="feedbook-icon"
+                  :class="{ dhf: !item.replyed, yhf: item.replyed }"
+                ></i>
+                <span>{{ item.replyed ? "已回复" : "待回复" }}</span>
               </div>
-              <div class="feedbook-time">2017-10-30</div>
+              <div class="feedbook-time">
+                {{ item.createTime | formatTime }}
+              </div>
             </div>
           </template>
         </van-cell>
@@ -36,11 +48,38 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
   data() {
     return {
-      isEmpty: false
+      isEmpty: false,
+      current: 1,
+      size: 100,
+      feedbookList: []
     };
+  },
+  filters: {
+    formatTime(v) {
+      console.log(v);
+      return dayjs(v).format("YYYY-MM-DD");
+    }
+  },
+  methods: {
+    getListByCurrentUser() {
+      let { current, size } = this;
+      this.$api.feedback
+        .listByCurrentUser({
+          current,
+          size
+        })
+        .then(({ data }) => {
+          this.feedbookList = data.resultData.records;
+          this.isEmpty = !this.feedbookList.length;
+        });
+    }
+  },
+  created() {
+    this.getListByCurrentUser();
   }
 };
 </script>
@@ -91,6 +130,9 @@ export default {
     display: block;
     width: 19px;
     height: 15px;
+    &.yhf {
+      background-image: url("../assets/image/feedbook/yjfk-icon-reply.png");
+    }
   }
   &-title {
     display: flex;
