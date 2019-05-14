@@ -192,6 +192,8 @@ export default {
       let { type } = n.query;
       this.subject = type ? type : 1;
       this.articleList = [];
+      this.scrollY = 0;
+      this.$refs.scroll.scrollTo(0, 0, 0);
       this.init();
     },
     isScrollBottom(n) {
@@ -270,11 +272,11 @@ export default {
       }
       this.guideStep += 1;
     },
-    init() {
+    async init() {
       this.first = window.localStorage.getItem("first");
       this.getBanner();
-      this.getUserCategory();
       this.getRecommendBySubject();
+      await this.getUserCategory();
     },
     // 获取banner
     getBanner() {
@@ -309,7 +311,7 @@ export default {
     // 获取用户选择的年级等信息
     getUserCategory() {
       let { subject } = this;
-      this.$api.article
+      return this.$api.article
         .getUserCategory({
           subject
         })

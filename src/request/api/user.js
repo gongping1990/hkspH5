@@ -19,6 +19,9 @@ const user = {
   },
   bindPhone() {
     return axios.get("/sp/user/bindPhone");
+  },
+  getUserBaseInfo() {
+    return axios.get("/sp/user/getUserBaseInfo");
   }
 };
 

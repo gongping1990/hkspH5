@@ -3,6 +3,10 @@
     <router-view />
     <div class="__dialog" v-if="shareData.todayRemind">
       <div class="__dialog-content">
+        <div class="__dialog-time">
+          <span>{{ shareData.studyDays }}</span>
+          天
+        </div>
         <span>如果您觉得还不错</span>
         <p>请将学习宝分享给</p>
         <p>更多的孩子和家长吧</p>
@@ -56,8 +60,29 @@ export default {
   bottom: 0;
   z-index: 99;
   background-color: rgba($color: #000000, $alpha: 0.7);
+  &-time {
+    @include flex-center;
+    align-items: flex-end;
+    position: absolute;
+    box-sizing: border-box;
+    left: 24px;
+    top: 81px;
+    padding-bottom: 12px;
+    width: 68px;
+    height: 56px;
+    color: #fff;
+    font-size: 8px;
+    background: url("./assets/image/share/day.png") no-repeat;
+    background-size: 100%;
+    span {
+      font-size: 26px;
+      line-height: 21px;
+      margin-bottom: 0 !important;
+    }
+  }
   &-content {
     @include flex-column-center;
+    position: relative;
     justify-content: flex-start;
     box-sizing: border-box;
     padding-top: 168px;
