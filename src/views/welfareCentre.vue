@@ -145,7 +145,7 @@
       </div>
       <div class="p-welfareCentre-popupOne-text">恭喜你，获得学分</div>
       <div class="p-welfareCentre-popupOne-num">+{{dataItem.credit}}</div>
-      <div class="p-welfareCentre-popupOne-btn">邀请好友一起学</div>
+      <div class="p-welfareCentre-popupOne-btn" @click="openShare">邀请好友一起学</div>
     </van-popup>
 
     <van-popup v-model="isShowPrizeSure" :close-on-click-overlay="false" class="p-welfareCentre-popupTwo">
@@ -160,8 +160,10 @@
 </template>
 
 <script>
+  import { mapMutations } from "vuex";
   export default {
     name: "welfareCentre",
+
     data() {
       return {
         tab: {
@@ -191,6 +193,11 @@
       this.welfareDetail()
     },
     methods: {
+      ...mapMutations(["CHANGE_SHOW_SHARE"]),
+      openShare () {
+        this.isShowPopup = false
+        this.CHANGE_SHOW_SHARE();
+      },
       toJump() {
         this.$router.push({
           path: '/exchangeRecords'
