@@ -113,7 +113,6 @@ export default {
         ? "0" + (date.getMonth() + 1)
         : date.getMonth() + 1;
     let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-    console.log(day);
     return date.getFullYear() + "/" + month + "/" + day;
   },
   // 获取某月的列表不包括上月和下月

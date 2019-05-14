@@ -105,7 +105,6 @@ export default {
     onPullingUp() {
       let { total } = this;
       let { scroll } = this.$refs;
-      console.log(this.articleList.length, total);
       if (this.articleList.length >= total) {
         scroll.forceUpdate();
       } else {
@@ -164,7 +163,6 @@ export default {
         parseInt(
           getComputedStyle(banner, null).getPropertyValue("margin-bottom")
         );
-      console.log(bannerHeight);
       this.$nextTick(() => {
         stickyEle.$el.setAttribute("style", `height: ${tab.offsetHeight}px`);
         stickyWrap.refresh();
@@ -243,7 +241,6 @@ export default {
   },
   mounted() {
     if (this.$route.query.id != "1125293952905711617") {
-      console.log(22);
       this.showBanner = false;
     }
   }

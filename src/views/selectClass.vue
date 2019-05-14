@@ -179,7 +179,6 @@ export default {
   },
   watch: {
     isNewUser(n) {
-      console.log(n);
       if (n == 2) {
         this.step = 3;
       }

@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     onPullingUp() {
-      console.log(111);
       setTimeout(() => {
         this.$refs.scroll.forceUpdate();
       }, 1000);

@@ -189,11 +189,9 @@ export default {
   },
   watch: {
     $route(n) {
-      console.log(n);
       let { type } = n.query;
       this.subject = type ? type : 1;
       this.articleList = [];
-      console.log(this.subject);
       this.init();
     },
     isScrollBottom(n) {
@@ -237,7 +235,6 @@ export default {
     scrollTop(el) {
       let { scroll, scrollList, sticky, stickyEle, stickyWrap } = this.$refs;
       let $el = el ? el : scrollList;
-      console.log($el);
       this.isSticky = true;
       this.$nextTick(() => {
         stickyEle.$el.setAttribute("style", `height: ${sticky.offsetHeight}px`);
@@ -348,7 +345,6 @@ export default {
   created() {
     let { type } = this.$route.query;
     this.subject = type ? type : 1;
-    console.log(this.subject);
     this.init();
     this.listByBroadcast();
   }

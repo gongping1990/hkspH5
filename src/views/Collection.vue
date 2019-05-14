@@ -264,7 +264,6 @@ export default {
       this.selectDate = time;
     },
     onPullingUp() {
-      console.log(111);
       setTimeout(() => {
         this.$refs.scroll.forceUpdate();
       }, 1000);

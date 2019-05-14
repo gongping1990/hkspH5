@@ -4,7 +4,6 @@ import { baseUrl } from "./base.js";
 import { isWeiXin, delUrlQuery } from "../utils";
 import api from "./api";
 
-console.log(baseUrl);
 /**
  * 提示函数
  * 禁止点击蒙层、显示一秒后关闭
@@ -59,7 +58,6 @@ const errorHandle = (status, err) => {
       break;
     default:
       tip(err);
-    // console.log(other);
   }
 };
 
@@ -88,7 +86,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   // 请求成功
   res => {
-    console.log(res);
     // 服务器请求成功，自定义code异常处理
     errorHandle(res.data.code, res.data.msg);
     return res.data.code == 200

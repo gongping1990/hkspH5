@@ -58,7 +58,6 @@ export default {
   methods: {
     ...mapMutations(["CHANGE_SHOW_SHARE"]),
     close() {
-      console.log(11);
       this.$emit("close");
       this.CHANGE_SHOW_SHARE();
     },
