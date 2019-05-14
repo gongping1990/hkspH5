@@ -2,6 +2,9 @@
 //微信公众平台相关组件以及方法
 //针对微信JS-SDK扩展
 //基于微信JS-SDK——1.4.0
+
+import api from '../request/api'
+
 class WechatExt {
   constructor() {
     //debug——修改为true可开启微信调试模式
@@ -64,164 +67,6 @@ class WechatExt {
     }
   }
 
-  //配置微信录音
-  // 开始录音
-  startRecordConfig(success, error) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.startRecord({
-      success: function(res) {
-        success && success(res);
-      },
-      fail: function(res) {
-        error && error(res);
-      }
-    });
-  }
-
-  // 结束录音
-  stopRecordConfig(success, error) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.stopRecord({
-      success: function(res) {
-        success && success(res);
-      },
-      fail: function(res) {
-        error && error(res);
-      }
-    });
-  }
-
-  // 录音时间超过一分钟没有停止的时候会执行 complete 回调
-  onVoiceRecordEndConfig(success) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.onVoiceRecordEnd({
-      complete: function(res) {
-        success(res);
-      }
-    });
-  }
-
-  // 播放录音
-  playVoiceConfig(params) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.playVoice({
-      localId: params // 需要播放的音频的本地ID，由stopRecord接口获得
-    });
-  }
-
-  // 暂停
-  pauseVoiceConfig(params) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.pauseVoice({
-      localId: params // 需要播放的音频的本地ID，由stopRecord接口获得
-    });
-  }
-
-  // 停止播放
-  stopVoiceConfig(params) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.stopVoice({
-      localId: params // 需要播放的音频的本地ID，由stopRecord接口获得
-    });
-  }
-
-  // 播放录音完毕
-  onVoicePlayEndConfig(success) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.onVoicePlayEnd({
-      success: function(res) {
-        success(res);
-      }
-    });
-  }
-
-  // 上传录音
-  uploadVoiceConfig(data, success, error) {
-    if (!this.isReady) {
-      console.log("wechat is not ready");
-      return;
-    }
-    if (!window.wx) {
-      console.log("wechat js-sdk inspect error");
-      return;
-    }
-
-    // eslint-disable-next-line no-undef
-    wx.uploadVoice({
-      localId: data, // 需要上传的音频的本地ID，由stopRecord接口获得
-      isShowProgressTips: 1, // 默认为1，显示进度提示
-      success: function(res) {
-        success && success(res);
-      },
-      fail: function(res) {
-        error && error(res);
-      }
-    });
-  }
-
   //配置微信分享
   shareConfig(title, desc, link, imgUrl,success) {
     console.log({
@@ -251,6 +96,7 @@ class WechatExt {
       success: () => {
         // alert('share friends success!');
         success && success()
+        api.useroperate.shared()
       },
       cancel: function() {
         // alert('已取消');
@@ -294,6 +140,7 @@ class WechatExt {
       imgUrl: imgUrl,
       success: () => {
         success && success()
+        api.useroperate.shared()
         console.log("share timeline success!");
       }
     });

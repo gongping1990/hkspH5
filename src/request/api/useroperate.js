@@ -18,6 +18,9 @@ const useroperate = {
   },
   getCreditByUser(params) {
     return axios.post("/sp/useroperate/getCreditByUser", qs.stringify(params));
+  },
+  shared() {
+    return axios.post("/sp/useroperate/shared");
   }
 };
 

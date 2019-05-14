@@ -6,7 +6,7 @@
         <span>如果您觉得还不错</span>
         <p>请将学习宝分享给</p>
         <p>更多的孩子和家长吧</p>
-        <div class="__dialog-btn">分享给好友吧</div>
+        <div class="__dialog-btn" @click="clickShare">分享给好友吧</div>
       </div>
       <i class="__dialog-close" @click="shareData.todayRemind = false"></i>
     </div>
@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import Share from "@/components/Share";
 export default {
   components: {
@@ -29,6 +29,11 @@ export default {
     ...mapState(["showShare"])
   },
   methods: {
+    ...mapMutations(["CHANGE_SHOW_SHARE"]),
+    clickShare() {
+      this.shareData.todayRemind = false;
+      this.CHANGE_SHOW_SHARE();
+    },
     remindToShare() {
       this.$api.useroperate.remindToShare().then(({ data }) => {
         this.shareData = data.resultData;
