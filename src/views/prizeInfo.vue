@@ -22,26 +22,28 @@
     </div>
     <div class="p-prizeInfo-content">
       <div class="-content-title">
-        {{dataDetail.name}}
+        {{ dataDetail.name }}
       </div>
-      <div class="-content-prize">
-        原价：{{dataDetail.price}}元
-      </div>
+      <div class="-content-prize">原价：{{ dataDetail.price }}元</div>
       <div class="-content-explain" v-html="dataDetail.directions"></div>
       <div class="-content-detail">
         <div class="-content-detail-title">— 商品详情 —</div>
-        <div>{{dataDetail.details}}</div>
+        <div>{{ dataDetail.details }}</div>
       </div>
     </div>
     <div class="p-prizeInfo-footer" @click="openModal">
       <img class="-icon" src="../assets/image/fuli/coin.png" />
-      <div class="-text">{{dataDetail.credit}}学分兑换</div>
+      <div class="-text">{{ dataDetail.credit }}学分兑换</div>
     </div>
 
-    <van-popup v-model="isShowPrizeSure" :close-on-click-overlay="false" class="p-prizeInfo-popupTwo">
+    <van-popup
+      v-model="isShowPrizeSure"
+      :close-on-click-overlay="false"
+      class="p-prizeInfo-popupTwo"
+    >
       <div class="p-prizeInfo-popupTwo-sure">
         <p class="-title">您正在兑换</p>
-        <p class="-content">{{dataDetail.name}}</p>
+        <p class="-content">{{ dataDetail.name }}</p>
         <div class="-btn" @click="toConfirm">确定</div>
         <div class="-text" @click="openModal">取消</div>
       </div>
@@ -55,29 +57,31 @@ export default {
   data() {
     return {
       isShowPrizeSure: false,
-      dataDetail: '',
+      dataDetail: "",
       bannerList: []
     };
   },
   mounted() {
-    this.getPrizeDetail()
+    this.getPrizeDetail();
   },
   methods: {
-    toConfirm(){
-      this.$api.prize.convertPrize({
-        id: this.$route.query.id
-      }).then(({ data }) => {
-        this.$router.push({
-          path: '/exchangeSuccess',
-          query: {
-            id: data.resultData
-          }
+    toConfirm() {
+      this.$api.prize
+        .convertPrize({
+          id: this.$route.query.id
         })
-        this.openModal()
-      });
+        .then(({ data }) => {
+          this.$router.push({
+            path: "/exchangeSuccess",
+            query: {
+              id: data.resultData
+            }
+          });
+          this.openModal();
+        });
     },
-    openModal(){
-      this.isShowPrizeSure = !this.isShowPrizeSure
+    openModal() {
+      this.isShowPrizeSure = !this.isShowPrizeSure;
     },
     toBack() {
       this.$router.push({
@@ -85,12 +89,14 @@ export default {
       });
     },
     getPrizeDetail() {
-      this.$api.prize.prizeDetails({
-        id: this.$route.query.id
-      }).then(({ data }) => {
-        this.dataDetail = data.resultData;
-        this.bannerList = JSON.parse(this.dataDetail.showImgs)
-      });
+      this.$api.prize
+        .prizeDetails({
+          id: this.$route.query.id
+        })
+        .then(({ data }) => {
+          this.dataDetail = data.resultData;
+          this.bannerList = JSON.parse(this.dataDetail.showImgs);
+        });
     }
   }
 };
@@ -255,7 +261,6 @@ export default {
         line-height: 20px;
       }
     }
-
   }
 }
 </style>
