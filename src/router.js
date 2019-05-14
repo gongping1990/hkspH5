@@ -21,6 +21,11 @@ export default new Router({
           path: "study",
           name: "study",
           component: () => import("./views/study")
+        },
+        {
+          path: "/welfareCentre",
+          name: "welfareCentre",
+          component: () => import("./views/welfareCentre")
         }
       ]
     },
@@ -64,11 +69,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/Composition.vue")
     },
-    {
-      path: "/welfareCentre",
-      name: "welfareCentre",
-      component: () => import("./views/welfareCentre")
-    },
+
     {
       path: "/exchangeRecords",
       name: "exchangeRecords",

@@ -309,6 +309,8 @@
     background: url("../assets/image/fuli/backgroud.png") no-repeat;
     background-size: 100%;
     background-color: #E5F6B3;
+    height: auto;
+    margin-bottom: 50px;
 
     &-tip {
       display: flex;
