@@ -15,6 +15,9 @@ const useroperate = {
   },
   remindToShare() {
     return axios.get("/sp/useroperate/remindToShare");
+  },
+  getCreditByUser(params) {
+    return axios.post("/sp/useroperate/getCreditByUser", qs.stringify(params));
   }
 };
 

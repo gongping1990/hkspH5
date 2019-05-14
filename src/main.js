@@ -46,7 +46,7 @@ router.beforeEach((to, from, next) => {
   if (to.query.name) {
     api.user
       .loginWithPhone({
-        phone: "13699011543",
+        phone: "15884594704",
         code: "123654"
       })
       .then(({ data }) => {

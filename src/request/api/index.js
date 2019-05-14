@@ -9,6 +9,9 @@ import useroperate from "./useroperate";
 import article from "./article";
 import category from "./category";
 import feedback from "./feedback";
+import prize from "./prize";
+import credit from "./credit";
+import welfare from "./welfare";
 
 export default {
   user,
@@ -21,5 +24,8 @@ export default {
   useroperate,
   article,
   category,
-  feedback
+  feedback,
+  prize,
+  credit,
+  welfare
 };
