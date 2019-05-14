@@ -68,14 +68,10 @@ router.beforeEach((to, from, next) => {
           })
           .then(({ data }) => {
             window.location = data.resultData;
-          })
-          .catch(() => {
-            next();
           });
       });
     return;
   }
-  next();
 });
 
 new Vue({
