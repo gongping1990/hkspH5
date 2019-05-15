@@ -42,22 +42,12 @@
               </router-link>
             </div>
             <div class="tool-right">
-              <router-link
-                :to="
-                  `/yuwen/index.html#/pages/wordList/index?courseId=1&edition=${
-                    categoryData.teachEdition
-                  }&grade=${categoryData.grade}&semester=${categoryData.term}`
-                "
-                class="tool-item"
-              >
+              <a :href="scUrl" class="tool-item">
                 <img src="../assets/image/study/xxsz.png" />
-              </router-link>
-              <router-link
-                to="/yuwen/index.html#/pages/teachersRead/index"
-                class="tool-item"
-              >
+              </a>
+              <a :href="ldUrl" class="tool-item">
                 <img src="../assets/image/study/kwld.png" />
-              </router-link>
+              </a>
             </div>
           </div>
           <div class="tool sx" v-if="active == 2">
@@ -109,6 +99,19 @@ export default {
       options: {},
       categoryData: {}
     };
+  },
+  computed: {
+    scUrl() {
+      let { categoryData } = this;
+      return `${
+        window.origin
+      }/yuwen/index.html#/pages/wordList/index?courseId=1&edition=${
+        categoryData.teachEdition
+      }&grade=${categoryData.grade}&semester=${categoryData.term}`;
+    },
+    ldUrl() {
+      return `${window.origin}/yuwen/index.html#/pages/teachersRead/index`;
+    }
   },
   methods: {
     onPullingUp() {
