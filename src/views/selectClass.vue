@@ -221,7 +221,7 @@ export default {
           teachEdition: params.id,
           type: 1
         });
-        this.$router.go(-1);
+        this.$router.push("/?type=" + subject);
       }
     },
     // 获取学习列表
