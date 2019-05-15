@@ -111,6 +111,7 @@
               v-for="item in collectList"
               :key="item.id"
               :data="item"
+              :subject="subject"
             ></Item>
           </div>
         </div>
@@ -315,6 +316,7 @@ export default {
     }
   },
   created() {
+    this.subject = this.$route.query.subject;
     this.activeDate = this.$day(new Date()).format("YYYY/MM/DD");
     this.selectDate = this.$day(new Date()).format("YYYY/MM/DD");
     this.month = this.$day(new Date()).format("YYYY-MM");

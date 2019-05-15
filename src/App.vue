@@ -14,7 +14,7 @@
       </div>
       <i class="__dialog-close" @click="shareData.todayRemind = false"></i>
     </div>
-    <Share v-if="showShare"></Share>
+    <Share v-if="showShare" :type="shareType"></Share>
   </div>
 </template>
 <script>
@@ -30,12 +30,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["showShare"])
+    ...mapState(["showShare", "shareType"])
   },
   methods: {
-    ...mapMutations(["CHANGE_SHOW_SHARE"]),
+    ...mapMutations(["CHANGE_SHOW_SHARE", "CHANGE_SHARE_TYPE"]),
     clickShare() {
       this.shareData.todayRemind = false;
+      this.CHANGE_SHARE_TYPE(0);
       this.CHANGE_SHOW_SHARE();
     },
     remindToShare() {

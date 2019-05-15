@@ -64,6 +64,7 @@
                 v-for="item in articleList"
                 :key="item.id"
                 :data="item"
+                :subject="subject"
               ></Item>
             </div>
           </div>

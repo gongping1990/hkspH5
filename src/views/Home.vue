@@ -99,6 +99,7 @@
                   :key="item.id"
                 >
                   <Item
+                    :subject="subject"
                     :data="item"
                     @click="clickItem"
                     :isLast="item.point"
@@ -269,6 +270,7 @@ export default {
       this.first = window.localStorage.getItem("first");
       this.getBanner();
       this.getRecommendBySubject();
+      this.getShow();
       await this.getUserCategory();
     },
     // 获取banner
@@ -339,6 +341,15 @@ export default {
         })
         .then(({ data }) => {
           this.recommendData = data.resultData;
+        });
+    },
+    getShow() {
+      this.$api.operate
+        .show({
+          subject: this.subject
+        })
+        .then(({ data }) => {
+          this.$store.commit("UPDATE_SHARE_INFO", data.resultData);
         });
     }
   },

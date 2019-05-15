@@ -15,7 +15,7 @@
         点击复制到朋友圈文案
       </div>
     </div>
-    <div class="share-btn-wrap">
+    <div class="share-btn-wrap" v-if="!type">
       <div
         class="share-btn"
         :class="{ active: !active }"
@@ -43,6 +43,12 @@ import { mapMutations } from "vuex";
 import firendImg from "../assets/image/share/firend-arrow.png";
 import weixinImg from "../assets/image/share/weixin-arrow.png";
 export default {
+  props: {
+    type: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       active: 0,
@@ -56,9 +62,10 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["CHANGE_SHOW_SHARE"]),
+    ...mapMutations(["CHANGE_SHOW_SHARE", "CHANGE_SHARE_TYPE"]),
     close() {
       this.$emit("close");
+      this.CHANGE_SHARE_TYPE(0);
       this.CHANGE_SHOW_SHARE();
     },
     changeActive(index) {

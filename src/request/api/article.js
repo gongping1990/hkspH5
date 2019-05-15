@@ -38,6 +38,9 @@ const article = {
     return axios.get("/sp/article/getReadRecordArticles/" + params.subject, {
       params
     });
+  },
+  getShareInfo(params) {
+    return axios.get("/sp/article/getShareInfo", { params });
   }
 };
 

@@ -96,6 +96,11 @@ export default new Router({
       component: () => import("./views/fractionRank")
     },
     {
+      path: "/share/:id",
+      name: "share",
+      component: () => import("./views/Share")
+    },
+    {
       path: "*",
       redirect: "/"
     }

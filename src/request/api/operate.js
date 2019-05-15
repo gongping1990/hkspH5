@@ -24,6 +24,9 @@ const operate = {
   },
   like(params) {
     return axios.get("/sp/operate/like", { params });
+  },
+  show(params) {
+    return axios.get("/sp/operation/show/" + params.subject);
   }
 };
 

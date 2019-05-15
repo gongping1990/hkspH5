@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { registerWx } from "../utils";
 import { mapMutations } from "vuex";
 export default {
   name: "Item",
@@ -35,6 +36,10 @@ export default {
     data: {
       type: Object,
       required: true
+    },
+    subject: {
+      type: [Number, String],
+      default: 1
     },
     showAction: {
       type: Boolean,
@@ -50,8 +55,13 @@ export default {
       collected: false
     };
   },
+  computed: {
+    shareInfo() {
+      return this.$store.state.shareInfo;
+    }
+  },
   methods: {
-    ...mapMutations(["CHANGE_SHOW_SHARE"]),
+    ...mapMutations(["CHANGE_SHOW_SHARE", "CHANGE_SHARE_TYPE"]),
     clickItem() {
       this.articleClick(1);
       this.$emit("click", this.data);
@@ -60,20 +70,36 @@ export default {
       this.articleClick(2);
     },
     clickShare() {
-      this.articleClick(3);
+      let { title, img } = this.data;
+      let { shareInfo, subject } = this;
+      console.log(shareInfo, subject);
+      this.articleClick(3, res => {
+        registerWx({
+          title,
+          desc:
+            shareInfo.topTitle +
+            "为更多孩子的" +
+            shareInfo.name +
+            "学习助力加油",
+          url: window.location.origin + "/share/" + res + "?type=" + subject,
+          imgUrl: img
+        });
+      });
       this.$emit("share");
+      this.CHANGE_SHARE_TYPE(1);
       this.CHANGE_SHOW_SHARE();
     },
-    articleClick(type) {
+    articleClick(type, fn) {
       this.$api.article
         .articleClick({
           articleId: this.data.id,
           clickType: type
         })
-        .then(() => {
+        .then(res => {
           if (type == 2) {
             this.collected = !this.collected;
           }
+          fn && fn(res);
         });
     }
   },
