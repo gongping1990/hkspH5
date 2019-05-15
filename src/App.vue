@@ -45,7 +45,9 @@ export default {
     }
   },
   created() {
-    this.remindToShare();
+    setTimeout(() => {
+      this.remindToShare();
+    }, 1000);
   }
 };
 </script>
