@@ -17,8 +17,8 @@ const user = {
   wxUserLogin(params) {
     return axios.post("/sp/user/wxUserLogin", qs.stringify(params));
   },
-  bindPhone() {
-    return axios.get("/sp/user/bindPhone");
+  bindPhone(params) {
+    return axios.post("/sp/user/bindPhone", qs.stringify(params));
   },
   getUserBaseInfo() {
     return axios.get("/sp/user/getUserBaseInfo");
