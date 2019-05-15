@@ -115,7 +115,7 @@
             "
             src="../assets/image/fuli/button-coin-def.png"
           />
-          <div class="-text" :class="{ '-text-two': isTimeToCollectThree }">
+          <div class="-text" :class="{ '-text-two': isTimeToCollectFive }">
             5分钟
           </div>
         </div>
@@ -145,7 +145,7 @@
             "
             src="../assets/image/fuli/button-coin-def.png"
           />
-          <div class="-text" :class="{ '-text-two': isTimeToCollectThree }">
+          <div class="-text" :class="{ '-text-two': isTimeToCollectTen }">
             10分钟
           </div>
         </div>
@@ -173,15 +173,12 @@
             class="-item-icon"
             src="../assets/image/fuli/third.png"
           />
-          <div
-            class="-item-head"
-            :class="{
+          <div class="-item-head">
+            <img :src="item.headimgurl" :class="{
               '-first': index == 0,
               '-second': index == 1,
               '-third': index == 2
-            }"
-          >
-            <img :src="item.headimgurl" />
+            }" />
           </div>
           <div class="-item-name">{{ item.nickName }}</div>
           <div class="-item-num">
@@ -196,7 +193,7 @@
         <div class="-item-down-wrap">
           <div
             class="-item-down"
-            v-for="(item, index) of rankList"
+            v-for="(item, index) of rankImgList"
             :key="index"
           >
             <img :src="item.headimgurl" />
@@ -295,6 +292,7 @@ export default {
       },
       broadcastList: [],
       rankList: [],
+      rankImgList: [],
       prizeList: [],
       dataDetail: {
         myCredit: ""
@@ -393,7 +391,8 @@ export default {
           let list = data.resultData.records;
           this.tab.total = data.resultData.total;
           this.myInfo = list[0];
-          this.rankList = list.slice(1);
+          this.rankList = list.slice(1,4);
+          this.rankImgList = list.slice(1);
         });
     },
     welfareDetail() {
@@ -404,7 +403,7 @@ export default {
       this.$api.welfare.welfareInfo().then(({ data }) => {
         this.dataDetail = data.resultData;
         this.isSign = this.dataDetail.myCredit.sign;
-        nowTime = 180000;
+        nowTime =  this.dataDetail.learnTime;
 
         if (nowTime >= threeTime) {
           this.isTimeToCollectThree = true;
@@ -712,11 +711,12 @@ export default {
         .-item-head {
           overflow: hidden;
           margin: 12px auto 0;
-          border-radius: 50%;
-          width: 48px;
-          height: 48px;
+
+
           img {
-            width: 100%;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
           }
         }
 
