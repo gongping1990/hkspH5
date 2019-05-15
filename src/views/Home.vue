@@ -311,6 +311,10 @@ export default {
         .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
+            if (!this.userInfo.phone) {
+              let { type } = this.$route.query;
+              this.$router.push(`/select?type=${type ? type : 1}`);
+            }
             let { grade, teachEdition, term } = this.categoryData;
             this.$store.commit("UPDATE_GRADE_DATA", {
               grade,
@@ -318,13 +322,10 @@ export default {
               subject,
               teachEdition
             });
+
             this.getArticleList();
           } else {
             this.isEmpty = true;
-            if (!this.userInfo.phone) {
-              let { type } = this.$route.query;
-              this.$router.push(`/select?type=${type ? type : 1}`);
-            }
           }
           if (this.first) {
             this.guideStep = 3;
