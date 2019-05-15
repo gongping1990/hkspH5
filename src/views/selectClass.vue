@@ -164,8 +164,8 @@ export default {
       return this.$store.state.userInfo;
     },
     isNewUser() {
-      let { grade } = this;
-      if (!grade && !this.userInfo.phone) {
+      let { categoryData } = this;
+      if (!categoryData.grade && !this.userInfo.phone) {
         return 0;
       } else if (!this.userInfo.phone) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
