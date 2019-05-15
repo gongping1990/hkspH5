@@ -174,11 +174,14 @@
             src="../assets/image/fuli/third.png"
           />
           <div class="-item-head">
-            <img :src="item.headimgurl" :class="{
-              '-first': index == 0,
-              '-second': index == 1,
-              '-third': index == 2
-            }" />
+            <img
+              :src="item.headimgurl"
+              :class="{
+                '-first': index == 0,
+                '-second': index == 1,
+                '-third': index == 2
+              }"
+            />
           </div>
           <div class="-item-name">{{ item.nickName }}</div>
           <div class="-item-num">
@@ -391,7 +394,7 @@ export default {
           let list = data.resultData.records;
           this.tab.total = data.resultData.total;
           this.myInfo = list[0];
-          this.rankList = list.slice(1,4);
+          this.rankList = list.slice(1, 4);
           this.rankImgList = list.slice(1);
         });
     },
@@ -403,7 +406,7 @@ export default {
       this.$api.welfare.welfareInfo().then(({ data }) => {
         this.dataDetail = data.resultData;
         this.isSign = this.dataDetail.myCredit.sign;
-        nowTime =  this.dataDetail.learnTime;
+        nowTime = this.dataDetail.learnTime;
 
         if (nowTime >= threeTime) {
           this.isTimeToCollectThree = true;
@@ -711,7 +714,6 @@ export default {
         .-item-head {
           overflow: hidden;
           margin: 12px auto 0;
-
 
           img {
             border-radius: 50%;
