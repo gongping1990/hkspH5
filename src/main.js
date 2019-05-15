@@ -9,7 +9,7 @@ import "amfe-flexible";
 import "./cube-ui.js";
 import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
-import { isWeiXin, delUrlQuery, registerWx } from "./utils";
+import { isWeiXin, registerWx } from "./utils";
 import Wechat from "./utils/wx";
 
 Vue.prototype.$day = dayjs;
@@ -55,24 +55,7 @@ router.beforeEach((to, from, next) => {
       });
     return;
   }
-  if (isWeiXin()) {
-    api.user
-      .getUserBaseInfo()
-      .then(({ data }) => {
-        store.commit("UPDATE_USER_INFO", data.resultData);
-        next();
-      })
-      .catch(() => {
-        api.wechat
-          .getAuthorizeUrl({
-            redirectURI: delUrlQuery("code")
-          })
-          .then(({ data }) => {
-            window.location = data.resultData;
-          });
-      });
-    return;
-  }
+
   next();
 });
 

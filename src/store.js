@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 let userInfo = window.localStorage.getItem("userInfo");
-console.log(userInfo);
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -16,6 +15,7 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_USER_INFO(state, payload) {
       state.userInfo = { ...state.userInfo, ...payload };
+      console.log(state.userInfo);
       window.localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
     },
     UPDATE_GRADE_DATA(state, payload) {

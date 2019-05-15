@@ -43,9 +43,15 @@ export default {
       this.$api.useroperate.remindToShare().then(({ data }) => {
         this.shareData = data.resultData;
       });
+    },
+    getUserInfo() {
+      this.$api.user.getUserBaseInfo().then(({ data }) => {
+        this.$store.commit("UPDATE_USER_INFO", data.resultData);
+      });
     }
   },
   created() {
+    this.getUserInfo();
     setTimeout(() => {
       this.remindToShare();
     }, 1000);
