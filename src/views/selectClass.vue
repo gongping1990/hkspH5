@@ -315,9 +315,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.type) {
-      this.getUserCategory();
-    }
+    this.getUserCategory();
   }
 };
 </script>

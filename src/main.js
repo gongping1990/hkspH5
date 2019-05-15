@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
         if (data.resultData.phone) {
           next();
         } else {
-          next("/select");
+          next("/select?type=1");
         }
       })
       .catch(() => {
