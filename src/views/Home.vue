@@ -182,6 +182,7 @@ export default {
   watch: {
     $route(n) {
       let { type } = n.query;
+      this.guideStep = 1;
       this.subject = type ? type : 1;
       this.articleList = [];
       this.scrollY = 0;
@@ -320,6 +321,10 @@ export default {
             this.getArticleList();
           } else {
             this.isEmpty = true;
+            if (!this.userInfo.phone) {
+              let { type } = this.$route.query;
+              this.$router.push(`/select?type=${type ? type : 1}`);
+            }
           }
           if (this.first) {
             this.guideStep = 3;
