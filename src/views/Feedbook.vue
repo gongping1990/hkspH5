@@ -18,7 +18,7 @@
         >
           <template slot="title">
             <div class="feedbook-title">
-              <i class="feedbook-badge" v-if="item.replyed"></i>
+              <i class="feedbook-badge" v-if="item.replyed && !item.readed"></i>
               <p class="feedbook-text">{{ item.content }}</p>
             </div>
           </template>
