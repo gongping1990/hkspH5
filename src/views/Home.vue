@@ -313,6 +313,7 @@ export default {
         .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
+            console.log(this.userInfo);
             if (!this.userInfo.phone) {
               let { type } = this.$route.query;
               this.$router.push(`/select?type=${type ? type : 1}`);

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 let userInfo = window.localStorage.getItem("userInfo");
-
+console.log(userInfo);
 Vue.use(Vuex);
 
 export default new Vuex.Store({
