@@ -84,6 +84,10 @@ class WechatExt {
       return;
     }
 
+    console.log({
+      title, desc, link, imgUrl
+    })
+
     // alert(link)
 
     // 新api，以下老api废弃后取消即可
