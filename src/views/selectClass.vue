@@ -189,9 +189,8 @@ export default {
     //选择年级
     selectGrade(index) {
       this.grade = index;
-      if (index == 1) {
-        this.getTeachEdition();
-      }
+      this.term = 1;
+      this.getTeachEdition();
       this.step += 1;
     },
     //选择学期
