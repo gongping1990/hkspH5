@@ -94,6 +94,10 @@ export default new Router({
       path: "/fractionRank",
       name: "fractionRank",
       component: () => import("./views/fractionRank")
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
   ]
 });
