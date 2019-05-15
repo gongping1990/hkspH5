@@ -42,12 +42,22 @@
               </router-link>
             </div>
             <div class="tool-right">
-              <div class="tool-item">
+              <router-link
+                :to="
+                  `/yuwen/index.html#/pages/wordList/index?courseId=1&edition=${
+                    categoryData.teachEdition
+                  }&grade=${categoryData.grade}&semester=${categoryData.term}`
+                "
+                class="tool-item"
+              >
                 <img src="../assets/image/study/xxsz.png" />
-              </div>
-              <div class="tool-item">
+              </router-link>
+              <router-link
+                to="/yuwen/index.html#/pages/teachersRead/index"
+                class="tool-item"
+              >
                 <img src="../assets/image/study/kwld.png" />
-              </div>
+              </router-link>
             </div>
           </div>
           <div class="tool sx" v-if="active == 2">
@@ -96,7 +106,8 @@ export default {
     return {
       active: 1,
       recommendList: [],
-      options: {}
+      options: {},
+      categoryData: {}
     };
   },
   methods: {
@@ -123,10 +134,22 @@ export default {
           this.$toast.clear();
           this.recommendList = data.resultData;
         });
+    },
+    getUserCategory() {
+      this.$api.article
+        .getUserCategory({
+          subject: 1
+        })
+        .then(({ data }) => {
+          if (data.resultData) {
+            this.categoryData = data.resultData;
+          }
+        });
     }
   },
   created() {
     this.getRecommendContent();
+    this.getUserCategory();
   }
 };
 </script>

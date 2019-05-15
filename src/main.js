@@ -22,15 +22,12 @@ Vue.prototype.$api = api;
 Vue.prototype.$wechat = Wechat;
 Vue.config.productionTip = false;
 
-if (isWeiXin()) {
-  registerWx({
-    title: "学习库",
-    desc: "测试分享",
-    url: window.origin
-  });
-}
-
 router.beforeEach((to, from, next) => {
+  if (isWeiXin()) {
+    registerWx({
+      url: window.origin
+    });
+  }
   if (to.query.code) {
     api.user
       .wxUserLogin({ code: to.query.code })

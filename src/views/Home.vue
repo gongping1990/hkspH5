@@ -54,7 +54,9 @@
             <div class="banner">
               <van-swipe :autoplay="3000" indicator-color="white">
                 <van-swipe-item v-for="item in bannerList" :key="item.id">
-                  <img class="banner-img" :src="item.url" />
+                  <a :href="item.href">
+                    <img class="banner-img" :src="item.url" />
+                  </a>
                 </van-swipe-item>
               </van-swipe>
             </div>
@@ -280,7 +282,7 @@ export default {
           subjectId: this.subject
         })
         .then(({ data }) => {
-          this.bannerList = data.resultData.records;
+          this.bannerList = data.resultData;
         });
     },
     // 获取最新播报
