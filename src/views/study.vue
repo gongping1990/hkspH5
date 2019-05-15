@@ -103,14 +103,12 @@ export default {
   computed: {
     scUrl() {
       let { categoryData } = this;
-      return `${
-        window.origin
-      }/yuwen/index.html#/pages/wordList/index?courseId=1&edition=${
+      return `${window.origin}/yuwen#/pages/wordList/index?courseId=1&edition=${
         categoryData.teachEdition
       }&grade=${categoryData.grade}&semester=${categoryData.term}`;
     },
     ldUrl() {
-      return `${window.origin}/yuwen/index.html#/pages/teachersRead/index`;
+      return `${window.origin}/yuwen#/pages/teachersRead/index`;
     }
   },
   methods: {
