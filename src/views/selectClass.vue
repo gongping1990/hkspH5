@@ -90,7 +90,7 @@
     <div class="select-content step-3" v-if="step == 3">
       <div class="select-header">
         <p class="select-title">绑定手机</p>
-        <h2 @click="step -= 1">
+        <h2 @click="step -= 1" v-if="isNewUser != 2">
           {{ gradeList[grade - 1] }}（{{ termList[term - 1] }}）{{
             editionName
           }}
