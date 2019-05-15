@@ -165,9 +165,9 @@ export default {
     },
     isNewUser() {
       let { categoryData } = this;
-      if (!categoryData && this.userInfo.phone == "") {
+      if (!categoryData && !this.userInfo.phone) {
         return 0;
-      } else if (this.userInfo.phone == "") {
+      } else if (!this.userInfo.phone) {
         return 2;
       } else {
         return 1;

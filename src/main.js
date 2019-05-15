@@ -53,6 +53,7 @@ router.beforeEach((to, from, next) => {
         store.commit("UPDATE_USER_INFO", data.resultData);
         next();
       });
+    return;
   }
   if (isWeiXin()) {
     api.user
@@ -72,6 +73,7 @@ router.beforeEach((to, from, next) => {
       });
     return;
   }
+  next();
 });
 
 new Vue({

@@ -17,107 +17,99 @@
         src="../assets/image/yingdao/yd3.png"
       />
     </div>
-    <cube-sticky
-      ref="stickyWrap"
-      @change="changeHandler"
-      @diff-change="diffChange"
-      :pos="scrollY"
-    >
-      <cube-scroll
-        ref="scroll"
-        :scroll-events="['scroll']"
-        :options="options"
-        @scroll="scrollHandler"
-        @pulling-up="onPullingUp"
-        :data="articleList"
+    <div class="header scroll-header" :class="{ isSticky: isSticky }">
+      <div class="select-class" @click="clickSelect">
+        {{ !categoryData ? "选择年级" : categoryData.name }}
+        <van-icon name="arrow" color="#98A3A5" />
+      </div>
+      <div
+        class="collection"
+        @click="$router.push('/collection?subject=' + subject)"
       >
-        <div class="home-wrap" ref="wrap">
-          <div class="header">
-            <div class="select-class" @click="clickSelect">
-              {{ !categoryData ? "选择年级" : categoryData.name }}
-              <van-icon name="arrow-down" color="#98A3A5" />
+        <span>我的收藏</span
+        ><van-icon
+          class="collection-icon"
+          size="18px"
+          color="#F76868"
+          name="like"
+        />
+      </div>
+    </div>
+    <div class="home-sticky">
+      <cube-sticky
+        ref="stickyWrap"
+        @change="changeHandler"
+        @diff-change="diffChange"
+        :pos="scrollY"
+      >
+        <cube-scroll
+          ref="scroll"
+          :scroll-events="['scroll']"
+          :options="options"
+          @scroll="scrollHandler"
+          @pulling-up="onPullingUp"
+          :data="articleList"
+        >
+          <div class="home-wrap" ref="wrap">
+            <div class="banner">
+              <van-swipe :autoplay="3000" indicator-color="white">
+                <van-swipe-item v-for="item in bannerList" :key="item.id">
+                  <img class="banner-img" :src="item.url" />
+                </van-swipe-item>
+              </van-swipe>
             </div>
-            <div class="user">
-              <span>{{ userInfo.nickname }}</span
-              ><img class="user-avatar" :src="userInfo.headimgurl" />
+            <div class="message-banner">
+              <van-swipe :autoplay="30000" indicator-color="#24B592">
+                <van-swipe-item v-for="(item, i) in broadList" :key="i">
+                  <div class="message-banner-item">
+                    <div class="message-banner-left">
+                      <p>{{ item.content }}</p>
+                    </div>
+                    <div class="message-banner-right">
+                      <img :src="item.imgurl" />
+                    </div>
+                  </div>
+                </van-swipe-item>
+              </van-swipe>
             </div>
           </div>
-          <div class="banner">
-            <van-swipe :autoplay="3000" indicator-color="white">
-              <van-swipe-item v-for="item in bannerList" :key="item.id">
-                <img class="banner-img" :src="item.url" />
-              </van-swipe-item>
-            </van-swipe>
-          </div>
-          <div class="message-banner">
-            <van-swipe :autoplay="30000" indicator-color="#24B592">
-              <van-swipe-item v-for="(item, i) in broadList" :key="i">
-                <div class="message-banner-item">
-                  <div class="message-banner-left">
-                    <p>{{ item.content }}</p>
+          <div class="home-scroll">
+            <cube-sticky-ele ref="stickyEle">
+              <div class="sticky-wrap" ref="sticky">
+                <div class="tab">
+                  <div class="tab-item" @click="changeTab(1)">
+                    <span :class="{ active: tabActive == 1 }">同步学习</span>
                   </div>
-                  <div class="message-banner-right">
-                    <img :src="item.imgurl" />
+                  <div class="tab-item" @click="changeTab(2)">
+                    <span :class="{ active: tabActive == 2 }">精品学习</span>
                   </div>
-                </div>
-              </van-swipe-item>
-            </van-swipe>
-          </div>
-        </div>
-        <div class="home-scroll">
-          <cube-sticky-ele ref="stickyEle">
-            <div class="sticky-wrap" ref="sticky">
-              <div class="header scroll-header" v-if="isSticky">
-                <div class="select-class">
-                  三年级/部编版（下）
-                  <van-icon name="arrow-down" color="#98A3A5" />
-                </div>
-                <div
-                  class="collection"
-                  @click="$router.push('/collection?subject=' + subject)"
-                >
-                  <span>我的收藏</span
-                  ><van-icon
-                    class="collection-icon"
-                    size="18px"
-                    color="#F76868"
-                    name="like"
-                  />
                 </div>
               </div>
-              <div class="tab">
-                <div class="tab-item" @click="changeTab(1)">
-                  <span :class="{ active: tabActive == 1 }">同步学习</span>
-                </div>
-                <div class="tab-item" @click="changeTab(2)">
-                  <span :class="{ active: tabActive == 2 }">精品学习</span>
-                </div>
-              </div>
-            </div>
-          </cube-sticky-ele>
+            </cube-sticky-ele>
 
-          <div class="scroll" ref="scrollList">
-            <div class="empty" v-if="isEmpty">
-              <img src="../assets/image/noData/no-1.png" />
-              <span>抱歉，暂时没有文章~</span>
-            </div>
-            <div class="scroll-list" v-else>
-              <div
-                :ref="'item' + item.id"
-                v-for="item in articleList"
-                :key="item.id"
-              >
-                <Item
-                  :data="item"
-                  @click="clickItem"
-                  :isLast="item.point"
-                ></Item>
+            <div class="scroll" ref="scrollList">
+              <div class="empty" v-if="isEmpty">
+                <img src="../assets/image/noData/no-1.png" />
+                <span>抱歉，暂时没有文章~</span>
+              </div>
+              <div class="scroll-list" v-else>
+                <div
+                  :ref="'item' + item.id"
+                  v-for="item in articleList"
+                  :key="item.id"
+                >
+                  <Item
+                    :data="item"
+                    @click="clickItem"
+                    :isLast="item.point"
+                  ></Item>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </cube-scroll>
-    </cube-sticky>
+        </cube-scroll>
+      </cube-sticky>
+    </div>
     <div class="last-study" v-if="lastStudyId" @click="clickLastStudy">
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
@@ -357,6 +349,9 @@ export default {
   &-wrap {
     padding-bottom: 1px;
   }
+  &-sticky {
+    height: calc(100vh - 90px);
+  }
   .last-study {
     @include flex-center;
     position: absolute;
@@ -491,7 +486,6 @@ export default {
     @include flex-center;
     justify-content: space-between;
     padding: 12px 16px;
-    margin-bottom: 4px;
     .select-class {
       display: flex;
       align-items: center;
