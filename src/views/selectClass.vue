@@ -168,6 +168,8 @@ export default {
       if (!categoryData && !this.userInfo.phone) {
         return 0;
       } else if (!this.userInfo.phone) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.step = 3;
         return 2;
       } else {
         return 1;
@@ -175,13 +177,6 @@ export default {
     },
     gradeData() {
       return this.$store.state.gradeData;
-    }
-  },
-  watch: {
-    isNewUser(n) {
-      if (n == 2) {
-        this.step = 3;
-      }
     }
   },
   methods: {
@@ -320,7 +315,9 @@ export default {
     }
   },
   created() {
-    this.getUserCategory();
+    if (this.$route.query.type) {
+      this.getUserCategory();
+    }
   }
 };
 </script>
