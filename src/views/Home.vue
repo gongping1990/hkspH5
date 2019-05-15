@@ -388,11 +388,11 @@ export default {
       width: 240px;
     }
     &-one {
-      top: 229px;
+      top: 208px;
       left: 32px;
     }
     &-two {
-      top: 229px;
+      top: 208px;
       right: 32px;
     }
     &-three {

@@ -164,8 +164,8 @@ export default {
       return this.$store.state.userInfo;
     },
     isNewUser() {
-      let { categoryData } = this;
-      if (!categoryData && !this.userInfo.phone) {
+      let { grade } = this;
+      if (!grade && !this.userInfo.phone) {
         return 0;
       } else if (!this.userInfo.phone) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -251,11 +251,13 @@ export default {
           subject
         })
         .then(({ data }) => {
-          let { grade, term, teachEdition } = data.resultData;
-          this.categoryData = data.resultData;
-          this.grade = grade;
-          this.term = term;
-          this.edition = teachEdition;
+          if (data.resultData) {
+            let { grade, term, teachEdition } = data.resultData;
+            this.categoryData = data.resultData;
+            this.grade = grade;
+            this.term = term;
+            this.edition = teachEdition;
+          }
         });
     },
     // 验证码发送倒计时
