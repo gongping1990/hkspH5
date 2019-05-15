@@ -309,6 +309,7 @@ export default {
         return;
       }
       this.$api.user.bindPhone(form).then(async () => {
+        this.$store.commit("UPDATE_USER_INFO", { phone });
         let params = this.gradeData;
         params.type = 1;
         await this.getArticleList(params);
