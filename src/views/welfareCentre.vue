@@ -282,41 +282,41 @@
       <van-tabbar-item to="/">
         <span>语文</span>
         <img
-                slot="icon"
-                slot-scope="props"
-                :src="props.active ? icon.chinesePre : icon.chineseDef"
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.chinesePre : icon.chineseDef"
         />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=2">
         <span>数学</span>
         <img
-                slot="icon"
-                slot-scope="props"
-                :src="props.active ? icon.mathPre : icon.mathDef"
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.mathPre : icon.mathDef"
         />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=3">
         <span>英语</span>
         <img
-                slot="icon"
-                slot-scope="props"
-                :src="props.active ? icon.englishPre : icon.englishDef"
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.englishPre : icon.englishDef"
         />
       </van-tabbar-item>
       <van-tabbar-item to="/study">
         <span>学习天地</span>
         <img
-                slot="icon"
-                slot-scope="props"
-                :src="props.active ? icon.fieldPre : icon.fieldDef"
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.fieldPre : icon.fieldDef"
         />
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
         <img
-                slot="icon"
-                slot-scope="props"
-                :src="props.active ? icon.wekfarePre : icon.wekfareDef"
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.wekfarePre : icon.wekfareDef"
         />
       </van-tabbar-item>
     </van-tabbar>
@@ -475,7 +475,7 @@ export default {
       let nowTime = "";
       this.$api.welfare.welfareInfo().then(({ data }) => {
         this.dataDetail = data.resultData;
-        this.learnTime = this.dataDetail.myCredit.learnTime/60000
+        this.learnTime = this.dataDetail.myCredit.learnTime / 60000;
         this.isSign = this.dataDetail.myCredit.sign;
         nowTime = this.dataDetail.learnTime;
 
