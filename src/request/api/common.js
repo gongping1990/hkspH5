@@ -6,6 +6,9 @@ const common = {
   // 手机登录
   sendCode(params) {
     return axios.get("/sp/common/sendCode", { params });
+  },
+  userRegister(params) {
+    return axios.post("/sp/app/wss/userRegister", qs.stringify(params));
   }
 };
 

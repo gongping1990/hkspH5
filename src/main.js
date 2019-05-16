@@ -11,11 +11,24 @@ import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
 import { isWeiXin, registerWx } from "./utils";
 import Wechat from "./utils/wx";
+import VueSocketIO from "vue-socket.io";
 
 Vue.prototype.$day = dayjs;
 VueClipboard.config.autoSetContainer = true; // add this line
 Vue.use(VueClipboard);
 Vue.use(Vant);
+Vue.use(
+  new VueSocketIO({
+    debug: true,
+    connection: "http://huoke.test.k12.vip",
+    vuex: {
+      store,
+      actionPrefix: "SOCKET_",
+      mutationPrefix: "SOCKET_"
+    },
+    options: { path: "/spwss" } //Optional options
+  })
+);
 
 Vue.prototype.$dayjs = dayjs;
 Vue.prototype.$api = api;

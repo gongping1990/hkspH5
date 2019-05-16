@@ -299,6 +299,7 @@ export default {
     },
     changeTab(index) {
       this.tabActive = index;
+      window.sessionStorage.setItem("tabActive", index);
       this.scrollTop();
       this.getArticleList();
     },
@@ -426,7 +427,11 @@ export default {
   },
   created() {
     let { type } = this.$route.query;
+    let tabActive = window.sessionStorage.getItem("tabActive");
     this.subject = type ? type : 1;
+    if (tabActive) {
+      this.tabActive = tabActive;
+    }
     this.init();
     this.initTab();
     this.listByBroadcast();

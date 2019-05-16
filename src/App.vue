@@ -52,11 +52,22 @@ export default {
       this.$api.user.getUserBaseInfo().then(({ data }) => {
         this.$store.commit("UPDATE_USER_INFO", data.resultData);
       });
+    },
+    userRegister() {
+      this.$api.com.userRegister({
+        sid: this.$socket.id
+      });
+    }
+  },
+  sockets: {
+    connect: function() {
+      console.log("socket connected");
+      this.userRegister();
     }
   },
   created() {
-    this.getUserInfo();
     setTimeout(() => {
+      this.getUserInfo();
       this.remindToShare();
     }, 1000);
   }
