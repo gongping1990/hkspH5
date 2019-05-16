@@ -128,6 +128,8 @@ export default {
     }
 
     .-header-name {
+      @include text-overflow(150px);
+
       height: 20px;
       font-size: 14px;
       font-weight: 500;
