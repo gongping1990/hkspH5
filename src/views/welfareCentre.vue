@@ -17,7 +17,7 @@
             v-for="(item, index) of dataDetail.convertMsgs"
             :key="index"
           >
-            <img class="-swipe-item-headimg" :src="item.imgurl" />
+            <img class="-swipe-item-headimg" :src="item.headimgurl" />
             <div class="-swipe-item-text">
               <p class="-name">{{ item.name }}</p>
               <p class="-text">{{ item.content }}</p>
