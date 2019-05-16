@@ -25,7 +25,11 @@
             </div>
             <cube-sticky-ele ref="stickyEle" ele-key="22">
               <div class="tab" ref="tab">
-                <div class="tab-header" v-if="hasChild">
+                <div
+                  class="tab-header"
+                  :class="{ start: columnList.length == 2 }"
+                  v-if="hasChild"
+                >
                   <span
                     class="tab-header-item"
                     :class="{ active: columnId == item.id }"
@@ -307,23 +311,26 @@ export default {
     background-color: #fff;
     &-header {
       @include flex-center;
-      justify-content: flex-start;
+      justify-content: space-between;
       margin: 0 16px;
+
       &-item {
         @include flex-center;
-        margin-left: 39.5px;
         width: 88px;
         height: 30px;
         color: #353637;
         font-size: 14px;
         font-weight: 500;
         border-radius: 6px 6px 0px 0px;
-        &:first-child {
-          margin-left: 0;
-        }
         &.active {
           color: #24b592;
           background-color: rgba($color: #24b592, $alpha: 0.1);
+        }
+      }
+      &.start {
+        justify-content: flex-start;
+        .tab-header-item {
+          margin-right: 39px;
         }
       }
     }
