@@ -54,7 +54,7 @@ export default {
       },
       title: "",
       showKeyWord: false,
-      isEmpty: true,
+      isEmpty: false,
       current: 1,
       size: 10,
       total: 0,
