@@ -47,7 +47,7 @@
         <div class="-sign-width">
           <div class="-title">今日学习</div>
           <div class="-time">
-            <span class="-num">{{ dataDetail.myCredit.learnTime }}</span
+            <span class="-num">{{ learnTime }}</span
             >分钟
           </div>
         </div>
@@ -278,11 +278,63 @@
         <div class="-text" @click="closePopup">取消</div>
       </div>
     </van-popup>
+    <van-tabbar v-model="tabActive" active-color="#24B592">
+      <van-tabbar-item to="/">
+        <span>语文</span>
+        <img
+                slot="icon"
+                slot-scope="props"
+                :src="props.active ? icon.chinesePre : icon.chineseDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item to="/?type=2">
+        <span>数学</span>
+        <img
+                slot="icon"
+                slot-scope="props"
+                :src="props.active ? icon.mathPre : icon.mathDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item to="/?type=3">
+        <span>英语</span>
+        <img
+                slot="icon"
+                slot-scope="props"
+                :src="props.active ? icon.englishPre : icon.englishDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item to="/study">
+        <span>学习天地</span>
+        <img
+                slot="icon"
+                slot-scope="props"
+                :src="props.active ? icon.fieldPre : icon.fieldDef"
+        />
+      </van-tabbar-item>
+      <van-tabbar-item to="/welfareCentre">
+        <span>福利中心</span>
+        <img
+                slot="icon"
+                slot-scope="props"
+                :src="props.active ? icon.wekfarePre : icon.wekfareDef"
+        />
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
+import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
+import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
+import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
+import mathPre from "../assets/image/tab/tabbar-button-math-pre.png";
+import englishDef from "../assets/image/tab/tabbar-button-english-def.png";
+import englishPre from "../assets/image/tab/tabbar-button-english-pre.png";
+import fieldDef from "../assets/image/tab/tabbar-button-field-def.png";
+import fieldPre from "../assets/image/tab/tabbar-button-field-pre.png";
+import wekfareDef from "../assets/image/tab/tabbar-button-welfare-def.png";
+import wekfarePre from "../assets/image/tab/tabbar-button-welfare-pre.png";
 export default {
   name: "welfareCentre",
 
@@ -293,6 +345,20 @@ export default {
         pageSize: 1000,
         total: ""
       },
+      icon: {
+        chineseDef,
+        chinesePre,
+        mathDef,
+        mathPre,
+        englishDef,
+        englishPre,
+        fieldDef,
+        fieldPre,
+        wekfareDef,
+        wekfarePre
+      },
+      tabActive: 4,
+      active: 1,
       broadcastList: [],
       rankList: [],
       rankImgList: [],
@@ -302,6 +368,7 @@ export default {
       },
       dataItem: {},
       myInfo: "",
+      learnTime: "",
       isSign: false,
       isShowPopup: false,
       isShowPrizeSure: false,
@@ -408,6 +475,7 @@ export default {
       let nowTime = "";
       this.$api.welfare.welfareInfo().then(({ data }) => {
         this.dataDetail = data.resultData;
+        this.learnTime = this.dataDetail.myCredit.learnTime/60000
         this.isSign = this.dataDetail.myCredit.sign;
         nowTime = this.dataDetail.learnTime;
 
@@ -445,7 +513,7 @@ export default {
   background-size: 100%;
   background-color: #e5f6b3;
   height: auto;
-  margin-bottom: 50px;
+  /*margin-bottom: 50px;*/
 
   &-tip {
     display: flex;
@@ -536,7 +604,8 @@ export default {
 
     .-sign-top {
       @include flex-center;
-      margin: 25px 20px 0;
+      padding-top: 25px;
+      margin: 0 20px;
       height: 128px;
 
       .-sign-width {
