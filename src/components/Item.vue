@@ -104,7 +104,7 @@ export default {
     getShow() {
       return this.$api.operate
         .show({
-          subject: this.subject
+          subject: this.data.subject
         })
         .then(({ data }) => {
           this.shareInfo = data.resultData;

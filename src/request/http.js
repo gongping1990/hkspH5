@@ -48,7 +48,6 @@ const errorHandle = (status, err, res) => {
     // 401: 未登录状态，跳转登录页
     case 401:
     case 402:
-      alert(res.config.url);
       toLogin();
       break;
     // 404请求不存在

@@ -11,8 +11,10 @@
           v-model="title"
           placeholder="请输入搜索关键词"
           shape="round"
+          :show-action="true"
           @search="onSearch"
         >
+          <div slot="action" @click="onSearch">搜索</div>
         </van-search>
       </div>
     </div>
