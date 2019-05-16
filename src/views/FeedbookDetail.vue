@@ -43,7 +43,7 @@ export default {
   },
   filters: {
     formatTime(v) {
-      return dayjs(v).format("YYYY-MM-DD hh:mm:ss");
+      return dayjs(v).format("YYYY-MM-DD HH:mm:ss");
     }
   },
   methods: {

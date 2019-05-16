@@ -9,6 +9,12 @@ const common = {
   },
   userRegister(params) {
     return axios.post("/sp/app/wss/userRegister", qs.stringify(params));
+  },
+  listWordByBook(params) {
+    return axios.post("/sp/app/listWordByBook", qs.stringify(params));
+  },
+  listOnlineBook() {
+    return axios.get("/sp/book/listOnlineBook");
   }
 };
 

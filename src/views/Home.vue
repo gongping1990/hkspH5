@@ -54,7 +54,7 @@
             <div class="banner">
               <van-swipe :autoplay="3000" indicator-color="white">
                 <van-swipe-item v-for="item in bannerList" :key="item.id">
-                  <a :href="item.href">
+                  <a @click="clickBanner(item.href)">
                     <img class="banner-img" :src="item.url" />
                   </a>
                 </van-swipe-item>
@@ -291,6 +291,12 @@ export default {
         this.isScrollBottom = pageScrollTop == wrapHeight;
       });
     },
+    clickBanner(url) {
+      console.log(url);
+      if (this.subject == 1) {
+        this.listWordByBook(url);
+      }
+    },
     clickLastStudy() {
       let { lastStudyId } = this;
       this.scrollTop(this.$refs["item" + lastStudyId][0]);
@@ -348,6 +354,23 @@ export default {
       this.getBanner();
       this.getRecommendBySubject();
       await this.getUserCategory();
+    },
+    listWordByBook(href) {
+      let { subject, categoryData } = this;
+      this.$api.com
+        .listWordByBook({
+          courseId: subject,
+          edition: categoryData.teachEdition,
+          grade: categoryData.grade,
+          semester: categoryData.term
+        })
+        .then(({ data }) => {
+          if (data.resultData) {
+            window.location = href;
+          } else {
+            this.$router.push("/error");
+          }
+        });
     },
     // 获取banner
     getBanner() {

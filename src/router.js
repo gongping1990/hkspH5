@@ -101,6 +101,11 @@ export default new Router({
       component: () => import("./views/Share")
     },
     {
+      path: "/error",
+      name: "error",
+      component: () => import("./views/error")
+    },
+    {
       path: "*",
       redirect: "/"
     }

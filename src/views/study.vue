@@ -42,10 +42,10 @@
               </router-link>
             </div>
             <div class="tool-right">
-              <a :href="scUrl" class="tool-item">
+              <a @click="clickScUrl" class="tool-item">
                 <img src="../assets/image/study/xxsz.png" />
               </a>
-              <a :href="ldUrl" class="tool-item">
+              <a @click="clickLdUrl" class="tool-item">
                 <img src="../assets/image/study/kwld.png" />
               </a>
             </div>
@@ -184,6 +184,29 @@ export default {
     }
   },
   methods: {
+    clickScUrl() {
+      this.listWordByBook(this.scUrl);
+    },
+    clickLdUrl() {
+      this.listWordByBook(this.ldUrl);
+    },
+    listWordByBook(href) {
+      let { active, categoryData } = this;
+      this.$api.com
+        .listWordByBook({
+          courseId: active,
+          edition: categoryData.teachEdition,
+          grade: categoryData.grade,
+          semester: categoryData.term
+        })
+        .then(({ data }) => {
+          if (data.resultData) {
+            window.location = href;
+          } else {
+            this.$router.push("/error");
+          }
+        });
+    },
     onPullingUp() {
       setTimeout(() => {
         this.$refs.scroll.forceUpdate();
