@@ -242,6 +242,8 @@ export default {
   watch: {
     $route(n) {
       let { type } = n.query;
+      window.sessionStorage.setItem("tabActive", 1);
+      this.tabActive = 1;
       this.guideStep = 1;
       this.subject = type ? type : 1;
       this.articleList = [];

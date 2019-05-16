@@ -130,6 +130,7 @@
               :key="item.id"
               :data="item"
               :showAction="false"
+              :subject="subject"
             ></Item>
           </div>
         </div>
@@ -171,7 +172,8 @@ export default {
       studyList: [],
       collectList: [],
       readDateList: [],
-      listHeight: 0
+      listHeight: 0,
+      subject: 1
     };
   },
   computed: {

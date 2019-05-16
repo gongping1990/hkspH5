@@ -29,7 +29,12 @@
         @pulling-up="onPullUp"
       >
         <div class="list">
-          <Item v-for="item in articleList" :key="item.id" :data="item"></Item>
+          <Item
+            v-for="item in articleList"
+            :key="item.id"
+            :subject="subject"
+            :data="item"
+          ></Item>
         </div>
       </cube-scroll>
     </div>
@@ -113,6 +118,9 @@ export default {
           }
         });
     }
+  },
+  created() {
+    this.subject = this.$route.query.subject;
   }
 };
 </script>
