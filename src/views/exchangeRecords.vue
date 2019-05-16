@@ -38,8 +38,8 @@
     <div class="p-exchangeRecords-noData" v-if="!dataList.length">
       <img class="-no-img" src="../assets/image/noData/no-1.png" />
       <div class="-no-text">抱歉，暂时没有兑换记录~</div>
-      <div class="-no-text-two">赶快去赚取学分</div>
-      <div class="-no-btn" @click="toBack">我要赚学分</div>
+      <div class="-no-text-two">赶快去赚学分兑奖品吧</div>
+      <div class="-no-btn" @click="toBack">要赚学分</div>
     </div>
   </div>
 </template>
