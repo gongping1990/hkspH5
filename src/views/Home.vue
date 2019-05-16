@@ -80,10 +80,10 @@
               <div class="sticky-wrap" ref="sticky">
                 <div class="tab">
                   <div class="tab-item" @click="changeTab(1)">
-                    <span :class="{ active: tabActive == 1 }">同步学习</span>
+                    <span :class="{ active: tabActive == 1 }">同步预习</span>
                   </div>
                   <div class="tab-item" @click="changeTab(2)">
-                    <span :class="{ active: tabActive == 2 }">精品学习</span>
+                    <span :class="{ active: tabActive == 2 }">精品复习</span>
                   </div>
                 </div>
               </div>
@@ -163,7 +163,8 @@ export default {
       subject: 1,
       guideStep: 1,
       isEmpty: false,
-      recommendData: {}
+      recommendData: {},
+      lastStudyId: 0
     };
   },
   computed: {
@@ -172,14 +173,6 @@ export default {
     },
     gradeData() {
       return this.$store.state.gradeData;
-    },
-    lastStudyId() {
-      let id = 0;
-      let item = this.articleList.find(e => {
-        return e.point;
-      });
-      item && (id = item.id);
-      return id;
     }
   },
   watch: {
@@ -300,9 +293,15 @@ export default {
       }
       gradeData.type = this.tabActive;
       this.$api.article.getArticleList(gradeData).then(({ data }) => {
-        this.$toast.clear();
         this.articleList = data.resultData;
+        let item = this.articleList.find(e => {
+          return e.point;
+        });
+        this.$toast.clear();
+
         this.isEmpty = !this.articleList.length;
+
+        item && (this.lastStudyId = item.id);
       });
     },
     // 获取用户选择的年级等信息
