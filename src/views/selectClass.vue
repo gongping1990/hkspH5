@@ -77,7 +77,7 @@
           @click="selectEdition(item)"
         >
           <div class="textbook-item-img">
-            <img :src="item.item" />
+            <img :src="item.img" />
             <div class="textbook-item-mask" v-if="edition == item.id">
               <van-icon name="checked" size="28px" color="#24B592" />
             </div>
