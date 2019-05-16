@@ -179,6 +179,7 @@ export default {
       }
       p {
         @include text-overflow;
+        width: 240px;
         margin-bottom: 2px;
         font-size: 16px;
         line-height: 18px;
