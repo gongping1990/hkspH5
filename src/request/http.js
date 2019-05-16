@@ -49,7 +49,6 @@ const errorHandle = (status, err, res) => {
     case 401:
     case 402:
       alert(res.config.url);
-      alert(err);
       toLogin();
       break;
     // 404请求不存在
