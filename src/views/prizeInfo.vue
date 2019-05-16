@@ -6,7 +6,7 @@
         <span>返回</span>
       </div>
       <div class="-header-name">
-        {{dataDetail.name}}
+        {{ dataDetail.name }}
       </div>
     </div>
     <div class="p-prizeInfo-swipe">
