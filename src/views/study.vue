@@ -149,6 +149,8 @@ export default {
     }
   },
   created() {
+    let { subject } = this.$route.query;
+    this.active = subject ? subject : 1;
     this.getRecommendContent();
     this.getUserCategory();
   }
