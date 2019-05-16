@@ -16,7 +16,7 @@
         </div>
         <div class="-num">
           <img class="-icon" src="../assets/image/fuli/coin.png" />
-          <div class="-text">{{ dataDetail.credit }}分</div>
+          <div class="-text">{{ dataDetail.credit }}学分</div>
         </div>
       </div>
     </div>
@@ -177,6 +177,7 @@ export default {
   }
 
   &-footer {
+    padding-bottom: 24px;
     .-footer-title {
       text-align: center;
       padding: 32px 0 16px;
@@ -269,7 +270,7 @@ export default {
 
     .-footer-btn {
       text-align: center;
-      margin: 31px auto 24px;
+      margin: 31px auto 0;
       width: 327px;
       height: 48px;
       border-radius: 6px;

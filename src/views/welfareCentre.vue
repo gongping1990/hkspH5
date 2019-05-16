@@ -226,7 +226,7 @@
 
     <div class="p-welfareCentre-prize">
       <div class="p-welfareCentre-prize-img">
-        学分排行榜
+        学分换奖品
       </div>
       <div class="p-welfareCentre-prize-wrap">
         <div
@@ -237,15 +237,15 @@
           <div class="-img" @click="toInfo(item)">
             <img :src="item.coverImg" />
           </div>
-          <div class="-img-out" v-if="index == 2">已抢光</div>
+          <div class="-img-out" v-if="item.total == 0">已抢光</div>
           <div class="-title">{{ item.name }}</div>
           <div class="-price">原价：{{ item.price }}元</div>
           <div
             class="-btn"
-            :class="{ '-btn-out': index == 2 }"
+            :class="{ '-btn-out': item.total == 0 }"
             @click="toExchange(item)"
           >
-            {{ item.credit }}积分兑换
+            {{ item.credit }}学分兑换
           </div>
         </div>
       </div>
@@ -362,8 +362,10 @@ export default {
         });
     },
     toExchange(data) {
-      this.dataItem = data;
-      this.isShowPrizeSure = true;
+      if(data.total != 0) {
+        this.dataItem = data;
+        this.isShowPrizeSure = true;
+      }
     },
     toConfirm() {
       this.$api.prize
