@@ -395,7 +395,7 @@ export default {
           this.tab.total = data.resultData.total;
           this.myInfo = list[0];
           this.rankList = list.slice(1, 4);
-          this.rankImgList = list.slice(1,7);
+          this.rankImgList = list.slice(1, 7);
         });
     },
     welfareDetail() {
