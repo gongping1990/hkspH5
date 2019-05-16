@@ -74,6 +74,7 @@ export default {
       let { shareInfo, subject } = this;
       console.log(shareInfo, subject);
       this.articleClick(3, res => {
+        console.log(res);
         registerWx({
           title,
           desc:
@@ -99,7 +100,7 @@ export default {
           if (type == 2) {
             this.collected = !this.collected;
           }
-          fn && fn(res);
+          fn && fn(res.data.resultData);
         });
     }
   },
