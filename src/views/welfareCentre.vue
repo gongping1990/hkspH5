@@ -192,7 +192,7 @@
         </div>
       </div>
       <div class="p-welfareCentre-rank-down">
-        <div class="-ellipsis" v-if="rankList.length > 5">...</div>
+        <div class="-ellipsis" v-if="rankImgList.length > 5">...</div>
         <div class="-item-down-wrap">
           <div
             class="-item-down"
@@ -202,7 +202,7 @@
             <img :src="item.headimgurl" />
           </div>
         </div>
-        <div class="-ellipsis" v-if="rankList.length > 5">...</div>
+        <div class="-ellipsis" v-if="rankImgList.length > 5">...</div>
       </div>
       <div class="p-welfareCentre-rank-num">
         <div class="-num-text">
@@ -395,7 +395,7 @@ export default {
           this.tab.total = data.resultData.total;
           this.myInfo = list[0];
           this.rankList = list.slice(1, 4);
-          this.rankImgList = list.slice(1);
+          this.rankImgList = list.slice(1,7);
         });
     },
     welfareDetail() {
