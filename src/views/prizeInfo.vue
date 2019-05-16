@@ -178,7 +178,7 @@ export default {
     }
 
     .-content-detail {
-      margin-bottom: 48px;
+      padding-bottom: 48px;
       &-title {
         text-align: center;
         width: 100%;
