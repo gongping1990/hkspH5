@@ -103,7 +103,6 @@
                   <Item
                     :subject="subject"
                     :data="item"
-                    @click="clickItem"
                     :isLast="item.point"
                   ></Item>
                 </div>
@@ -214,9 +213,6 @@ export default {
     clickSelect() {
       let { type } = this.$route.query;
       this.$router.push(`/select?type=${type ? type : 1}`);
-    },
-    clickItem(item) {
-      window.location.href = item.link;
     },
     changeTab(index) {
       this.tabActive = index;
@@ -343,15 +339,6 @@ export default {
         })
         .then(({ data }) => {
           this.recommendData = data.resultData;
-        });
-    },
-    getShow() {
-      this.$api.operate
-        .show({
-          subject: this.subject
-        })
-        .then(({ data }) => {
-          this.$store.commit("UPDATE_SHARE_INFO", data.resultData);
         });
     }
   },

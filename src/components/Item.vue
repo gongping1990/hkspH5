@@ -65,6 +65,7 @@ export default {
     clickItem() {
       this.articleClick(1);
       this.$emit("click", this.data);
+      window.location = this.data.link;
     },
     clickCollection() {
       this.articleClick(2);
@@ -116,6 +117,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 16px;
+  padding-bottom: 0;
   background-color: #fff;
   .last-mask {
     position: absolute;
@@ -187,6 +189,8 @@ export default {
     align-items: center;
     & > div {
       @include flex-center;
+      align-items: flex-start;
+      height: 30px;
       margin-right: 27px;
       font-size: 12px;
       span {

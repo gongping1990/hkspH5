@@ -33,7 +33,11 @@ export default {
     ...mapState(["showShare", "shareType"])
   },
   methods: {
-    ...mapMutations(["CHANGE_SHOW_SHARE", "CHANGE_SHARE_TYPE"]),
+    ...mapMutations([
+      "CHANGE_SHOW_SHARE",
+      "CHANGE_SHARE_TYPE",
+      "UPDATE_SHARE_INFO"
+    ]),
     clickShare() {
       this.shareData.todayRemind = false;
       this.CHANGE_SHARE_TYPE(0);
@@ -48,6 +52,15 @@ export default {
       this.$api.user.getUserBaseInfo().then(({ data }) => {
         this.$store.commit("UPDATE_USER_INFO", data.resultData);
       });
+    },
+    getShow() {
+      this.$api.operate
+        .show({
+          subject: this.subject
+        })
+        .then(({ data }) => {
+          this.$store.commit("UPDATE_SHARE_INFO", data.resultData);
+        });
     }
   },
   created() {
