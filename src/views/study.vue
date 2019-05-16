@@ -111,6 +111,13 @@ export default {
       return `${window.origin}/yuwen#/pages/teachersRead/index`;
     }
   },
+  watch: {
+    $route(n) {
+      this.active = n.query.subject;
+      this.$refs.scroll.scrollTo(0, 0, 0);
+      this.getRecommendContent();
+    }
+  },
   methods: {
     onPullingUp() {
       setTimeout(() => {
@@ -121,9 +128,7 @@ export default {
       this.$router.push(`/composition?id=${item.id}&subject=${this.active}`);
     },
     changeTab(index) {
-      this.active = index;
-      this.$refs.scroll.scrollTo(0, 0, 0);
-      this.getRecommendContent();
+      this.$router.push("/study?subject=" + index);
     },
     getRecommendContent() {
       this.$toast.loading();
