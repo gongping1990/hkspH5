@@ -39,8 +39,7 @@ router.beforeEach((to, from, next) => {
         next();
       });
     return;
-  }
-  if (to.query.name) {
+  } else if (to.query.name) {
     api.user
       .loginWithPhone({
         phone: "15884594704",
@@ -51,9 +50,9 @@ router.beforeEach((to, from, next) => {
         next();
       });
     return;
+  } else {
+    next();
   }
-
-  next();
 });
 
 new Vue({
