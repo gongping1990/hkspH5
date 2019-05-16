@@ -64,6 +64,9 @@ export default {
 </script>
 <style lang="scss">
 @import url("./assets/style/common.scss");
+.app {
+  height: 100vh;
+}
 .__dialog {
   @include flex-column-center;
   position: fixed;
