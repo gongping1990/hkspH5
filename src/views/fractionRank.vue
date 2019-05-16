@@ -22,19 +22,19 @@
     </div>
 
     <cube-scroll
-            class="p-fractionRank-content"
-            ref="scroll"
-            :data="dataList"
-            :options="options"
-            @pulling-up="onLoad"
+      class="p-fractionRank-content"
+      ref="scroll"
+      :data="dataList"
+      :options="options"
+      @pulling-up="onLoad"
     >
       <div class="p-fractionRank-body">
         <div class="-body-top">
           <div class="-body-top-one">
             <img
-                    v-if="dataItemTwo"
-                    class="-img"
-                    :src="dataItemTwo.headimgurl"
+              v-if="dataItemTwo"
+              class="-img"
+              :src="dataItemTwo.headimgurl"
             />
             <div class="-name">{{ dataItemTwo.nickName }}</div>
             <div class="-num" v-if="dataItemTwo">
@@ -43,9 +43,9 @@
           </div>
           <div class="-body-top-two">
             <img
-                    v-if="dataItemOne"
-                    class="-img"
-                    :src="dataItemOne.headimgurl"
+              v-if="dataItemOne"
+              class="-img"
+              :src="dataItemOne.headimgurl"
             />
             <div class="-name">{{ dataItemOne.nickName }}</div>
             <div class="-num" v-if="dataItemOne">
@@ -54,9 +54,9 @@
           </div>
           <div class="-body-top-three">
             <img
-                    v-if="dataItemThree"
-                    class="-img"
-                    :src="dataItemThree.headimgurl"
+              v-if="dataItemThree"
+              class="-img"
+              :src="dataItemThree.headimgurl"
             />
             <div class="-name">{{ dataItemThree.nickName }}</div>
             <div class="-num" v-if="dataItemThree">
@@ -84,26 +84,26 @@
           </div>
         </div>
         <div
-                class="-footer-item"
-                v-for="(item, index) of dataList"
-                :key="index"
+          class="-footer-item"
+          v-for="(item, index) of dataList"
+          :key="index"
         >
           <div class="-footer-item-left">
             <div class="-item-num" v-if="index > 2">{{ item.rank }}</div>
             <img
-                    class="-item-rank-img"
-                    src="../assets/image/fuli/first.png"
-                    v-if="index == 0"
+              class="-item-rank-img"
+              src="../assets/image/fuli/first.png"
+              v-if="index == 0"
             />
             <img
-                    class="-item-rank-img"
-                    src="../assets/image/fuli/secend.png"
-                    v-if="index == 1"
+              class="-item-rank-img"
+              src="../assets/image/fuli/secend.png"
+              v-if="index == 1"
             />
             <img
-                    class="-item-rank-img"
-                    src="../assets/image/fuli/third.png"
-                    v-if="index == 2"
+              class="-item-rank-img"
+              src="../assets/image/fuli/third.png"
+              v-if="index == 2"
             />
             <div class="-item-img">
               <img :src="item.headimgurl" />

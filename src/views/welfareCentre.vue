@@ -362,7 +362,7 @@ export default {
         });
     },
     toExchange(data) {
-      if(data.total != 0) {
+      if (data.total != 0) {
         this.dataItem = data;
         this.isShowPrizeSure = true;
       }
