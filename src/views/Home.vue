@@ -443,12 +443,14 @@ export default {
     border: 1px solid rgba(216, 220, 221, 1);
     &-item {
       @include flex-center;
+      align-items: flex-start;
       justify-content: space-between;
       width: 343px;
       height: 78px;
     }
     &-left {
       flex: 1;
+      margin-top: 6px;
       margin-left: 16px;
       h3 {
         font-size: 16px;

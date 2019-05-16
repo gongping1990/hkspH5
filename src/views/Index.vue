@@ -108,7 +108,9 @@ export default {
 <style lang="scss">
 .index {
   &-page {
-    height: calc(100vh - 50px);
+    box-sizing: border-box;
+    padding-bottom: 50px;
+    height: 100vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
