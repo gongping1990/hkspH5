@@ -345,6 +345,7 @@ export default {
           this.dataItem = data.resultData;
           this.isShowPopup = true;
           this.welfareDetail();
+          this.getCreditList();
         });
       }
     },
