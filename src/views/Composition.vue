@@ -24,7 +24,7 @@
               <img src="../assets/image/study/banner.png" />
             </div>
             <cube-sticky-ele ref="stickyEle" ele-key="22">
-              <div class="tab" ref="tab">
+              <div class="tab" ref="tab" v-if="columnList.length">
                 <div
                   class="tab-header"
                   :class="{ start: columnList.length == 2 }"
@@ -205,6 +205,9 @@ export default {
             }
             this.$refs.scroll.refresh();
             this.$refs.stickyWrap.refresh();
+            this.getArticleList();
+          } else {
+            this.categoryId = id;
             this.getArticleList();
           }
         });
