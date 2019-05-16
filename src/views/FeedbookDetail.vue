@@ -11,7 +11,9 @@
             {{ feedbackData.replyed ? "已回复" : "待回复" }}
           </span>
         </div>
-        <span class="time">{{ feedbackData.replyTime | formatTime }}</span>
+        <span class="time" v-if="feedbackData.replyTime">{{
+          feedbackData.replyTime | formatTime
+        }}</span>
       </div>
     </div>
     <div class="content">
