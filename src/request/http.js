@@ -39,7 +39,8 @@ const toLogin = () => {
  * 请求失败后的错误统一处理
  * @param {Number} status 请求失败的状态码
  */
-const errorHandle = (status, err) => {
+const errorHandle = (status, err, res) => {
+  console.log(res);
   // 状态码判断
   switch (status) {
     case 200:
@@ -47,6 +48,8 @@ const errorHandle = (status, err) => {
     // 401: 未登录状态，跳转登录页
     case 401:
     case 402:
+      alert(res.config.url);
+      alert(err);
       toLogin();
       break;
     // 404请求不存在
@@ -87,7 +90,7 @@ instance.interceptors.response.use(
   // 请求成功
   res => {
     // 服务器请求成功，自定义code异常处理
-    errorHandle(res.data.code, res.data.msg);
+    errorHandle(res.data.code, res.data.msg, res);
     return res.data.code == 200
       ? Promise.resolve(res)
       : Promise.reject(res.data.msg);
