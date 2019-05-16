@@ -52,15 +52,6 @@ export default {
       this.$api.user.getUserBaseInfo().then(({ data }) => {
         this.$store.commit("UPDATE_USER_INFO", data.resultData);
       });
-    },
-    getShow() {
-      this.$api.operate
-        .show({
-          subject: this.subject
-        })
-        .then(({ data }) => {
-          this.$store.commit("UPDATE_SHARE_INFO", data.resultData);
-        });
     }
   },
   created() {

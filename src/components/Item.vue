@@ -52,13 +52,9 @@ export default {
   },
   data() {
     return {
-      collected: false
+      collected: false,
+      shareInfo: {}
     };
-  },
-  computed: {
-    shareInfo() {
-      return this.$store.state.shareInfo;
-    }
   },
   methods: {
     ...mapMutations(["CHANGE_SHOW_SHARE", "CHANGE_SHARE_TYPE"]),
@@ -70,10 +66,11 @@ export default {
     clickCollection() {
       this.articleClick(2);
     },
-    clickShare() {
+    async clickShare() {
+      await this.getShow();
       let { title, img } = this.data;
       let { shareInfo, subject } = this;
-      console.log(shareInfo, subject);
+      console.log(shareInfo);
       this.articleClick(3, res => {
         console.log(res);
         registerWx({
@@ -102,6 +99,15 @@ export default {
             this.collected = !this.collected;
           }
           fn && fn(res.data.resultData);
+        });
+    },
+    getShow() {
+      return this.$api.operate
+        .show({
+          subject: this.subject
+        })
+        .then(({ data }) => {
+          this.shareInfo = data.resultData;
         });
     }
   },
