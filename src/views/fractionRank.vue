@@ -20,21 +20,21 @@
         </div>
       </div>
     </div>
-    <van-list
-      class="p-fractionRank-content"
-      :finished="finished"
-      :immediate-check="false"
-      v-model="loading"
-      finished-text="没有更多了"
-      @load="onLoad"
+
+    <cube-scroll
+            class="p-fractionRank-content"
+            ref="scroll"
+            :data="dataList"
+            :options="options"
+            @pulling-up="onLoad"
     >
       <div class="p-fractionRank-body">
         <div class="-body-top">
           <div class="-body-top-one">
             <img
-              v-if="dataItemTwo"
-              class="-img"
-              :src="dataItemTwo.headimgurl"
+                    v-if="dataItemTwo"
+                    class="-img"
+                    :src="dataItemTwo.headimgurl"
             />
             <div class="-name">{{ dataItemTwo.nickName }}</div>
             <div class="-num" v-if="dataItemTwo">
@@ -43,9 +43,9 @@
           </div>
           <div class="-body-top-two">
             <img
-              v-if="dataItemOne"
-              class="-img"
-              :src="dataItemOne.headimgurl"
+                    v-if="dataItemOne"
+                    class="-img"
+                    :src="dataItemOne.headimgurl"
             />
             <div class="-name">{{ dataItemOne.nickName }}</div>
             <div class="-num" v-if="dataItemOne">
@@ -54,9 +54,9 @@
           </div>
           <div class="-body-top-three">
             <img
-              v-if="dataItemThree"
-              class="-img"
-              :src="dataItemThree.headimgurl"
+                    v-if="dataItemThree"
+                    class="-img"
+                    :src="dataItemThree.headimgurl"
             />
             <div class="-name">{{ dataItemThree.nickName }}</div>
             <div class="-num" v-if="dataItemThree">
@@ -84,26 +84,26 @@
           </div>
         </div>
         <div
-          class="-footer-item"
-          v-for="(item, index) of dataList"
-          :key="index"
+                class="-footer-item"
+                v-for="(item, index) of dataList"
+                :key="index"
         >
           <div class="-footer-item-left">
             <div class="-item-num" v-if="index > 2">{{ item.rank }}</div>
             <img
-              class="-item-rank-img"
-              src="../assets/image/fuli/first.png"
-              v-if="index == 0"
+                    class="-item-rank-img"
+                    src="../assets/image/fuli/first.png"
+                    v-if="index == 0"
             />
             <img
-              class="-item-rank-img"
-              src="../assets/image/fuli/secend.png"
-              v-if="index == 1"
+                    class="-item-rank-img"
+                    src="../assets/image/fuli/secend.png"
+                    v-if="index == 1"
             />
             <img
-              class="-item-rank-img"
-              src="../assets/image/fuli/third.png"
-              v-if="index == 2"
+                    class="-item-rank-img"
+                    src="../assets/image/fuli/third.png"
+                    v-if="index == 2"
             />
             <div class="-item-img">
               <img :src="item.headimgurl" />
@@ -117,7 +117,7 @@
           </div>
         </div>
       </div>
-    </van-list>
+    </cube-scroll>
   </div>
 </template>
 
@@ -130,6 +130,14 @@ export default {
         page: 1,
         pageSize: 10,
         total: ""
+      },
+      options: {
+        pullUpLoad: {
+          txt: {
+            more: "",
+            noMore: ""
+          }
+        }
       },
       tabIndex: "0",
       loading: false,
@@ -165,8 +173,15 @@ export default {
             this.dataItemTwo = this.dataList.length > 1 && this.dataList[1];
             this.dataItemThree = this.dataList.length > 2 && this.dataList[2];
           }
-          if (this.tab.page >= this.tab.total / this.tab.pageSize) {
-            this.finished = true;
+          if (this.tab.total < 10) {
+            this.options.pullUpLoad = false;
+          } else {
+            this.options.pullUpLoad = {
+              txt: {
+                more: "",
+                noMore: ""
+              }
+            };
           }
         });
     },
@@ -176,8 +191,12 @@ export default {
       });
     },
     onLoad() {
-      this.tab.page++;
-      this.getCreditList();
+      if (this.dataList.length >= this.tab.total) {
+        this.$refs.scroll.forceUpdate();
+      } else {
+        this.tab.page++;
+        this.getCreditList();
+      }
     },
     changeTab() {
       this.tab.page = 1;

@@ -6,7 +6,7 @@
         <span>返回</span>
       </div>
       <div class="-header-name">
-        iPhone X🅂 Max
+        {{dataDetail.name}}
       </div>
     </div>
     <div class="p-prizeInfo-swipe">
@@ -28,7 +28,7 @@
       <div class="-content-explain" v-html="dataDetail.directions"></div>
       <div class="-content-detail">
         <div class="-content-detail-title">— 商品详情 —</div>
-        <div>{{ dataDetail.details }}</div>
+        <div v-html="dataDetail.details"></div>
       </div>
     </div>
     <div class="p-prizeInfo-footer" @click="openModal">
@@ -178,6 +178,7 @@ export default {
     }
 
     .-content-detail {
+      margin-bottom: 48px;
       &-title {
         text-align: center;
         width: 100%;
