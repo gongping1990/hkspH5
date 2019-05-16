@@ -166,7 +166,6 @@ export default {
   &-subtitle {
     display: block;
     margin-top: 4px;
-    margin-bottom: 13px;
     font-size: 11px;
     color: #d8dcdd;
   }
@@ -189,9 +188,8 @@ export default {
     align-items: center;
     & > div {
       @include flex-center;
-      align-items: flex-start;
-      height: 30px;
-      margin-right: 27px;
+      height: 40px;
+      padding-right: 27px;
       font-size: 12px;
       span {
         margin-left: 2px;
