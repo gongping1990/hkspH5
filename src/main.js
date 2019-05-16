@@ -46,6 +46,7 @@ router.beforeEach((to, from, next) => {
       .wxUserLogin({ code: to.query.code })
       .then(({ data }) => {
         store.commit("UPDATE_USER_INFO", data.resultData);
+        next();
       })
       .catch(() => {
         next();

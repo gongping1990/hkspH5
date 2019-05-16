@@ -62,7 +62,9 @@ export default {
   sockets: {
     connect: function() {
       console.log("socket connected");
-      this.userRegister();
+      setTimeout(() => {
+        this.userRegister();
+      }, 2000);
     }
   },
   created() {
