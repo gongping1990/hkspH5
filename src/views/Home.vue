@@ -61,7 +61,7 @@
               </van-swipe>
             </div>
             <div class="message-banner">
-              <van-swipe :autoplay="30000" indicator-color="#24B592">
+              <van-swipe :autoplay="3000" :show-indicators="false">
                 <van-swipe-item v-for="(item, i) in broadList" :key="i">
                   <div class="message-banner-item">
                     <div class="message-banner-left">
@@ -379,7 +379,7 @@ export default {
 
         this.isEmpty = !this.articleList.length;
 
-        item && (this.lastStudyId = item.id);
+        item ? (this.lastStudyId = item.id) : (this.lastStudyId = 0);
       });
     },
     // 获取用户选择的年级等信息
