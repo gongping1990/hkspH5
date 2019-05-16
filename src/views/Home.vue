@@ -261,7 +261,6 @@ export default {
       this.first = window.localStorage.getItem("first");
       this.getBanner();
       this.getRecommendBySubject();
-      this.getShow();
       await this.getUserCategory();
     },
     // 获取banner
