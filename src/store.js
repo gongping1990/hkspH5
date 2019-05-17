@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import api from './request/api'
+import api from "./request/api";
 
 Vue.use(Vuex);
 
@@ -40,34 +40,31 @@ export default new Vuex.Store({
       let FiveTime = 5 * 60 * 1000;
       let TenTime = 10 * 60 * 1000;
       let nowTime = "";
-      let isReceiveThree = false
-      let isReceiveFive = false
-      let isReceiveTen = false
+      let isReceiveThree = false;
+      let isReceiveFive = false;
+      let isReceiveTen = false;
 
-      api.welfare.getCreditMsg()
-        .then(({data}) => {
+      api.welfare.getCreditMsg().then(({ data }) => {
+        nowTime = data.resultData.learnTime;
 
-          nowTime = data.resultData.learnTime;
+        if (nowTime >= threeTime && !data.resultData.getCreditLearnThree) {
+          isReceiveThree = true;
+        }
 
-          if (nowTime >= threeTime && !data.resultData.getCreditLearnThree) {
-            isReceiveThree = true;
-          }
+        if (nowTime >= FiveTime && !data.resultData.getCreditLearnFive) {
+          isReceiveFive = true;
+        }
 
-          if (nowTime >= FiveTime && !data.resultData.getCreditLearnFive) {
-            isReceiveFive = true;
-          }
+        if (nowTime >= TenTime && !data.resultData.getCreditLearnTen) {
+          isReceiveTen = true;
+        }
 
-          if (nowTime >= TenTime && !data.resultData.getCreditLearnTen) {
-            isReceiveTen = true;
-          }
+        console.log(isReceiveThree, isReceiveFive, isReceiveTen);
 
-          console.log(isReceiveThree,isReceiveFive,isReceiveTen)
-
-          if (isReceiveThree || isReceiveFive || isReceiveTen) {
-            this.commit('CHANGE_TAB_BAR_TIPS', true)
-          }
-
-        });
+        if (isReceiveThree || isReceiveFive || isReceiveTen) {
+          this.commit("CHANGE_TAB_BAR_TIPS", true);
+        }
+      });
     }
   }
 });
