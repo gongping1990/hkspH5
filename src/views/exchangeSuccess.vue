@@ -31,10 +31,7 @@
         <img class="-img" src="../assets/image/duihuan/tittle-two.png" />
         <div class="-text-two">请长按二维码识别，加客服微信</div>
         <div class="-text-img">
-          <img
-            class="-qr-img"
-            src="../assets/image/fuli/qrcode.jpg"
-          />
+          <img class="-qr-img" src="../assets/image/fuli/qrcode.jpg" />
         </div>
         <div class="-text-three">
           <img
