@@ -129,6 +129,21 @@
         />
       </van-tabbar-item>
     </van-tabbar>
+    <div class="feedback-float" @click="showPopup = true">
+      <img src="../assets/image/fuli/icon-etroaction.png" />
+      <span>建议和反馈</span>
+    </div>
+    <div class="__dialog qrcode" v-if="showPopup">
+      <div class="__dialog-content study-popup">
+        <p>建议功能</p>
+        <textarea
+          v-model="feedbackValue"
+          placeholder="如果您需要更多的功能、内容，或是在使用过程中有什么疑问、不爽,都可以告诉我们，输入内容不要少于5个字哦!"
+        ></textarea>
+        <div class="study-popup-btn" @click="addContent">提交</div>
+      </div>
+      <i class="__dialog-close" @click="closePopup"></i>
+    </div>
   </div>
 </template>
 
@@ -146,6 +161,8 @@ import wekfarePre from "../assets/image/tab/tabbar-button-welfare-pre.png";
 export default {
   data() {
     return {
+      showPopup: false,
+      feedbackValue: "",
       tabActive: 3,
       active: 1,
       recommendList: [],
@@ -184,6 +201,10 @@ export default {
     }
   },
   methods: {
+    closePopup() {
+      this.feedbackValue = "";
+      this.showPopup = false;
+    },
     clickScUrl() {
       this.listWordByBook(this.scUrl);
     },
@@ -217,6 +238,26 @@ export default {
     },
     changeTab(index) {
       this.$router.push("/study?subject=" + index);
+    },
+    addContent() {
+      let { feedbackValue } = this;
+      if (feedbackValue == "") {
+        this.$toast("反馈内容不能为空！");
+        return;
+      }
+      if (feedbackValue.length < 6) {
+        this.$toast("反馈内容不能小于6个字！");
+        return;
+      }
+      this.$api.feedback
+        .addContent({
+          content: feedbackValue
+        })
+        .then(() => {
+          this.feedbackValue = "";
+          this.showPopup = false;
+          this.$toast("反馈已提交！");
+        });
     },
     getRecommendContent() {
       this.$toast.loading();
@@ -252,6 +293,53 @@ export default {
 
 <style lang="scss" scoped>
 .study {
+  .feedback-float {
+    @include flex-column-center;
+    position: absolute;
+    right: 8px;
+    bottom: 300px;
+    font-size: 11px;
+    color: #f99e54;
+    background-color: #fff;
+    z-index: 99;
+    img {
+      display: block;
+      width: 30px;
+      margin-bottom: 5px;
+    }
+  }
+  .study-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    height: 269px;
+    background-image: none !important;
+    background: #fff;
+    p {
+      font-weight: 500;
+    }
+    textarea {
+      margin-top: 12px;
+      margin-bottom: 25px;
+      box-sizing: border-box;
+      padding: 12px;
+      width: 214px;
+      height: 136px;
+      line-height: 18px;
+      border-radius: 6px;
+      border: 1px solid rgba(216, 220, 221, 1);
+    }
+    &-btn {
+      @include flex-center;
+      width: 214px;
+      height: 40px;
+      font-weight: 500;
+      color: #fff;
+      background: rgba(36, 181, 146, 1);
+      border-radius: 20px;
+    }
+  }
   .list {
     .item {
       display: flex;
