@@ -295,6 +295,8 @@ export default {
       console.log(url);
       if (this.subject == 1) {
         this.listWordByBook(url);
+      } else {
+        window.location = url;
       }
     },
     clickLastStudy() {
