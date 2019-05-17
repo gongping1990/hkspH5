@@ -293,6 +293,7 @@ export default {
 
 <style lang="scss" scoped>
 .study {
+  background-color: #fff;
   .feedback-float {
     @include flex-column-center;
     position: absolute;
