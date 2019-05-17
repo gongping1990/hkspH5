@@ -68,7 +68,9 @@ export default {
     }
   },
   created() {
-    this.remindToShare();
+    setTimeout(() => {
+      this.remindToShare();
+    }, 2000);
   }
 };
 </script>
