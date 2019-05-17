@@ -135,6 +135,7 @@ export default {
       font-weight: 500;
       color: #afafaf;
       line-height: 20px;
+      text-align: right;
     }
   }
 

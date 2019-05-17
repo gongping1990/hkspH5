@@ -449,6 +449,11 @@ export default {
       isTimeToCollectTen: false
     };
   },
+  watch: {
+    "$store.state.isShowTabBarTips"(_n) {
+      this.isShowTabBarTips = _n;
+    }
+  },
   mounted() {
     this.getPrizeList();
     this.getCreditList();
