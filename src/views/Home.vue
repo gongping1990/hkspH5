@@ -574,6 +574,7 @@ export default {
         margin-bottom: 3px;
       }
       p {
+        @include line-clamp(4);
         font-size: 14px;
         color: #353637;
         line-height: 18px;
@@ -646,7 +647,7 @@ export default {
       }
     }
     &-list {
-      min-height: calc(100vh - 46px);
+      min-height: calc(100vh - 136px);
     }
   }
 }
