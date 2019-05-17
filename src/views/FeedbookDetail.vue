@@ -121,18 +121,18 @@ export default {
       @include flex-center;
       font-size: 18px;
       line-height: 25px;
-      color: #98a3a5;
+      color: #f99e54;
 
       .dhf {
-        color: #f99e54;
+        color: #98a3a5;
       }
     }
     .icon {
       @include bg("/huifu/yjfk-icon-reply.png");
       display: block;
       margin-right: 8px;
-      width: 17px;
-      height: 15px;
+      width: 20px;
+      height: 18px;
       &.dhf {
         background-image: url("../assets/image/huifu/yjfk-icon-feedback.png");
       }
