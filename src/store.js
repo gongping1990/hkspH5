@@ -14,7 +14,7 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_USER_INFO(state, payload) {
       state.userInfo = { ...state.userInfo, ...payload };
-      window.localStorage.setItem("userInfo", state.userInfo);
+      window.localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
     },
     UPDATE_GRADE_DATA(state, payload) {
       state.gradeData = payload;
