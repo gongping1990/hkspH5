@@ -8,7 +8,7 @@
         {{ item }}
       </div>
     </div>
-    <router-link to="/study" class="btn">返回学习园地</router-link>
+    <router-link to="/" class="btn">返回首页</router-link>
   </div>
 </template>
 
