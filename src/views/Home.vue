@@ -174,6 +174,7 @@
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
+        <img v-if="isShowTabBarTips" class="g-tabbar-tips"  src="../assets/image/fuli/tips-tab.png">
         <img
           slot="icon"
           slot-scope="props"
@@ -206,6 +207,7 @@ export default {
       options: {},
       scrollY: 0,
       isSticky: false,
+      isShowTabBarTips: false,
       categoryData: {},
       bannerList: [],
       broadList: [],
@@ -260,6 +262,10 @@ export default {
         scroll.disable();
       }
     }
+  },
+  mounted() {
+    this.$store.dispatch("getCreditMsg");
+    this.isShowTabBarTips = this.$store.state.isShowTabBarTips
   },
   methods: {
     initTab() {

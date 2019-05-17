@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import api from './request/api'
 
 Vue.use(Vuex);
 
@@ -9,7 +10,8 @@ export default new Vuex.Store({
     gradeData: {},
     showShare: false,
     shareInfo: {},
-    shareType: 0
+    shareType: 0,
+    isShowTabBarTips: false
   },
   mutations: {
     UPDATE_USER_INFO(state, payload) {
@@ -27,7 +29,45 @@ export default new Vuex.Store({
     },
     CHANGE_SHARE_TYPE(state, payload) {
       state.shareType = payload;
+    },
+    CHANGE_TAB_BAR_TIPS(state, payload) {
+      state.isShowTabBarTips = payload;
     }
   },
-  actions: {}
+  actions: {
+    getCreditMsg() {
+      let threeTime = 3 * 60 * 1000;
+      let FiveTime = 5 * 60 * 1000;
+      let TenTime = 10 * 60 * 1000;
+      let nowTime = "";
+      let isReceiveThree = false
+      let isReceiveFive = false
+      let isReceiveTen = false
+
+      api.welfare.getCreditMsg()
+        .then(({data}) => {
+
+          nowTime = data.resultData.learnTime;
+
+          if (nowTime >= threeTime && !data.resultData.getCreditLearnThree) {
+            isReceiveThree = true;
+          }
+
+          if (nowTime >= FiveTime && !data.resultData.getCreditLearnFive) {
+            isReceiveFive = true;
+          }
+
+          if (nowTime >= TenTime && !data.resultData.getCreditLearnTen) {
+            isReceiveTen = true;
+          }
+
+          console.log(isReceiveThree,isReceiveFive,isReceiveTen)
+
+          if (isReceiveThree || isReceiveFive || isReceiveTen) {
+            this.commit('CHANGE_TAB_BAR_TIPS', true)
+          }
+
+        });
+    }
+  }
 });

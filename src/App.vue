@@ -68,6 +68,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("getCreditMsg");
     setTimeout(() => {
       this.remindToShare();
     }, 2000);
