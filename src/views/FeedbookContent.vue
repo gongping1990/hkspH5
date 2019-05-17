@@ -2,7 +2,7 @@
   <div class="feedbook">
     <h2>反馈内容</h2>
     <textarea
-      placeholder="请输入要反馈的内容"
+      placeholder="如果您需要更多的功能、内容，或是在使用过程中有什么疑问、不爽,都可以告诉我们，输入内容不要少于5个字哦!"
       class="textarea"
       v-model="content"
     ></textarea>
@@ -35,6 +35,9 @@ export default {
         .then(() => {
           this.content = "";
           this.$toast("反馈已提交！");
+          setTimeout(() => {
+            this.$router.go(-1);
+          }, 1000);
         });
     }
   }

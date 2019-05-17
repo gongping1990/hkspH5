@@ -129,10 +129,10 @@
         />
       </van-tabbar-item>
     </van-tabbar>
-    <div class="feedback-float" @click="showPopup = true">
+    <router-link to="/feedbook-content" class="feedback-float">
       <img src="../assets/image/fuli/icon-etroaction.png" />
       <span>建议和反馈</span>
-    </div>
+    </router-link>
     <div class="__dialog qrcode" v-if="showPopup">
       <div class="__dialog-content study-popup">
         <p>建议功能</p>
