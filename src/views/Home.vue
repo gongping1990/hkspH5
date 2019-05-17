@@ -643,6 +643,9 @@ export default {
         background: #fafafa;
       }
     }
+    &-list {
+      min-height: calc(100vh - 46px);
+    }
   }
 }
 </style>

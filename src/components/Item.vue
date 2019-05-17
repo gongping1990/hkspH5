@@ -153,11 +153,9 @@ export default {
   }
   .unlike-icon {
     @include bg("/yuwen/icon-unlike.png");
-    height: 14px;
   }
   .like-icon {
     @include bg("/yuwen/icon-like.png");
-    height: 14px;
   }
   &-left {
     flex: 1;

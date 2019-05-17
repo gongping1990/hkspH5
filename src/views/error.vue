@@ -1,14 +1,14 @@
 <template>
   <div class="error">
     <img class="icon" src="../assets/image/duihuan/warm.png" />
-    <h2>同步课文讲解仅支持语文部编版教材</h2>
+    <h2>此功能仅支持语文部编版教材</h2>
     <h3>且仅支持以下年级使用</h3>
     <div class="list">
       <div class="item" v-for="(item, index) in listData" :key="index">
         {{ item }}
       </div>
     </div>
-    <router-link to="/" class="btn">返回首页</router-link>
+    <router-link to="/study" class="btn">返回学习园地</router-link>
   </div>
 </template>
 
