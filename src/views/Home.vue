@@ -430,6 +430,7 @@ export default {
         .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
+            console.log(111);
             this.first = 1;
             window.localStorage.setItem("first", 1);
             if (!this.userInfo.phone) {
