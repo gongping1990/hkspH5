@@ -179,7 +179,7 @@
 
         <div
           class="-sign-bottom-solid"
-          v-if="learnTime != 0"
+          v-if="learnTime > 3"
           :style="{ width: widthData }"
         ></div>
       </div>
@@ -561,16 +561,16 @@ export default {
     welfareDetail() {
       let threeTime = 3 * 60 * 1000;
       let FiveTime = 5 * 60 * 1000;
+      let sevenTime = 7 * 60 * 1000;
       let TenTime = 10 * 60 * 1000;
+
       let nowTime = "";
       this.$api.welfare.welfareInfo().then(({ data }) => {
         this.dataDetail = data.resultData;
         this.learnTime = parseInt(this.dataDetail.myCredit.learnTime / 60000);
         this.isSign = this.dataDetail.myCredit.sign;
         nowTime = this.dataDetail.myCredit.learnTime;
-        this.widthData = `${((nowTime > TenTime ? TenTime : nowTime) /
-          TenTime) *
-          240}px`;
+        this.widthData = `${((nowTime > TenTime ? sevenTime : (nowTime - threeTime) ) / sevenTime) * 240}px`;
 
         if (
           nowTime >= threeTime &&
