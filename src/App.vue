@@ -68,7 +68,6 @@ export default {
     }
   },
   created() {
-    this.getUserInfo();
     this.remindToShare();
   }
 };

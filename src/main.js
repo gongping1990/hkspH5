@@ -64,7 +64,10 @@ router.beforeEach((to, from, next) => {
       });
     return;
   } else {
-    next();
+    api.user.getUserBaseInfo().then(({ data }) => {
+      store.commit("UPDATE_USER_INFO", data.resultData);
+      next();
+    });
   }
 });
 
