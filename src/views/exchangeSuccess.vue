@@ -1,5 +1,5 @@
 <template>
-  <div class="p-exchangeSuccess">
+  <div class="p-exchangeSuccess" ref="scrollPage">
     <div class="p-exchangeSuccess-header">
       <img class="-img" src="../assets/image/duihuan/success.png" />
       <div class="-text">您已成功兑换</div>
@@ -88,7 +88,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.p-exchangeSuccess {
+.p-exchangeSuccess{
+  overflow: auto;
+  height: 100vh;
+
   &-header {
     text-align: center;
 
