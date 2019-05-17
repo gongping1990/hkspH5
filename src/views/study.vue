@@ -122,7 +122,11 @@
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
-        <img v-if="isShowTabBarTips" class="g-tabbar-tips"  src="../assets/image/fuli/tips-tab.png">
+        <img
+          v-if="isShowTabBarTips"
+          class="g-tabbar-tips"
+          src="../assets/image/fuli/tips-tab.png"
+        />
         <img
           slot="icon"
           slot-scope="props"
@@ -202,9 +206,9 @@ export default {
       this.getRecommendContent();
     }
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch("getCreditMsg");
-    this.isShowTabBarTips = this.$store.state.isShowTabBarTips
+    this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
     closePopup() {
@@ -304,7 +308,7 @@ export default {
     @include flex-column-center;
     position: absolute;
     right: 8px;
-    bottom: 300px;
+    bottom: 120px;
     font-size: 11px;
     color: #f99e54;
     background-color: #fff;
