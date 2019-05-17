@@ -28,7 +28,7 @@
             <div class="-prize">原价：{{ item.price }}元</div>
             <div class="-num">
               <img class="-icon" src="../assets/image/fuli/coin.png" />
-              <div class="-text">{{ item.credit }}分</div>
+              <div class="-text">{{ item.credit }}学分</div>
             </div>
           </div>
         </div>

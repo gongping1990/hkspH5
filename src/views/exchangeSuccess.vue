@@ -33,7 +33,7 @@
         <div class="-text-img">
           <img
             class="-qr-img"
-            src="https://pub.file.k12.vip/2019/05/08/1125967635272822785.jpg"
+            src="../assets/image/fuli/qrcode.jpg"
           />
         </div>
         <div class="-text-three">
