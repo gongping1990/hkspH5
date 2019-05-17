@@ -372,6 +372,11 @@
         isTimeToCollectTen: false
       };
     },
+    watch: {
+      '$store.state.isShowTabBarTips' (_n,_o){
+        this.isShowTabBarTips = _n
+      }
+    },
     mounted() {
       this.getPrizeList();
       this.getCreditList();
