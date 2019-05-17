@@ -68,10 +68,8 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      this.getUserInfo();
-      this.remindToShare();
-    }, 1000);
+    this.getUserInfo();
+    this.remindToShare();
   }
 };
 </script>
