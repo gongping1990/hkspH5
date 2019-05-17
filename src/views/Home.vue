@@ -447,9 +447,9 @@ export default {
             this.getArticleList();
           } else {
             this.isEmpty = true;
-          }
-          if (this.first) {
-            this.guideStep = 3;
+            if (this.first) {
+              this.guideStep = 3;
+            }
           }
         });
     },
