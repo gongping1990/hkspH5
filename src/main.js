@@ -20,7 +20,7 @@ Vue.use(Vant);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "http://huoke.test.k12.vip",
+    connection: "http://huoke.prod.k12.vip",
     vuex: {
       store,
       actionPrefix: "SOCKET_",
