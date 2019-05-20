@@ -9,7 +9,7 @@ import "amfe-flexible";
 import "./cube-ui.js";
 import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
-import baseUrl from "./request/base";
+import { baseUrl } from "./request/base.js";
 import { isWeiXin, registerWx } from "./utils";
 import Wechat from "./utils/wx";
 import VueSocketIO from "vue-socket.io";
@@ -18,6 +18,7 @@ Vue.prototype.$day = dayjs;
 VueClipboard.config.autoSetContainer = true; // add this line
 Vue.use(VueClipboard);
 Vue.use(Vant);
+
 Vue.use(
   new VueSocketIO({
     debug: true,
