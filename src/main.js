@@ -9,6 +9,7 @@ import "amfe-flexible";
 import "./cube-ui.js";
 import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
+import baseUrl from "./request/base";
 import { isWeiXin, registerWx } from "./utils";
 import Wechat from "./utils/wx";
 import VueSocketIO from "vue-socket.io";
@@ -20,7 +21,7 @@ Vue.use(Vant);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "http://huoke.prod.k12.vip",
+    connection: baseUrl,
     vuex: {
       store,
       actionPrefix: "SOCKET_",
