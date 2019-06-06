@@ -38,6 +38,9 @@ Vue.prototype.$wechat = Wechat;
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
+  if (to.query["U-From-ChannelId"]) {
+    store.commit("UPDATE_CHANNELID", to.query["U-From-ChannelId"]);
+  }
   if (isWeiXin()) {
     registerWx({
       url: window.origin

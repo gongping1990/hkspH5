@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../store";
 import { Toast } from "vant";
 import { baseUrl } from "./base.js";
 import { isWeiXin, delUrlQuery } from "../utils";
@@ -78,6 +79,7 @@ var instance = axios.create({
 
 instance.interceptors.request.use(
   config => {
+    config.headers.common["U-From-ChannelId"] = store.state.channelId;
     return config;
   },
   error => Promise.error(error)

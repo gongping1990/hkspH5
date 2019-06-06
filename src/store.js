@@ -11,9 +11,13 @@ export default new Vuex.Store({
     showShare: false,
     shareInfo: {},
     shareType: 0,
-    isShowTabBarTips: false
+    isShowTabBarTips: false,
+    channelId: ""
   },
   mutations: {
+    UPDATE_CHANNELID(state, payload) {
+      state.channelId = payload;
+    },
     UPDATE_USER_INFO(state, payload) {
       state.userInfo = { ...state.userInfo, ...payload };
       window.localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
