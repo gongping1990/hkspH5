@@ -570,7 +570,11 @@ export default {
         this.learnTime = parseInt(this.dataDetail.myCredit.learnTime / 60000);
         this.isSign = this.dataDetail.myCredit.sign;
         nowTime = this.dataDetail.myCredit.learnTime;
-        this.widthData = `${((nowTime > TenTime ? sevenTime : (nowTime - threeTime) ) / sevenTime) * 240}px`;
+        this.widthData = `${((nowTime > TenTime
+          ? sevenTime
+          : nowTime - threeTime) /
+          sevenTime) *
+          240}px`;
 
         if (
           nowTime >= threeTime &&
