@@ -150,7 +150,7 @@ export default {
       height: 241px !important;
 
       &-img {
-        height: 80%;
+        height: 100%;
         width: 100%;
       }
     }

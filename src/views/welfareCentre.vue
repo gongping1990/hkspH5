@@ -1171,6 +1171,7 @@ export default {
           background: rgba(255, 255, 255, 1);
           border-radius: 6px;
           border: 1px solid rgba(215, 210, 191, 1);
+          overflow: hidden;
 
           img {
             width: 100%;
