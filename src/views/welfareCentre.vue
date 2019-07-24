@@ -547,7 +547,7 @@ export default {
       this.$api.credit
         .getCreditRank({
           current: this.tab.page,
-          size: this.tab.pageSize,
+          size: 10,
           type: 0
         })
         .then(({ data }) => {
