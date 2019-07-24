@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.p-exchangeSuccess{
+.p-exchangeSuccess {
   overflow: auto;
   height: 100vh;
 

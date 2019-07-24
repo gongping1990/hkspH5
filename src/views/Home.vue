@@ -116,7 +116,7 @@
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
     </div>
-    <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
+    <!-- <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
       <div class="__dialog-content">
         <div class="__dialog-info">
           <img :src="recommendData.icon" />
@@ -137,7 +137,15 @@
           我已关注，别再推荐
         </div>
       </div>
-      <i class="__dialog-close"></i>
+      <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
+    </div> -->
+    <div class="__dialog qrcode" v-if="dialog1">
+      <div @click="clickDialog(1)" class="__dialog-content dialog1"></div>
+      <i class="__dialog-close" @click="dialog1 = false"></i>
+    </div>
+    <div class="__dialog qrcode" v-if="dialog2">
+      <div @click="clickDialog(0)" class="__dialog-content dialog2"></div>
+      <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
@@ -191,6 +199,7 @@
 
 <script>
 import Item from "@/components/Item";
+import dayjs from "dayjs";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
 import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
@@ -210,6 +219,8 @@ export default {
     return {
       options: {},
       scrollY: 0,
+      dialog1: false,
+      dialog2: false,
       isSticky: false,
       isShowTabBarTips: false,
       categoryData: {},
@@ -272,6 +283,35 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    clickDialog(type) {
+      if (type) {
+        window.location = "http://market.k12.vip/compositionOne";
+      } else {
+        window.location = "http://market.k12.vip/poemOne";
+      }
+    },
+    initDialog() {
+      let dialogIndex = window.localStorage.getItem("dialogIndex");
+      let dialogNum = window.localStorage.getItem("dialogNum");
+      let random = parseInt(Math.random() * 2 + 1);
+      if (dialogNum && dialogNum >= 2) return;
+      if (!dialogNum) {
+        window.localStorage.setItem("dialogNum", 1);
+      } else {
+        window.localStorage.setItem("dialogNum", Number(dialogNum) + 1);
+      }
+
+      if (dialogIndex) {
+        if (dialogIndex == 1) {
+          this.dialog2 = true;
+        } else {
+          this.dialog1 = true;
+        }
+      } else {
+        window.localStorage.setItem("dialogIndex", random);
+        this[`dialog${random}`] = true;
+      }
+    },
     initTab() {
       let route = this.$route;
       if (route.name == "home") {
@@ -465,20 +505,42 @@ export default {
     }
   },
   created() {
+    let nowDate = new Date();
+    let end_time = window.localStorage.getItem("endTime");
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
+    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 20:59:59";
+    let endDate = new Date(formateDate).getTime();
+    window.localStorage.setItem("endTime", endDate);
+    if (nowDate.getTime() > end_time) {
+      window.localStorage.removeItem("dialogIndex");
+      window.localStorage.removeItem("dialogNum");
+    }
+
     this.subject = type ? type : 1;
     if (tabActive) {
       this.tabActive = tabActive;
     }
     this.init();
     this.initTab();
+    this.initDialog();
     this.listByBroadcast();
   }
 };
 </script>
 <style lang="scss" scoped>
 .home {
+  .__dialog {
+    &-content.dialog1,
+    &-content.dialog2 {
+      padding-top: 0;
+      height: 281px;
+      background-image: url("../assets/image/dialog/dialog1.png");
+    }
+    &-content.dialog2 {
+      background-image: url("../assets/image/dialog/dialog.png");
+    }
+  }
   &-wrap {
     padding-bottom: 1px;
   }

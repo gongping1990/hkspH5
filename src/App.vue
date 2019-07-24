@@ -146,7 +146,7 @@ export default {
     margin-top: 11px;
     width: 26px;
     height: 26px;
-    background: url("./assets/image/share-dialog/icon-cancel.png") no-repeat;
+    background: url("./assets/image/dialog/close.png") no-repeat;
     background-size: 100%;
   }
   &.qrcode {
