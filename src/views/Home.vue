@@ -509,7 +509,7 @@ export default {
     let end_time = window.localStorage.getItem("endTime");
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
-    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 20:59:59";
+    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
     let endDate = new Date(formateDate).getTime();
     window.localStorage.setItem("endTime", endDate);
     if (nowDate.getTime() > end_time) {
