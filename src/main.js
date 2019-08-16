@@ -28,7 +28,7 @@ Vue.use(
       actionPrefix: "SOCKET_",
       mutationPrefix: "SOCKET_"
     },
-    options: { path: "/spwss" } //Optional options
+    options: { path: "/spwss", transports: ["websocket"] } //Optional options
   })
 );
 

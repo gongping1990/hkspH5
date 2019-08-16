@@ -140,11 +140,15 @@
       <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
     </div> -->
     <div class="__dialog qrcode" v-if="dialog1">
-      <div @click="clickDialog(1)" class="__dialog-content dialog1"></div>
+      <div @click="clickDialog(1)" class="__dialog-content dialog1">
+        <p>限时3天（8/19-8/21）</p>
+      </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
-      <div @click="clickDialog(0)" class="__dialog-content dialog2"></div>
+      <div @click="clickDialog(0)" class="__dialog-content dialog2">
+        <p>限时3天（8/19-8/21）</p>
+      </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
@@ -535,6 +539,15 @@ export default {
       padding-top: 0;
       height: 281px;
       background-image: url("../assets/image/dialog/dialog1.png");
+
+      p {
+        position: absolute;
+        left: 50%;
+        top: 190px;
+        color: #fff;
+        font-size: 10px;
+        transform: translateX(-47%);
+      }
     }
     &-content.dialog2 {
       background-image: url("../assets/image/dialog/dialog.png");
