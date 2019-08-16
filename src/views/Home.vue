@@ -471,6 +471,7 @@ export default {
           if (this.categoryData) {
             this.first = 1;
             window.localStorage.setItem("first", 1);
+            this.initDialog();
             if (!this.userInfo.phone) {
               let { type } = this.$route.query;
               this.$router.push(`/select?type=${type ? type : 1}`);
@@ -522,7 +523,6 @@ export default {
     }
     this.init();
     this.initTab();
-    this.initDialog();
     this.listByBroadcast();
   }
 };
