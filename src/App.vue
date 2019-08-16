@@ -61,7 +61,6 @@ export default {
   },
   sockets: {
     connect: function() {
-      console.log("socket connected");
       setTimeout(() => {
         this.userRegister();
       }, 2000);

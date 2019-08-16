@@ -40,8 +40,7 @@ const toLogin = () => {
  * 请求失败后的错误统一处理
  * @param {Number} status 请求失败的状态码
  */
-const errorHandle = (status, err, res) => {
-  console.log(res);
+const errorHandle = (status, err) => {
   // 状态码判断
   switch (status) {
     case 200:

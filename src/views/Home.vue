@@ -342,7 +342,6 @@ export default {
       });
     },
     clickBanner(url) {
-      console.log(url);
       if (this.subject == 1) {
         this.listWordByBook(url);
       } else {
@@ -470,7 +469,6 @@ export default {
         .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
-            console.log(111);
             this.first = 1;
             window.localStorage.setItem("first", 1);
             if (!this.userInfo.phone) {
@@ -511,11 +509,12 @@ export default {
     let tabActive = window.sessionStorage.getItem("tabActive");
     let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
     let endDate = new Date(formateDate).getTime();
-    window.localStorage.setItem("endTime", endDate);
+
     if (nowDate.getTime() > end_time) {
       window.localStorage.removeItem("dialogIndex");
       window.localStorage.removeItem("dialogNum");
     }
+    window.localStorage.setItem("endTime", endDate);
 
     this.subject = type ? type : 1;
     if (tabActive) {

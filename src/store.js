@@ -63,8 +63,6 @@ export default new Vuex.Store({
           isReceiveTen = true;
         }
 
-        console.log(isReceiveThree, isReceiveFive, isReceiveTen);
-
         if (isReceiveThree || isReceiveFive || isReceiveTen) {
           this.commit("CHANGE_TAB_BAR_TIPS", true);
         } else {
