@@ -295,26 +295,27 @@ export default {
       }
     },
     initDialog() {
-      let dialogIndex = window.localStorage.getItem("dialogIndex");
-      let dialogNum = window.localStorage.getItem("dialogNum");
+      // let dialogIndex = window.localStorage.getItem("dialogIndex");
+      // let dialogNum = window.localStorage.getItem("dialogNum");
       let random = parseInt(Math.random() * 2 + 1);
-      if (dialogNum && dialogNum >= 2) return;
-      if (!dialogNum) {
-        window.localStorage.setItem("dialogNum", 1);
-      } else {
-        window.localStorage.setItem("dialogNum", Number(dialogNum) + 1);
-      }
+      // if (dialogNum && dialogNum >= 2) return;
+      // if (!dialogNum) {
+      //   window.localStorage.setItem("dialogNum", 1);
+      // } else {
+      //   window.localStorage.setItem("dialogNum", Number(dialogNum) + 1);
+      // }
+      this[`dialog${random}`] = true;
 
-      if (dialogIndex) {
-        if (dialogIndex == 1) {
-          this.dialog2 = true;
-        } else {
-          this.dialog1 = true;
-        }
-      } else {
-        window.localStorage.setItem("dialogIndex", random);
-        this[`dialog${random}`] = true;
-      }
+      // if (dialogIndex) {
+      //   if (dialogIndex == 1) {
+      //     this.dialog2 = true;
+      //   } else {
+      //     this.dialog1 = true;
+      //   }
+      // } else {
+      //   window.localStorage.setItem("dialogIndex", random);
+      //   this[`dialog${random}`] = true;
+      // }
     },
     initTab() {
       let route = this.$route;
@@ -508,18 +509,18 @@ export default {
     }
   },
   created() {
-    let nowDate = new Date();
-    let end_time = window.localStorage.getItem("endTime");
+    // let nowDate = new Date();
+    // let end_time = window.localStorage.getItem("endTime");
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
-    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
-    let endDate = new Date(formateDate).getTime();
+    // let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
+    // let endDate = new Date(formateDate).getTime();
 
-    if (nowDate.getTime() > end_time) {
-      window.localStorage.removeItem("dialogIndex");
-      window.localStorage.removeItem("dialogNum");
-    }
-    window.localStorage.setItem("endTime", endDate);
+    // if (nowDate.getTime() > end_time) {
+    //   window.localStorage.removeItem("dialogIndex");
+    //   window.localStorage.removeItem("dialogNum");
+    // }
+    // window.localStorage.setItem("endTime", endDate);
 
     this.subject = type ? type : 1;
     if (tabActive) {
