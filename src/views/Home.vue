@@ -141,13 +141,15 @@
     </div> -->
     <div class="__dialog qrcode" v-if="dialog1">
       <div @click="clickDialog(1)" class="__dialog-content dialog1">
-        <p>限时3天（8/19-8/21）</p>
+        <p>限时3天（8/20-8/24）</p>
+        <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
-        <p>限时3天（8/19-8/21）</p>
+        <p>限时3天（8/20-8/24）</p>
+        <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -203,7 +205,7 @@
 
 <script>
 import Item from "@/components/Item";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
 import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
@@ -297,14 +299,20 @@ export default {
     initDialog() {
       // let dialogIndex = window.localStorage.getItem("dialogIndex");
       // let dialogNum = window.localStorage.getItem("dialogNum");
-      let random = parseInt(Math.random() * 2 + 1);
       // if (dialogNum && dialogNum >= 2) return;
       // if (!dialogNum) {
       //   window.localStorage.setItem("dialogNum", 1);
       // } else {
       //   window.localStorage.setItem("dialogNum", Number(dialogNum) + 1);
       // }
-      this[`dialog${random}`] = true;
+      let num = window.localStorage.getItem("dialogNum");
+      if (num) {
+        this[`dialog${num == 1 ? 2 : 1}`] = true;
+      } else {
+        this.dialog1 = true;
+        window.localStorage.setItem("dialogNum", 1);
+      }
+      window.localStorage.setItem("dialogNum", num == 1 ? 2 : 1);
 
       // if (dialogIndex) {
       //   if (dialogIndex == 1) {
@@ -538,20 +546,38 @@ export default {
     &-content.dialog1,
     &-content.dialog2 {
       padding-top: 0;
-      height: 281px;
+      width: 327px;
+      height: 475px;
       background-image: url("../assets/image/dialog/dialog1.png");
 
       p {
         position: absolute;
         left: 50%;
-        top: 190px;
-        color: #fff;
+        top: 304px;
+        color: #F86822;
         font-size: 10px;
         transform: translateX(-47%);
       }
     }
     &-content.dialog2 {
       background-image: url("../assets/image/dialog/dialog.png");
+    }
+    &-close {
+      margin-top: 0;
+    }
+    &-btn {
+      position: absolute;
+      top: 359px;
+      left: 50%;
+      width: 160px;
+      height: 42px;
+      color: #f86822;
+      font-size: 18px;
+      font-weight: 500;
+      background: #fff;
+      border-radius: 21px;
+      transform: translateX(-50%);
+      animation: scale 0.6s infinite;
     }
   }
   &-wrap {
@@ -736,6 +762,15 @@ export default {
     &-list {
       min-height: calc(100vh - 136px);
     }
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.1);
   }
 }
 </style>
