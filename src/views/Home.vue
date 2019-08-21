@@ -141,14 +141,14 @@
     </div> -->
     <div class="__dialog qrcode" v-if="dialog1">
       <div @click="clickDialog(1)" class="__dialog-content dialog1">
-        <p>限时3天（8/20-8/24）</p>
+        <p>限时3天（8/21-8/26）</p>
         <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
-        <p>限时3天（8/20-8/24）</p>
+        <p>限时3天（8/21-8/26）</p>
         <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
@@ -205,7 +205,7 @@
 
 <script>
 import Item from "@/components/Item";
-// import dayjs from "dayjs";
+import dayjs from "dayjs";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
 import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
@@ -240,6 +240,8 @@ export default {
       isEmpty: false,
       recommendData: {},
       lastStudyId: 0,
+      startTime: "",
+      endTime: "",
       icon: {
         chineseDef,
         chinesePre,
@@ -289,6 +291,29 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    initTime() {
+      let time = new Date();
+      let endtime = new Date().setTime(
+        time.getTime() + 1000 * 60 * 60 * 24 * 3
+      );
+      let formatTime = dayjs(endtime).format("YYYY-MM-DD") + " 23:59:59";
+      let _endTime = new Date(formatTime).getTime();
+      let expireTime = window.localStorage.getItem("expireTime");
+      expireTime = expireTime ? Number(expireTime) : expireTime;
+      let startTime = expireTime
+        ? new Date().setTime(expireTime - 1000 * 60 * 60 * 24 * 3)
+        : new Date();
+
+      if (!expireTime) {
+        window.localStorage.setItem("expireTime", _endTime);
+        expireTime = _endTime;
+      } else if (time > expireTime) {
+        window.localStorage.setItem("expireTime", _endTime);
+        expireTime = _endTime;
+      }
+      this.startTime = dayjs(startTime).format("MM/DD");
+      this.endTime = dayjs(expireTime ? expireTime : _endTime).format("MM/DD");
+    },
     clickDialog(type) {
       if (type) {
         window.location = "http://market.k12.vip/compositionOne";
@@ -536,6 +561,7 @@ export default {
     }
     this.init();
     this.initTab();
+    this.initTime();
     this.listByBroadcast();
   }
 };
@@ -554,7 +580,7 @@ export default {
         position: absolute;
         left: 50%;
         top: 304px;
-        color: #F86822;
+        color: #f86822;
         font-size: 10px;
         transform: translateX(-47%);
       }
