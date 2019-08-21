@@ -141,14 +141,12 @@
     </div> -->
     <div class="__dialog qrcode" v-if="dialog1">
       <div @click="clickDialog(1)" class="__dialog-content dialog1">
-        <p>限时3天（8/21-8/26）</p>
         <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
-        <p>限时3天（8/21-8/26）</p>
         <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
@@ -572,8 +570,8 @@ export default {
     &-content.dialog1,
     &-content.dialog2 {
       padding-top: 0;
-      width: 327px;
-      height: 475px;
+      width: 277px;
+      height: 357px;
       background-image: url("../assets/image/dialog/dialog1.png");
 
       p {
@@ -589,19 +587,28 @@ export default {
       background-image: url("../assets/image/dialog/dialog.png");
     }
     &-close {
-      margin-top: 0;
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      right: 16px;
+      top: 16px;
     }
     &-btn {
       position: absolute;
-      top: 359px;
+      margin-top: 0;
+      top: 305px;
       left: 50%;
-      width: 160px;
-      height: 42px;
-      color: #f86822;
-      font-size: 18px;
+      width: 152px;
+      height: 33px;
+      color: #a01f12;
+      font-size: 15px;
       font-weight: 500;
-      background: #fff;
-      border-radius: 21px;
+      background: linear-gradient(
+        360deg,
+        rgba(253, 164, 21, 1) 0%,
+        rgba(255, 236, 23, 1) 100%
+      );
+      border-radius: 17px;
       transform: translateX(-50%);
       animation: scale 0.6s infinite;
     }
