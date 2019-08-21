@@ -289,29 +289,6 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
-    initTime() {
-      let time = new Date();
-      let endtime = new Date().setTime(
-        time.getTime() + 1000 * 60 * 60 * 24 * 3
-      );
-      let formatTime = dayjs(endtime).format("YYYY-MM-DD") + " 23:59:59";
-      let _endTime = new Date(formatTime).getTime();
-      let expireTime = window.localStorage.getItem("expireTime");
-      expireTime = expireTime ? Number(expireTime) : expireTime;
-      let startTime = expireTime
-        ? new Date().setTime(expireTime - 1000 * 60 * 60 * 24 * 3)
-        : new Date();
-
-      if (!expireTime) {
-        window.localStorage.setItem("expireTime", _endTime);
-        expireTime = _endTime;
-      } else if (time > expireTime) {
-        window.localStorage.setItem("expireTime", _endTime);
-        expireTime = _endTime;
-      }
-      this.startTime = dayjs(startTime).format("MM/DD");
-      this.endTime = dayjs(expireTime ? expireTime : _endTime).format("MM/DD");
-    },
     clickDialog(type) {
       if (type) {
         window.location = "http://market.k12.vip/compositionOne";
@@ -320,15 +297,10 @@ export default {
       }
     },
     initDialog() {
-      // let dialogIndex = window.localStorage.getItem("dialogIndex");
-      // let dialogNum = window.localStorage.getItem("dialogNum");
-      // if (dialogNum && dialogNum >= 2) return;
-      // if (!dialogNum) {
-      //   window.localStorage.setItem("dialogNum", 1);
-      // } else {
-      //   window.localStorage.setItem("dialogNum", Number(dialogNum) + 1);
-      // }
+      let dialogIndex = window.sessionStorage.getItem("dialogIndex");
       let num = window.localStorage.getItem("dialogNum");
+      if (dialogIndex) return;
+      window.sessionStorage.setItem("dialogIndex", 1);
       if (num) {
         this[`dialog${num == 1 ? 2 : 1}`] = true;
       } else {
@@ -559,7 +531,6 @@ export default {
     }
     this.init();
     this.initTab();
-    this.initTime();
     this.listByBroadcast();
   }
 };
