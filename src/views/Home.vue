@@ -203,7 +203,6 @@
 
 <script>
 import Item from "@/components/Item";
-import dayjs from "dayjs";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
 import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
