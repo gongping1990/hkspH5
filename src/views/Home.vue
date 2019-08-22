@@ -306,18 +306,24 @@ export default {
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
       let num = window.localStorage.getItem("dialogNum");
+      let random = parseInt(Math.random() * 2 + 1);
       if (num) {
-        this[`showTag${num == 1 ? 2 : 1}`] = true;
+        if (dialogIndex) {
+          this[`showTag${num}`] = true;
+        } else {
+          this[`showTag${num == 1 ? 2 : 1}`] = true;
+        }
       } else {
-        this.showTag1 = true;
+        this[`showTag${random}`] = true;
       }
       if (dialogIndex) return;
       window.sessionStorage.setItem("dialogIndex", 1);
       if (num) {
         this[`dialog${num == 1 ? 2 : 1}`] = true;
       } else {
-        this.dialog1 = true;
-        window.localStorage.setItem("dialogNum", 1);
+        this[`dialog${random}`] = true;
+        window.localStorage.setItem("dialogNum", random);
+        return;
       }
       window.localStorage.setItem("dialogNum", num == 1 ? 2 : 1);
 
