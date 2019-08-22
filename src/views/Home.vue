@@ -198,6 +198,12 @@
         />
       </van-tabbar-item>
     </van-tabbar>
+    <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
+      <div class="mask-tag-btn">立即领取</div>
+    </div>
+    <div class="mask-tag" @click="dialog2 = true" v-show="showTag2">
+      <div class="mask-tag-btn">立即领取</div>
+    </div>
   </div>
 </template>
 
@@ -220,6 +226,8 @@ export default {
   },
   data() {
     return {
+      showTag2: false,
+      showTag1: false,
       options: {},
       scrollY: 0,
       dialog1: false,
@@ -298,6 +306,11 @@ export default {
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
       let num = window.localStorage.getItem("dialogNum");
+      if (num) {
+        this[`showTag${num == 1 ? 2 : 1}`] = true;
+      } else {
+        this.showTag1 = true;
+      }
       if (dialogIndex) return;
       window.sessionStorage.setItem("dialogIndex", 1);
       if (num) {
@@ -536,6 +549,45 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
+  .mask-tag,
+  .tag1 {
+    position: fixed;
+    right: 16px;
+    bottom: 170px;
+    width: 86px;
+    height: 73px;
+    background: url("../assets/image/dialog/tag.png") no-repeat;
+    background-size: 100%;
+    z-index: 40;
+
+    &-btn {
+      @include flex-center;
+      position: absolute;
+      top: 70px;
+      right: 0;
+      width: 79px;
+      height: 23px;
+      font-size: 12px;
+      color: #fff;
+      background: linear-gradient(
+        360deg,
+        rgba(253, 121, 21, 1) 0%,
+        rgba(255, 168, 23, 1) 100%
+      );
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 1);
+      animation: scale_1 0.6s infinite;
+    }
+    &.tag1 {
+      width: 103px;
+      background-image: url("../assets/image/dialog/tag1.png");
+      .mask-tag-btn {
+        top: 60px;
+        right: 11px;
+        animation: scale_1 0.6s infinite;
+      }
+    }
+  }
   .__dialog {
     &-content.dialog1,
     &-content.dialog2 {
@@ -774,6 +826,15 @@ export default {
   }
   100% {
     transform: translateX(-50%) scale(1.1);
+  }
+}
+
+@keyframes scale_1 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
   }
 }
 </style>
