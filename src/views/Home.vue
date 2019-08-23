@@ -26,8 +26,8 @@
         class="collection"
         @click="$router.push('/collection?subject=' + subject)"
       >
-        <span>我的收藏</span
-        ><van-icon
+        <span>我的收藏</span>
+        <van-icon
           class="collection-icon"
           size="18px"
           color="#F76868"
@@ -73,6 +73,10 @@
                   </div>
                 </van-swipe-item>
               </van-swipe>
+            </div>
+            <div class="capsule" @click="clickCapsule">
+              <img src="../assets/image/capsule.png" />
+              <div class="capsule-btn"></div>
             </div>
           </div>
           <div class="home-scroll">
@@ -296,6 +300,9 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    clickCapsule() {
+      window.location = "http://market.k12.vip/transfer";
+    },
     clickDialog(type) {
       if (type) {
         window.location = "http://market.k12.vip/compositionOne";
@@ -555,6 +562,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
+  .capsule {
+    @include flex-center;
+    position: relative;
+    margin: 0 auto;
+    padding: 19px 0;
+    width: 100%;
+    background-color: #fff;
+    img {
+      width: 343px;
+    }
+    &-btn {
+      position: absolute;
+      top: 28px;
+      right: 27px;
+      width: 60px;
+      height: 65px;
+      background: url("../assets/image/btn.png") no-repeat;
+      background-size: 100%;
+      animation: scale_1 0.6s infinite;
+    }
+  }
   .mask-tag,
   .tag1 {
     position: fixed;
