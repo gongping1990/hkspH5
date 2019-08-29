@@ -203,10 +203,10 @@
       </van-tabbar-item>
     </van-tabbar>
     <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
-      <div class="mask-tag-btn">立即领取</div>
+      <div class="mask-tag-btn"></div>
     </div>
     <div class="mask-tag" @click="dialog2 = true" v-show="showTag2">
-      <div class="mask-tag-btn">立即领取</div>
+      <div class="mask-tag-btn"></div>
     </div>
   </div>
 </template>
@@ -588,8 +588,8 @@ export default {
     position: fixed;
     right: 16px;
     bottom: 170px;
-    width: 86px;
-    height: 73px;
+    width: 72px;
+    height: 72px;
     background: url("../assets/image/dialog/tag.png") no-repeat;
     background-size: 100%;
     z-index: 40;
@@ -597,28 +597,21 @@ export default {
     &-btn {
       @include flex-center;
       position: absolute;
-      top: 70px;
-      right: 0;
-      width: 79px;
-      height: 23px;
-      font-size: 12px;
-      color: #fff;
-      background: linear-gradient(
-        360deg,
-        rgba(253, 121, 21, 1) 0%,
-        rgba(255, 168, 23, 1) 100%
-      );
-      border-radius: 12px;
-      border: 2px solid rgba(255, 255, 255, 1);
+      top: 46px;
+      left: 50%;
+      margin-left: -31px;
+      width: 62px;
+      height: 26px;
+      background: url("../assets/image/dialog/btn.png") no-repeat;
+      background-size: 100%;
       animation: scale_1 0.6s infinite;
     }
     &.tag1 {
-      width: 103px;
+      width: 72px;
+      height: 64px;
       background-image: url("../assets/image/dialog/tag1.png");
       .mask-tag-btn {
-        top: 60px;
-        right: 11px;
-        animation: scale_1 0.6s infinite;
+        top: 51px;
       }
     }
   }
