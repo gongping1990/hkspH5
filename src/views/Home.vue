@@ -305,8 +305,7 @@ export default {
     },
     clickDialog(type) {
       if (type) {
-        window.location =
-          "http://market.k12.vip/compositionOne?pageKey=sp2comp";
+        window.location = "http://composition.k12.vip/";
       } else {
         window.location = "http://market.k12.vip/poemOne?pageKey=sp2poem";
       }
