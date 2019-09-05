@@ -307,7 +307,7 @@ export default {
       if (type) {
         window.location = "http://composition.k12.vip/";
       } else {
-        window.location = "http://market.k12.vip/poemOne?pageKey=sp2poem";
+        window.location = "http://poem.k12.vip/newDetail";
       }
     },
     initDialog() {
