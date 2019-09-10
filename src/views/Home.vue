@@ -143,7 +143,7 @@
       </div>
       <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
     </div> -->
-    <div class="__dialog qrcode" v-if="dialog1">
+    <!-- <div class="__dialog qrcode" v-if="dialog1">
       <div @click="clickDialog(1)" class="__dialog-content dialog1">
         <div class="__dialog-btn">立即领取</div>
       </div>
@@ -154,7 +154,7 @@
         <div class="__dialog-btn">立即领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
-    </div>
+    </div> -->
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
         <span>语文</span>
@@ -505,7 +505,7 @@ export default {
           if (this.categoryData) {
             this.first = 1;
             window.localStorage.setItem("first", 1);
-            this.initDialog();
+            // this.initDialog();
             if (!this.userInfo.phone) {
               let { type } = this.$route.query;
               this.$router.push(`/select?type=${type ? type : 1}`);
