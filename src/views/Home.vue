@@ -305,9 +305,10 @@ export default {
     },
     clickDialog(type) {
       if (type) {
-        window.location = "http://market.k12.vip/composition?pageKey=sp2comp";
+        window.location =
+          "http://market.k12.vip/compositionOne?pageKey=sp2comp";
       } else {
-        window.location = "http://market.k12.vip/poem?pageKey=sp2poem";
+        window.location = "http://market.k12.vip/poemOne?pageKey=sp2poem";
       }
     },
     initDialog() {
