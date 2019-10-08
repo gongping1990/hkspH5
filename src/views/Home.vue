@@ -120,7 +120,7 @@
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
     </div>
-    <!-- <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
+    <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
       <div class="__dialog-content">
         <div class="__dialog-info">
           <img :src="recommendData.icon" />
@@ -142,19 +142,41 @@
         </div>
       </div>
       <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
-    </div> -->
-    <!-- <div class="__dialog qrcode" v-if="dialog1">
-      <div @click="clickDialog(1)" class="__dialog-content dialog1">
-        <div class="__dialog-btn">立即领取</div>
+    </div>
+    <div class="__dialog qrcode" v-if="dialog1">
+      <div @click="clickDialog(1)" class="__dialog-content dialog2">
+        <div class="__dialog-down">
+          <div class="__dialog-down-time">
+            <span>{{time.days}}</span>
+            <span>{{time.hours}}</span>
+            <span>{{time.minutes}}</span>
+            <span>{{time.seconds}}</span>
+          </div>
+          <p>倒计时结束后将恢复原价699</p>
+        </div>
+
+        <div class="__dialog-btn"></div>
+        <p class="__dialog-msg">已有<i>3981</i>位聪明家长为孩子领取</p>
       </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
-        <div class="__dialog-btn">立即领取</div>
+        <div class="__dialog-down">
+          <div class="__dialog-down-time">
+            <span>{{time.days}}</span>
+            <span>{{time.hours}}</span>
+            <span>{{time.minutes}}</span>
+            <span>{{time.seconds}}</span>
+          </div>
+          <p>倒计时结束后将恢复原价699</p>
+        </div>
+
+        <div class="__dialog-btn"></div>
+        <div class="__dialog-msg">已有<span>3981</span>位聪明家长为孩子领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
-    </div> -->
+    </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
         <span>语文</span>
@@ -202,16 +224,17 @@
         />
       </van-tabbar-item>
     </van-tabbar>
-    <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
+    <!-- <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
       <div class="mask-tag-btn"></div>
     </div>
     <div class="mask-tag" @click="dialog2 = true" v-show="showTag2">
       <div class="mask-tag-btn"></div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import dayjs from "dayjs";
 import Item from "@/components/Item";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
@@ -251,6 +274,7 @@ export default {
       lastStudyId: 0,
       startTime: "",
       endTime: "",
+      time: {},
       icon: {
         chineseDef,
         chinesePre,
@@ -301,15 +325,10 @@ export default {
   },
   methods: {
     clickCapsule() {
-      window.location = "http://market.k12.vip/transfer";
+      window.location = "http://fission.huo-ke.com/";
     },
     clickDialog(type) {
-      if (type) {
-        window.location =
-          "http://market.k12.vip/compositionOne?pageKey=sp2comp";
-      } else {
-        window.location = "http://market.k12.vip/poemOne?pageKey=sp2poem";
-      }
+      window.location = "http://fission.huo-ke.com/";
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
@@ -335,16 +354,16 @@ export default {
       }
       window.localStorage.setItem("dialogNum", num == 1 ? 2 : 1);
 
-      // if (dialogIndex) {
-      //   if (dialogIndex == 1) {
-      //     this.dialog2 = true;
-      //   } else {
-      //     this.dialog1 = true;
-      //   }
-      // } else {
-      //   window.localStorage.setItem("dialogIndex", random);
-      //   this[`dialog${random}`] = true;
-      // }
+      if (dialogIndex) {
+        if (dialogIndex == 1) {
+          this.dialog2 = true;
+        } else {
+          this.dialog1 = true;
+        }
+      } else {
+        window.localStorage.setItem("dialogIndex", random);
+        this[`dialog${random}`] = true;
+      }
     },
     initTab() {
       let route = this.$route;
@@ -505,7 +524,7 @@ export default {
           if (this.categoryData) {
             this.first = 1;
             window.localStorage.setItem("first", 1);
-            // this.initDialog();
+            this.initDialog();
             if (!this.userInfo.phone) {
               let { type } = this.$route.query;
               this.$router.push(`/select?type=${type ? type : 1}`);
@@ -535,21 +554,69 @@ export default {
         .then(({ data }) => {
           this.recommendData = data.resultData;
         });
+    },
+    downTime() {
+      let { endTime } = this;
+      let time = endTime - new Date().getTime();
+
+      let { checkTime } = this;
+      let days = parseInt(time / 1000 / 60 / 60 / 24, 10),
+        hours = parseInt((time / 1000 / 60 / 60) % 24, 10),
+        minutes = parseInt((time / 1000 / 60) % 60, 10),
+        seconds = parseInt((time / 1000) % 60, 10);
+
+      days = checkTime(days);
+      hours = checkTime(hours);
+      minutes = checkTime(minutes);
+      seconds = checkTime(seconds);
+      if (time <= 0) {
+        this.time = {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          formatTime: `0 : 0 : 0`
+        };
+        this.timeIsEnd = true;
+      } else {
+        this.time = {
+          days,
+          hours,
+          minutes,
+          seconds,
+          formatTime: `${hours} : ${minutes} : ${seconds}`
+        };
+      }
+
+      if (time > 0) {
+        setTimeout(() => {
+          this.downTime();
+        }, 1000);
+      }
+      if (time <= 0) {
+        this.time = `0 : 0 : 0`;
+      }
+    },
+    checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
     }
   },
   created() {
-    // let nowDate = new Date();
-    // let end_time = window.localStorage.getItem("endTime");
+    let nowDate = new Date();
+    let end_time = window.localStorage.getItem("endTime");
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
-    // let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
-    // let endDate = new Date(formateDate).getTime();
-
-    // if (nowDate.getTime() > end_time) {
-    //   window.localStorage.removeItem("dialogIndex");
-    //   window.localStorage.removeItem("dialogNum");
-    // }
-    // window.localStorage.setItem("endTime", endDate);
+    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
+    let endDate = new Date(formateDate).getTime();
+    this.endTime = endDate;
+    if (nowDate.getTime() > end_time) {
+      window.localStorage.removeItem("dialogIndex");
+      window.localStorage.removeItem("dialogNum");
+    }
+    window.localStorage.setItem("endTime", endDate);
 
     this.subject = type ? type : 1;
     if (tabActive) {
@@ -558,6 +625,7 @@ export default {
     this.init();
     this.initTab();
     this.listByBroadcast();
+    this.downTime();
   }
 };
 </script>
@@ -575,7 +643,7 @@ export default {
     }
     &-btn {
       position: absolute;
-      top: 28px;
+      top: 36px;
       right: 27px;
       width: 60px;
       height: 65px;
@@ -619,23 +687,65 @@ export default {
   .__dialog {
     &-content.dialog1,
     &-content.dialog2 {
+      position: relative;
       padding-top: 0;
-      width: 277px;
-      height: 357px;
+      width: 314px;
+      height: 460px;
       background-image: url("../assets/image/dialog/dialog1.png");
-
-      p {
-        position: absolute;
-        left: 50%;
-        top: 304px;
-        color: #f86822;
-        font-size: 10px;
-        transform: translateX(-47%);
-      }
     }
     &-content.dialog2 {
       background-image: url("../assets/image/dialog/dialog.png");
     }
+    &-msg {
+      @include flex-center;
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      width: 180px;
+      font-size: 11px;
+      color: #fff;
+      transform: translateX(-50%);
+      span {
+        margin-bottom: 0;
+        display: inline-block;
+        color: #ffe50e;
+      }
+    }
+    &-down {
+      @include flex-column-center;
+      position: absolute;
+      left: 50%;
+      bottom: 96px;
+      transform: translateX(-50%);
+      p {
+        line-height: 14px;
+        font-size: 10px;
+        color: #fff;
+      }
+      &-time {
+        display: flex;
+        align-items: center;
+        width: 136px;
+        height: 29px;
+        font-size: 10px;
+        color: #ff8426;
+        background: url("../assets/image/dialog/down-time.png") no-repeat;
+        background-size: 100%;
+        span:nth-child(1) {
+          margin-left: 7px;
+        }
+        span:nth-child(2) {
+          margin-left: 21px;
+        }
+        span:nth-child(3) {
+          margin-left: 21px;
+        }
+        span:nth-child(4) {
+          margin-left: 23px;
+        }
+      }
+    }
+
     &-close {
       position: absolute;
       width: 36px;
@@ -646,19 +756,15 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      top: 305px;
+      bottom: 30px;
       left: 50%;
-      width: 152px;
-      height: 33px;
+      width: 237px;
+      height: 59px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
-      background: linear-gradient(
-        360deg,
-        rgba(253, 164, 21, 1) 0%,
-        rgba(255, 236, 23, 1) 100%
-      );
-      border-radius: 17px;
+      background: url("../assets/image/dialog/btn.png") no-repeat;
+      background-size: 100%;
       transform: translateX(-50%);
       animation: scale 0.6s infinite;
     }
