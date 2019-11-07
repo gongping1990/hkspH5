@@ -332,38 +332,10 @@ export default {
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
-      let num = window.localStorage.getItem("dialogNum");
-      let random = parseInt(Math.random() * 2 + 1);
-      if (num) {
-        if (dialogIndex) {
-          this[`showTag${num}`] = true;
-        } else {
-          this[`showTag${num == 1 ? 2 : 1}`] = true;
-        }
-      } else {
-        this[`showTag${random}`] = true;
-      }
-      if (dialogIndex) return;
-      window.sessionStorage.setItem("dialogIndex", 1);
-      if (num) {
-        this[`dialog${num == 1 ? 2 : 1}`] = true;
-      } else {
-        this[`dialog${random}`] = true;
-        window.localStorage.setItem("dialogNum", random);
-        return;
-      }
-      window.localStorage.setItem("dialogNum", num == 1 ? 2 : 1);
 
-      if (dialogIndex) {
-        if (dialogIndex == 1) {
-          this.dialog2 = true;
-        } else {
-          this.dialog1 = true;
-        }
-      } else {
-        window.localStorage.setItem("dialogIndex", random);
-        this[`dialog${random}`] = true;
-      }
+      if (dialogIndex) return;
+      this.dialog2 = true;
+      window.sessionStorage.setItem("dialogIndex", 1);
     },
     initTab() {
       let route = this.$route;
