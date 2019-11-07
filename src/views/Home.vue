@@ -164,9 +164,9 @@
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
         <div class="__dialog-down">
           <div class="__dialog-down-time">
-            <span>{{time.days}}</span>
-            <span>{{time.hours}}</span>
-            <span>{{time.minutes}}</span>
+            <span>{{time.days}}</span>:
+            <span>{{time.hours}}</span>:
+            <span>{{time.minutes}}</span>:
             <span>{{time.seconds}}</span>
           </div>
           <p>倒计时结束后将恢复原价699</p>
@@ -687,7 +687,7 @@ export default {
       @include flex-column-center;
       position: absolute;
       left: 50%;
-      bottom: 96px;
+      bottom: 92px;
       transform: translateX(-50%);
       p {
         line-height: 14px;
@@ -697,23 +697,20 @@ export default {
       &-time {
         display: flex;
         align-items: center;
-        width: 136px;
-        height: 29px;
+        padding: 4px 0;
+        margin-bottom: 8px;
         font-size: 10px;
-        color: #ff8426;
-        background: url("../assets/image/dialog/down-time.png") no-repeat;
-        background-size: 100%;
-        span:nth-child(1) {
-          margin-left: 7px;
-        }
-        span:nth-child(2) {
-          margin-left: 21px;
-        }
-        span:nth-child(3) {
-          margin-left: 21px;
-        }
-        span:nth-child(4) {
-          margin-left: 23px;
+        color: #c7641b;
+        background: rgba(255, 219, 154, 1);
+        box-shadow: 0px 3px 4px 0px rgba(255, 144, 14, 0.21);
+        border-radius: 5px;
+        span {
+          @include flex-center;
+          margin: 0 5px;
+          padding: 3px;
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px -1px 3px 0px rgba(255, 144, 0, 0.5);
+          border-radius: 4px;
         }
       }
     }
@@ -728,7 +725,7 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      bottom: 30px;
+      bottom: 24px;
       left: 50%;
       width: 237px;
       height: 59px;
@@ -928,19 +925,19 @@ export default {
 
 @keyframes scale {
   0% {
-    transform: translateX(-50%) scale(1);
+    transform: translateX(-50%) scale(0.9);
   }
   100% {
-    transform: translateX(-50%) scale(1.1);
+    transform: translateX(-50%) scale(1);
   }
 }
 
 @keyframes scale_1 {
   0% {
-    transform: scale(1);
+    transform: scale(0.9);
   }
   100% {
-    transform: scale(1.1);
+    transform: scale(1);
   }
 }
 </style>
