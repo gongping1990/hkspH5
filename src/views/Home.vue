@@ -325,10 +325,10 @@ export default {
   },
   methods: {
     clickCapsule() {
-      window.location = "http://fission.huo-ke.com/";
+      window.location = "http://market.k12.vip/yuwen";
     },
     clickDialog(type) {
-      window.location = "http://fission.huo-ke.com/";
+      window.location = "http://market.k12.vip/yuwen";
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
