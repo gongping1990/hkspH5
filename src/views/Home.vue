@@ -173,7 +173,7 @@
         </div>
 
         <div class="__dialog-btn"></div>
-        <div class="__dialog-msg">已有<span>3981</span>位聪明家长为孩子领取</div>
+        <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -253,6 +253,7 @@ export default {
   },
   data() {
     return {
+      num: 3034732,
       showTag2: false,
       showTag1: false,
       options: {},
@@ -320,8 +321,11 @@ export default {
     }
   },
   mounted() {
+    let num = window.localStorage.getItem("num");
+    this.num = num + parseInt(Math.random() * 300);
     this.$store.dispatch("getCreditMsg");
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
+    window.localStorage.setItem("num", this.num);
   },
   methods: {
     clickCapsule() {
@@ -725,6 +729,7 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
+      margin-left: -118px;
       bottom: 24px;
       left: 50%;
       width: 237px;
@@ -734,8 +739,7 @@ export default {
       font-weight: 500;
       background: url("../assets/image/dialog/btn.png") no-repeat;
       background-size: 100%;
-      transform: translateX(-50%);
-      animation: scale 0.6s infinite;
+      animation: scale_1 0.6s infinite;
     }
   }
   &-wrap {
