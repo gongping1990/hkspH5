@@ -173,7 +173,7 @@
         </div>
 
         <div class="__dialog-btn"></div>
-        <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
+        <div class="__dialog-msg">已有<span>329583</span>位聪明家长为孩子领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -322,7 +322,7 @@ export default {
   },
   mounted() {
     let num = window.localStorage.getItem("num");
-    this.num = num + parseInt(Math.random() * 300);
+    this.num = +num + parseInt(Math.random() * 300);
     this.$store.dispatch("getCreditMsg");
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
     window.localStorage.setItem("num", this.num);
