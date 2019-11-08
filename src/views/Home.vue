@@ -321,12 +321,9 @@ export default {
     }
   },
   mounted() {
-    let num = window.localStorage.getItem("num");
-    num = num ? num : 382746;
-    this.num = num + parseInt(Math.random() * 300);
+    this.num = parseInt(new Date().getTime() / 5000000);
     this.$store.dispatch("getCreditMsg");
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
-    window.localStorage.setItem("num", this.num);
   },
   methods: {
     clickCapsule() {
