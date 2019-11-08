@@ -325,10 +325,10 @@ export default {
   },
   methods: {
     clickCapsule() {
-      window.location = "http://market.k12.vip/yuwen";
+      window.location = "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
     clickDialog(type) {
-      window.location = "http://market.k12.vip/yuwen";
+      window.location = "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
