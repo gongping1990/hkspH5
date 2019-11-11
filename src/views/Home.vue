@@ -172,7 +172,7 @@
           <p>倒计时结束后将恢复原价699</p>
         </div>
 
-        <div class="__dialog-btn"></div>
+        <div class="__dialog-btn new-btn"></div>
         <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
@@ -739,6 +739,9 @@ export default {
       background: url("../assets/image/dialog/btn.png") no-repeat;
       background-size: 100%;
       animation: scale_1 0.6s infinite;
+      &.new-btn {
+        background-image: url("../assets/image/dialog/btn1.png")
+      }
     }
   }
   &-wrap {
