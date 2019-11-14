@@ -174,6 +174,11 @@
 
         <div class="new-btn"></div>
         <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
+        <div class="__dialog-text">
+          活动真实有效，
+          <span>1元</span>
+          即为实际价格          
+        </div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -670,14 +675,14 @@ export default {
     &-content.dialog2 {
       background-image: url("../assets/image/dialog/dialog.png");
     }
-    &-msg {
+    &-msg, &-text {
       @include flex-center;
       text-align: center;
       position: absolute;
-      bottom: 3px;
+      bottom: 27px;
       left: 50%;
       width: 300px;
-      font-size: 11px;
+      font-size: 10px;
       color: #fff;
       transform: translateX(-50%);
       span {
@@ -686,11 +691,15 @@ export default {
         color: #ffe50e;
       }
     }
+    &-text {
+      font-size: 11px;
+      bottom: 3px;
+    }
     &-down {
       @include flex-column-center;
       position: absolute;
       left: 50%;
-      bottom: 92px;
+      bottom: 100px;
       transform: translateX(-50%);
       p {
         line-height: 14px;
@@ -701,7 +710,7 @@ export default {
         display: flex;
         align-items: center;
         padding: 4px 0;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         font-size: 10px;
         color: #c7641b;
         background: rgba(255, 219, 154, 1);
@@ -746,7 +755,7 @@ export default {
     }
     .new-btn {
       position: absolute;
-        bottom: 24px;
+        bottom: 39px;
         left: 50%;
         width: 237px;
         height: 59px;
