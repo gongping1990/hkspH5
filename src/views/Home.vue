@@ -172,7 +172,7 @@
           <p>倒计时结束后将恢复原价699</p>
         </div>
 
-        <div class="__dialog-btn new-btn"></div>
+        <div class="new-btn"></div>
         <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
@@ -728,21 +728,35 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      margin-left: -118px;
-      bottom: 24px;
+      top:285px;
       left: 50%;
-      width: 237px;
-      height: 59px;
+      width: 152px;
+      height: 33px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
-      background: url("../assets/image/dialog/btn.png") no-repeat;
-      background-size: 100%;
-      animation: scale_1 0.6s infinite;
-      &.new-btn {
-        background-image: url("../assets/image/dialog/btn1.png")
-      }
+      background: linear-gradient(
+        360deg,
+        rgba(253, 164, 21, 1) 0%,
+        rgba(255, 236, 23, 1) 100%
+      );
+      border-radius: 17px;
+      transform: translateX(-50%);
+      animation: scale 0.6s infinite;
     }
+    .new-btn {
+      position: absolute;
+        bottom: 24px;
+        left: 50%;
+        width: 237px;
+        height: 59px;
+        color: #a01f12;
+        font-size: 15px;
+        font-weight: 500;
+        background: url("../assets/image/dialog/btn1.png") no-repeat;
+        background-size: 100%;
+        animation: scale 0.6s infinite;
+      }
   }
   &-wrap {
     padding-bottom: 1px;
