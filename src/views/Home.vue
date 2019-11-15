@@ -1,38 +1,18 @@
 <template>
   <div class="home" ref="page">
     <div class="guide" v-if="!categoryData" @click="changeGuideStep">
-      <img
-        v-if="guideStep == 1"
-        class="guide-one"
-        src="../assets/image/yingdao/yd1.png"
-      />
-      <img
-        v-if="guideStep == 2"
-        class="guide-two"
-        src="../assets/image/yingdao/yd2.png"
-      />
-      <img
-        v-if="guideStep == 3"
-        class="guide-three"
-        src="../assets/image/yingdao/yd3.png"
-      />
+      <img v-if="guideStep == 1" class="guide-one" src="../assets/image/yingdao/yd1.png" />
+      <img v-if="guideStep == 2" class="guide-two" src="../assets/image/yingdao/yd2.png" />
+      <img v-if="guideStep == 3" class="guide-three" src="../assets/image/yingdao/yd3.png" />
     </div>
     <div class="header scroll-header" :class="{ isSticky: isSticky }">
       <div class="select-class" @click="clickSelect">
         {{ !categoryData ? "选择年级" : categoryData.name }}
         <van-icon name="arrow" color="#98A3A5" />
       </div>
-      <div
-        class="collection"
-        @click="$router.push('/collection?subject=' + subject)"
-      >
+      <div class="collection" @click="$router.push('/collection?subject=' + subject)">
         <span>我的收藏</span>
-        <van-icon
-          class="collection-icon"
-          size="18px"
-          color="#F76868"
-          name="like"
-        />
+        <van-icon class="collection-icon" size="18px" color="#F76868" name="like" />
       </div>
     </div>
     <div class="home-sticky">
@@ -99,16 +79,8 @@
                 <span>抱歉，暂时没有文章~</span>
               </div>
               <div class="scroll-list" v-else>
-                <div
-                  :ref="'item' + item.id"
-                  v-for="item in articleList"
-                  :key="item.id"
-                >
-                  <Item
-                    :subject="subject"
-                    :data="item"
-                    :isLast="item.point"
-                  ></Item>
+                <div :ref="'item' + item.id" v-for="item in articleList" :key="item.id">
+                  <Item :subject="subject" :data="item" :isLast="item.point"></Item>
                 </div>
               </div>
             </div>
@@ -137,9 +109,7 @@
           </div>
           <p>长按二维码识别并关注公众号</p>
         </div>
-        <div class="__dialog-btn" @click="recommendData.todayRecommend = false">
-          我已关注，别再推荐
-        </div>
+        <div class="__dialog-btn" @click="recommendData.todayRecommend = false">我已关注，别再推荐</div>
       </div>
       <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
     </div>
@@ -156,13 +126,16 @@
         </div>
 
         <div class="__dialog-btn"></div>
-        <p class="__dialog-msg">已有<i>3981</i>位聪明家长为孩子领取</p>
+        <p class="__dialog-msg">
+          已有
+          <i>3981</i>位聪明家长为孩子领取
+        </p>
       </div>
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
       <div @click="clickDialog(0)" class="__dialog-content dialog2">
-        <div class="__dialog-down">
+        <!-- <div class="__dialog-down">
           <div class="__dialog-down-time">
             <span>{{time.days}}</span>:
             <span>{{time.hours}}</span>:
@@ -170,63 +143,42 @@
             <span>{{time.seconds}}</span>
           </div>
           <p>倒计时结束后将恢复原价699</p>
-        </div>
+        </div>-->
 
-        <div class="new-btn"></div>
-        <div class="__dialog-msg">已有<span>{{num}}</span>位聪明家长为孩子领取</div>
-        <div class="__dialog-text">
+        <div class="new-btn">领取礼包</div>
+        <div class="__dialog-msg">
+          已有
+          <span>{{num}}</span>位聪明家长为孩子领取
+        </div>
+        <!-- <div class="__dialog-text">
           活动真实有效，
           <span>1元</span>
-          即为实际价格          
-        </div>
+          即为实际价格
+        </div>-->
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
         <span>语文</span>
-        <img
-          slot="icon"
-          slot-scope="props"
-          :src="props.active ? icon.chinesePre : icon.chineseDef"
-        />
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.chinesePre : icon.chineseDef" />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=2">
         <span>数学</span>
-        <img
-          slot="icon"
-          slot-scope="props"
-          :src="props.active ? icon.mathPre : icon.mathDef"
-        />
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.mathPre : icon.mathDef" />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=3">
         <span>英语</span>
-        <img
-          slot="icon"
-          slot-scope="props"
-          :src="props.active ? icon.englishPre : icon.englishDef"
-        />
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.englishPre : icon.englishDef" />
       </van-tabbar-item>
       <van-tabbar-item to="/study">
         <span>学习天地</span>
-        <img
-          slot="icon"
-          slot-scope="props"
-          :src="props.active ? icon.fieldPre : icon.fieldDef"
-        />
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.fieldPre : icon.fieldDef" />
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
-        <img
-          v-if="isShowTabBarTips"
-          class="g-tabbar-tips"
-          src="../assets/image/fuli/tips-tab.png"
-        />
-        <img
-          slot="icon"
-          slot-scope="props"
-          :src="props.active ? icon.wekfarePre : icon.wekfareDef"
-        />
+        <img v-if="isShowTabBarTips" class="g-tabbar-tips" src="../assets/image/fuli/tips-tab.png" />
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.wekfarePre : icon.wekfareDef" />
       </van-tabbar-item>
     </van-tabbar>
     <!-- <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
@@ -234,7 +186,7 @@
     </div>
     <div class="mask-tag" @click="dialog2 = true" v-show="showTag2">
       <div class="mask-tag-btn"></div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -618,14 +570,14 @@ export default {
     width: 100%;
     background-color: #fff;
     img {
-      width: 343px;
+      width: 100%;
     }
     &-btn {
       position: absolute;
-      top: 36px;
-      right: 27px;
-      width: 60px;
-      height: 65px;
+      top: 28px;
+      right: 24px;
+      width: 62px;
+      height: 62px;
       background: url("../assets/image/btn.png") no-repeat;
       background-size: 100%;
       animation: scale_1 0.6s infinite;
@@ -668,18 +620,19 @@ export default {
     &-content.dialog2 {
       position: relative;
       padding-top: 0;
-      width: 314px;
-      height: 460px;
+      width: 301px;
+      height: 373px;
       background-image: url("../assets/image/dialog/dialog1.png");
     }
     &-content.dialog2 {
       background-image: url("../assets/image/dialog/dialog.png");
     }
-    &-msg, &-text {
+    &-msg,
+    &-text {
       @include flex-center;
       text-align: center;
       position: absolute;
-      bottom: 27px;
+      bottom: 16px;
       left: 50%;
       width: 300px;
       font-size: 10px;
@@ -737,7 +690,7 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      top:285px;
+      top: 285px;
       left: 50%;
       width: 152px;
       height: 33px;
@@ -754,18 +707,24 @@ export default {
       animation: scale 0.6s infinite;
     }
     .new-btn {
+      @include flex-center;
       position: absolute;
-        bottom: 39px;
-        left: 50%;
-        width: 237px;
-        height: 59px;
-        color: #a01f12;
-        font-size: 15px;
-        font-weight: 500;
-        background: url("../assets/image/dialog/btn1.png") no-repeat;
-        background-size: 100%;
-        animation: scale 0.6s infinite;
-      }
+      bottom: 39px;
+      left: 50%;
+      width: 235px;
+      height: 50px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 230, 43, 1) 0%,
+        rgba(255, 136, 0, 1) 100%
+      );
+      box-shadow: 0px 4px 8px 0px rgba(236, 60, 23, 0.41);
+      border-radius: 25px;
+      font-size: 24px;
+      color: #fff;
+      font-weight: bold;
+      animation: scale 0.6s infinite;
+    }
   }
   &-wrap {
     padding-bottom: 1px;
