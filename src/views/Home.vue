@@ -55,7 +55,8 @@
               </van-swipe>
             </div>
             <div class="capsule" @click="clickCapsule">
-              <img src="../assets/image/capsule.png" />
+              <img :src="dialogData.capsuleUrl" v-if="dialogData.capsuleUrl" />
+              <img src="../assets/image/capsule.png" v-else />
               <div class="capsule-btn"></div>
             </div>
           </div>
@@ -134,7 +135,11 @@
       <i class="__dialog-close" @click="dialog1 = false"></i>
     </div>
     <div class="__dialog qrcode" v-if="dialog2">
-      <div @click="clickDialog(0)" class="__dialog-content dialog2">
+      <div
+        @click="clickDialog(0)"
+        class="__dialog-content dialog2"
+        :style="{'background-image': 'url(' + dialogData.popUrl + ')'}"
+      >
         <!-- <div class="__dialog-down">
           <div class="__dialog-down-time">
             <span>{{time.days}}</span>:
@@ -144,12 +149,6 @@
           </div>
           <p>倒计时结束后将恢复原价699</p>
         </div>-->
-
-        <div class="new-btn">领取礼包</div>
-        <div class="__dialog-msg">
-          已有
-          <span>{{num}}</span>位聪明家长为孩子领取
-        </div>
         <!-- <div class="__dialog-text">
           活动真实有效，
           <span>1元</span>
@@ -191,7 +190,9 @@
 </template>
 
 <script>
+import axios from "axios";
 import dayjs from "dayjs";
+import qs from "querystring";
 import Item from "@/components/Item";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
@@ -210,6 +211,7 @@ export default {
   },
   data() {
     return {
+      dialogData: {},
       num: 3034732,
       showTag2: false,
       showTag1: false,
@@ -283,11 +285,55 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    postUA(type) {
+      if (!this.dialogData.id) return;
+      let url = "";
+      if (
+        process.env.NODE_ENV == "development" ||
+        process.env.NODE_ENV == "test"
+      ) {
+        url = "http://huoke.test.k12.vip/";
+      } else {
+        url = "http://api.huo-ke.com/";
+      }
+      axios.post(
+        url + "fissionprep/investmanage/incrPV",
+        qs.stringify({
+          id: this.dialogData.id,
+          type
+        })
+      );
+    },
+    getInvestManageById() {
+      let url = "";
+      if (
+        process.env.NODE_ENV == "development" ||
+        process.env.NODE_ENV == "test"
+      ) {
+        url = "http://huoke.test.k12.vip/";
+      } else {
+        url = "http://api.huo-ke.com/";
+      }
+      axios
+        .get(url + "fissionprep/investmanage/getInvestManage", {
+          params: {
+            uid: this.userInfo.userId,
+            system: 3
+          }
+        })
+        .then(({ data }) => {
+          this.dialogData = data.resultData || {};
+        });
+    },
     clickCapsule() {
-      window.location = "http://market.k12.vip/yuwen?pageKey=yuwen";
+      this.postUA(1);
+      window.location =
+        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
     clickDialog(type) {
-      window.location = "http://market.k12.vip/yuwen?pageKey=yuwen";
+      this.postUA(2);
+      window.location =
+        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
@@ -556,6 +602,7 @@ export default {
     this.init();
     this.initTab();
     this.listByBroadcast();
+    this.getInvestManageById();
     this.downTime();
   }
 };
