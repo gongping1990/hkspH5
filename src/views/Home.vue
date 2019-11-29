@@ -327,12 +327,12 @@ export default {
         });
     },
     clickCapsule() {
-      this.postUA(1);
+      this.postUA(2);
       window.location =
         this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
     clickDialog(type) {
-      this.postUA(2);
+      this.postUA(3);
       window.location =
         this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
