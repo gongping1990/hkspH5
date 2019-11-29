@@ -300,6 +300,7 @@ export default {
         url + "fissionprep/investmanage/incrPV",
         qs.stringify({
           id: this.dialogData.id,
+          uid: this.userInfo.userId,
           type
         })
       );
