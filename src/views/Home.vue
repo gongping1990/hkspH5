@@ -154,6 +154,11 @@
           <span>1元</span>
           即为实际价格
         </div>-->
+        <div class="__dialog-btn" :style="{'background-image': 'url(' + dialogData.popUrl + ')'}"></div>
+        <div class="__dialog-msg">
+          已有<span>{{ num }}</span
+          >聪明家长为孩子领取
+        </div>
       </div>
       <i class="__dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -590,6 +595,7 @@ export default {
     let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
     let endDate = new Date(formateDate).getTime();
     this.endTime = endDate;
+    this.num = parseInt(new Date().getTime() / 5000000);
     if (nowDate.getTime() > end_time) {
       window.localStorage.removeItem("dialogIndex");
       window.localStorage.removeItem("dialogNum");
@@ -684,12 +690,12 @@ export default {
       left: 50%;
       width: 300px;
       font-size: 10px;
-      color: #fff;
+      color: #333;
       transform: translateX(-50%);
       span {
         margin-bottom: 0;
         display: inline-block;
-        color: #ffe50e;
+        color: #d47170;
       }
     }
     &-text {
@@ -745,11 +751,8 @@ export default {
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
-      background: linear-gradient(
-        360deg,
-        rgba(253, 164, 21, 1) 0%,
-        rgba(255, 236, 23, 1) 100%
-      );
+      background-repeat: no-repeat;
+      background-size: 100%;
       border-radius: 17px;
       transform: translateX(-50%);
       animation: scale 0.6s infinite;
