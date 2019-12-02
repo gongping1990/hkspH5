@@ -663,6 +663,7 @@ export default {
       padding-top: 0;
       width: 301px;
       height: 373px;
+      background-size: 100%;
     }
     &-msg,
     &-text {
