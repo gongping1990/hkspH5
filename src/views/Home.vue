@@ -722,7 +722,6 @@ export default {
       background-repeat: no-repeat;
       background-size: 100%;
       background-color: transparent;
-      transform: translateX(-50%);
       animation: scale 0.6s infinite;
     }
   }
