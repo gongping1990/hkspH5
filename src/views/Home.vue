@@ -705,6 +705,8 @@ export default {
       height: 36px;
       right: 16px;
       top: 16px;
+      background: url("../assets/image/dialog/close.png") no-repeat;
+      background-size: 100%;
     }
     &-btn {
       position: absolute;
