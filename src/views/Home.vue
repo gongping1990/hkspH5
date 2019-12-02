@@ -118,27 +118,15 @@
       <div
         @click="clickDialog(0)"
         class="tc-dialog-content"
-        :style="{'background-image': 'url(' + dialogData.popUrl + ')'}"
       >
-        <!-- <div class="__dialog-down">
-          <div class="__dialog-down-time">
-            <span>{{time.days}}</span>:
-            <span>{{time.hours}}</span>:
-            <span>{{time.minutes}}</span>:
-            <span>{{time.seconds}}</span>
-          </div>
-          <p>倒计时结束后将恢复原价699</p>
-        </div>-->
-        <!-- <div class="__dialog-text">
-          活动真实有效，
-          <span>1元</span>
-          即为实际价格
-        </div>-->
-        <div class="tc-dialog-btn" :style="{'background-image': 'url(' + dialogData.buttonUrl + ')'}"></div>
-        <div class="tc-dialog-msg">
-          已有<span>{{ num }}</span
-          >聪明家长为孩子领取
+        <div class="tc-dialog-div one"></div>
+        <div class="tc-dialog-div two"></div>
+        <div class="tc-dialog-div three"></div>
+        <div class="tc-dialog-down">
+          <span>{{time.seconds}}</span>
+          <p>秒后福利消失</p>
         </div>
+        <div class="tc-dialog-btn" ></div>
       </div>
       <i class="tc-dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -557,7 +545,13 @@ export default {
         }, 1000);
       }
       if (time <= 0) {
-        this.time = `0 : 0 : 0`;
+        this.time = {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          formatTime: `0 : 0 : 0`
+        };
       }
     },
     checkTime(i) {
@@ -573,7 +567,7 @@ export default {
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
     let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
-    let endDate = new Date(formateDate).getTime();
+    let endDate = new Date().getTime() + 15000;
     this.endTime = endDate;
     this.num = parseInt(new Date().getTime() / 5000000);
     if (nowDate.getTime() > end_time) {
@@ -661,9 +655,32 @@ export default {
     &-content {
       position: relative;
       padding-top: 0;
-      width: 301px;
-      height: 373px;
+      width: 326px;
+      height: 420px;
+      background: url('../assets/image/dialog.png') no-repeat;
       background-size: 100%;
+    }
+    &-down {
+      @include flex-center;
+      position: absolute;
+      left: 50%;
+      bottom: 34px;
+      padding: 0 8px;
+      height:25px;
+      background:rgba(255,156,14,1);
+      border-radius:3px;
+      transform: translateX(-50%);
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      span {
+        @include flex-center;
+        margin:  0 4px;
+        width:23px;
+        height:18px;
+        background:rgba(255,186,14,1);
+        border-radius:3px;
+      }
     }
     &-msg,
     &-text {
@@ -692,13 +709,14 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      bottom: 42px;
+      bottom: -25px;
       left: 50%;
-      width: 245px;
-      height: 50px;
+      width: 216px;
+      height: 51px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
+      background-image: url('../assets/image/dialog-btn.png');
       background-repeat: no-repeat;
       background-size: 100%;
       background-color: transparent;
