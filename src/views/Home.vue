@@ -154,7 +154,7 @@
           <span>1元</span>
           即为实际价格
         </div>-->
-        <div class="__dialog-btn" :style="{'background-image': 'url(' + dialogData.popUrl + ')'}"></div>
+        <div class="__dialog-btn" :style="{'background-image': 'url(' + dialogData.buttonUrl + ')'}"></div>
         <div class="__dialog-msg">
           已有<span>{{ num }}</span
           >聪明家长为孩子领取
@@ -744,16 +744,15 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      top: 285px;
+      bottom: 42px;
       left: 50%;
-      width: 152px;
-      height: 33px;
+      width: 245px;
+      height: 50px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
       background-repeat: no-repeat;
       background-size: 100%;
-      border-radius: 17px;
       transform: translateX(-50%);
       animation: scale 0.6s infinite;
     }
