@@ -114,30 +114,10 @@
       </div>
       <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
     </div>
-    <div class="__dialog qrcode" v-if="dialog1">
-      <div @click="clickDialog(1)" class="__dialog-content dialog2">
-        <div class="__dialog-down">
-          <div class="__dialog-down-time">
-            <span>{{time.days}}</span>
-            <span>{{time.hours}}</span>
-            <span>{{time.minutes}}</span>
-            <span>{{time.seconds}}</span>
-          </div>
-          <p>倒计时结束后将恢复原价699</p>
-        </div>
-
-        <div class="__dialog-btn"></div>
-        <p class="__dialog-msg">
-          已有
-          <i>3981</i>位聪明家长为孩子领取
-        </p>
-      </div>
-      <i class="__dialog-close" @click="dialog1 = false"></i>
-    </div>
-    <div class="__dialog qrcode" v-if="dialog2">
+    <div class="tc-dialog" v-if="dialog2">
       <div
         @click="clickDialog(0)"
-        class="__dialog-content dialog2"
+        class="tc-dialog-content"
         :style="{'background-image': 'url(' + dialogData.popUrl + ')'}"
       >
         <!-- <div class="__dialog-down">
@@ -154,13 +134,13 @@
           <span>1元</span>
           即为实际价格
         </div>-->
-        <div class="__dialog-btn" :style="{'background-image': 'url(' + dialogData.buttonUrl + ')'}"></div>
-        <div class="__dialog-msg">
+        <div class="tc-dialog-btn" :style="{'background-image': 'url(' + dialogData.buttonUrl + ')'}"></div>
+        <div class="tc-dialog-msg">
           已有<span>{{ num }}</span
           >聪明家长为孩子领取
         </div>
       </div>
-      <i class="__dialog-close" @click="dialog2 = false"></i>
+      <i class="tc-dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
@@ -667,6 +647,62 @@ export default {
       .mask-tag-btn {
         top: 51px;
       }
+    }
+  }
+  .tc-dialog {
+    @include flex-column-center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    &-content {
+      position: relative;
+      padding-top: 0;
+      width: 301px;
+      height: 373px;
+    }
+    &-msg,
+    &-text {
+      @include flex-center;
+      text-align: center;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      width: 300px;
+      font-size: 10px;
+      color: #333;
+      transform: translateX(-50%);
+      span {
+        margin-bottom: 0;
+        display: inline-block;
+        color: #d47170;
+      }
+    }
+    &-close {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      right: 16px;
+      top: 16px;
+    }
+    &-btn {
+      position: absolute;
+      margin-top: 0;
+      bottom: 42px;
+      left: 50%;
+      width: 245px;
+      height: 50px;
+      color: #a01f12;
+      font-size: 15px;
+      font-weight: 500;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-color: transparent;
+      transform: translateX(-50%);
+      animation: scale 0.6s infinite;
     }
   }
   .__dialog {
