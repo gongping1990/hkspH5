@@ -655,31 +655,25 @@ export default {
     &-content {
       position: relative;
       padding-top: 0;
-      width: 326px;
-      height: 420px;
-      background: url('../assets/image/dialog.png') no-repeat;
+      width: 295px;
+      height: 377px;
+      background: url("../assets/image/dialog.png") no-repeat;
       background-size: 100%;
     }
     &-down {
       @include flex-center;
       position: absolute;
       left: 50%;
-      bottom: 34px;
+      bottom: 10px;
       padding: 0 8px;
-      height:25px;
-      background:rgba(255,156,14,1);
-      border-radius:3px;
+      height: 25px;
+      border-radius: 3px;
       transform: translateX(-50%);
       font-size: 15px;
       font-weight: 500;
-      color: #fff;
+      color: #2d2a29;
       span {
-        @include flex-center;
-        margin:  0 4px;
-        width:23px;
-        height:18px;
-        background:rgba(255,186,14,1);
-        border-radius:3px;
+        color: #b21b24;
       }
     }
     &-msg,
@@ -701,24 +695,24 @@ export default {
     }
     &-close {
       position: absolute;
-      width: 36px;
-      height: 36px;
       right: 16px;
       top: 16px;
-      background: url("../assets/image/dialog/close.png") no-repeat;
+      width: 36px;
+      height: 36px;
+      background: url("../assets/image/dialog/close.png");
       background-size: 100%;
     }
     &-btn {
       position: absolute;
       margin-top: 0;
-      bottom: -25px;
+      bottom: 31px;
       left: 50%;
-      width: 216px;
-      height: 51px;
+      width: 161px;
+      height: 46px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
-      background-image: url('../assets/image/dialog-btn.png');
+      background-image: url("../assets/image/dialog-btn.png");
       background-repeat: no-repeat;
       background-size: 100%;
       background-color: transparent;
