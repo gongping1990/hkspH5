@@ -71,6 +71,7 @@ router.beforeEach((to, from, next) => {
   } else {
     api.user.getUserBaseInfo().then(({ data }) => {
       store.commit("UPDATE_USER_INFO", data.resultData);
+      store.dispatch("getInvestManageById");
       next();
     });
   }

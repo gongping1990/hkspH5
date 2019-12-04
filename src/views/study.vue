@@ -69,6 +69,19 @@
               </router-link>
             </div>
           </div>
+          <van-swipe :autoplay="3000" :show-indicators="false">
+            <van-swipe-item
+              v-for="item in investmanage.xxtdList"
+              :key="item.id"
+            >
+              <div
+                class="ad-banner"
+                :style="{ 'background-image': 'url(' + item.imgUrl + ')' }"
+              >
+                <div class="ad-btn" @click="clickBanner(item)"></div>
+              </div>
+            </van-swipe-item>
+          </van-swipe>
           <h2 class="scroll-title">精品内容推荐</h2>
           <div class="list">
             <div
@@ -153,6 +166,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
 import mathDef from "../assets/image/tab/tabbar-button-math-def.png";
@@ -189,11 +203,12 @@ export default {
     };
   },
   computed: {
+    investmanage() {
+      return this.$store.state.investmanage;
+    },
     scUrl() {
       let { categoryData } = this;
-      return `${window.origin}/yuwen#/pages/wordList/index?courseId=1&edition=${
-        categoryData.teachEdition
-      }&grade=${categoryData.grade}&semester=${categoryData.term}`;
+      return `${window.origin}/yuwen#/pages/wordList/index?courseId=1&edition=${categoryData.teachEdition}&grade=${categoryData.grade}&semester=${categoryData.term}`;
     },
     ldUrl() {
       return `${window.origin}/yuwen#/pages/teachersRead/index`;
@@ -211,6 +226,14 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    ...mapActions(["postIncrPVByAdvertise"]),
+    clickBanner(item) {
+      this.postIncrPVByAdvertise({
+        type: 1,
+        id: item.id
+      });
+      window.location = item.link;
+    },
     closePopup() {
       this.feedbackValue = "";
       this.showPopup = false;
@@ -304,6 +327,25 @@ export default {
 <style lang="scss" scoped>
 .study {
   background-color: #fff;
+  .ad {
+    &-banner {
+      position: relative;
+      width: 343px;
+      height: 100px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+    &-btn {
+      position: absolute;
+      left: 136px;
+      bottom: 3px;
+      width: 119px;
+      height: 37px;
+      background: url("../assets/image/dialog/gg-btn.png") no-repeat;
+      background-size: 100%;
+      animation: scale_1 0.7s infinite;
+    }
+  }
   .feedback-float {
     @include flex-column-center;
     position: absolute;
@@ -473,6 +515,14 @@ export default {
       margin-right: 6px;
       width: 13px;
       height: 13px;
+    }
+  }
+  @keyframes scale_1 {
+    0% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
     }
   }
 }

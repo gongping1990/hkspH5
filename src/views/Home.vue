@@ -1,18 +1,38 @@
 <template>
   <div class="home" ref="page">
     <div class="guide" v-if="!categoryData" @click="changeGuideStep">
-      <img v-if="guideStep == 1" class="guide-one" src="../assets/image/yingdao/yd1.png" />
-      <img v-if="guideStep == 2" class="guide-two" src="../assets/image/yingdao/yd2.png" />
-      <img v-if="guideStep == 3" class="guide-three" src="../assets/image/yingdao/yd3.png" />
+      <img
+        v-if="guideStep == 1"
+        class="guide-one"
+        src="../assets/image/yingdao/yd1.png"
+      />
+      <img
+        v-if="guideStep == 2"
+        class="guide-two"
+        src="../assets/image/yingdao/yd2.png"
+      />
+      <img
+        v-if="guideStep == 3"
+        class="guide-three"
+        src="../assets/image/yingdao/yd3.png"
+      />
     </div>
     <div class="header scroll-header" :class="{ isSticky: isSticky }">
       <div class="select-class" @click="clickSelect">
         {{ !categoryData ? "选择年级" : categoryData.name }}
         <van-icon name="arrow" color="#98A3A5" />
       </div>
-      <div class="collection" @click="$router.push('/collection?subject=' + subject)">
+      <div
+        class="collection"
+        @click="$router.push('/collection?subject=' + subject)"
+      >
         <span>我的收藏</span>
-        <van-icon class="collection-icon" size="18px" color="#F76868" name="like" />
+        <van-icon
+          class="collection-icon"
+          size="18px"
+          color="#F76868"
+          name="like"
+        />
       </div>
     </div>
     <div class="home-sticky">
@@ -80,8 +100,16 @@
                 <span>抱歉，暂时没有文章~</span>
               </div>
               <div class="scroll-list" v-else>
-                <div :ref="'item' + item.id" v-for="item in articleList" :key="item.id">
-                  <Item :subject="subject" :data="item" :isLast="item.point"></Item>
+                <div
+                  :ref="'item' + item.id"
+                  v-for="item in articleList"
+                  :key="item.id"
+                >
+                  <Item
+                    :subject="subject"
+                    :data="item"
+                    :isLast="item.point"
+                  ></Item>
                 </div>
               </div>
             </div>
@@ -110,62 +138,85 @@
           </div>
           <p>长按二维码识别并关注公众号</p>
         </div>
-        <div class="__dialog-btn" @click="recommendData.todayRecommend = false">我已关注，别再推荐</div>
+        <div class="__dialog-btn" @click="recommendData.todayRecommend = false">
+          我已关注，别再推荐
+        </div>
       </div>
-      <i class="__dialog-close" @click="recommendData.todayRecommend = false"></i>
+      <i
+        class="__dialog-close"
+        @click="recommendData.todayRecommend = false"
+      ></i>
     </div>
     <div class="tc-dialog" v-if="dialog2">
-      <div
-        @click="clickDialog(0)"
-        class="tc-dialog-content"
-      >
+      <div @click="clickDialog(0)" class="tc-dialog-content">
         <div class="tc-dialog-div one"></div>
         <div class="tc-dialog-div two"></div>
         <div class="tc-dialog-div three"></div>
         <div class="tc-dialog-down">
-          <span>{{time.seconds}}</span>
+          <span>{{ time.seconds }}</span>
           <p>秒后福利消失</p>
         </div>
-        <div class="tc-dialog-btn" ></div>
+        <div class="tc-dialog-btn"></div>
       </div>
       <i class="tc-dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
         <span>语文</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? icon.chinesePre : icon.chineseDef" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.chinesePre : icon.chineseDef"
+        />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=2">
         <span>数学</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? icon.mathPre : icon.mathDef" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.mathPre : icon.mathDef"
+        />
       </van-tabbar-item>
       <van-tabbar-item to="/?type=3">
         <span>英语</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? icon.englishPre : icon.englishDef" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.englishPre : icon.englishDef"
+        />
       </van-tabbar-item>
       <van-tabbar-item to="/study">
         <span>学习天地</span>
-        <img slot="icon" slot-scope="props" :src="props.active ? icon.fieldPre : icon.fieldDef" />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.fieldPre : icon.fieldDef"
+        />
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
-        <img v-if="isShowTabBarTips" class="g-tabbar-tips" src="../assets/image/fuli/tips-tab.png" />
-        <img slot="icon" slot-scope="props" :src="props.active ? icon.wekfarePre : icon.wekfareDef" />
+        <img
+          v-if="isShowTabBarTips"
+          class="g-tabbar-tips"
+          src="../assets/image/fuli/tips-tab.png"
+        />
+        <img
+          slot="icon"
+          slot-scope="props"
+          :src="props.active ? icon.wekfarePre : icon.wekfareDef"
+        />
       </van-tabbar-item>
     </van-tabbar>
-    <!-- <div class="mask-tag tag1" @click="dialog1 = true" v-show="showTag1">
+    <div class="mask-tag" :class="{ show: showNav }" @click="clickNav">
       <div class="mask-tag-btn"></div>
     </div>
-    <div class="mask-tag" @click="dialog2 = true" v-show="showTag2">
-      <div class="mask-tag-btn"></div>
-    </div>-->
   </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import axios from "axios";
 import dayjs from "dayjs";
-import qs from "querystring";
 import Item from "@/components/Item";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
@@ -184,7 +235,6 @@ export default {
   },
   data() {
     return {
-      dialogData: {},
       num: 3034732,
       showTag2: false,
       showTag1: false,
@@ -207,6 +257,8 @@ export default {
       lastStudyId: 0,
       startTime: "",
       endTime: "",
+      showNav: true,
+      timer: null,
       time: {},
       icon: {
         chineseDef,
@@ -225,6 +277,9 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
+    },
+    dialogData() {
+      return this.$store.state.investmanage;
     },
     gradeData() {
       return this.$store.state.gradeData;
@@ -258,49 +313,14 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
-    postUA(type) {
-      if (!this.dialogData.id) return;
-      let url = "";
-      if (
-        process.env.NODE_ENV == "development" ||
-        process.env.NODE_ENV == "test"
-      ) {
-        url = "http://huoke.test.k12.vip/";
-      } else {
-        url = "http://api.huo-ke.com/";
-      }
-      axios.post(
-        url + "fissionprep/investmanage/incrPV",
-        qs.stringify({
-          id: this.dialogData.id,
-          uid: this.userInfo.userId,
-          type
-        })
-      );
-    },
-    getInvestManageById() {
-      let url = "";
-      if (
-        process.env.NODE_ENV == "development" ||
-        process.env.NODE_ENV == "test"
-      ) {
-        url = "http://huoke.test.k12.vip/";
-      } else {
-        url = "http://api.huo-ke.com/";
-      }
-      axios
-        .get(url + "fissionprep/investmanage/getInvestManage", {
-          params: {
-            uid: this.userInfo.userId,
-            system: 3
-          }
-        })
-        .then(({ data }) => {
-          this.dialogData = data.resultData || {};
-        });
+    ...mapActions(['postUA', 'postIncrPVByAdvertise']),
+    clickNav() {
+      this.postUA(4);
+      window.location = this.dialogData.suspendedFrameLink
     },
     clickCapsule() {
       this.postUA(2);
+      return
       window.location =
         this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
     },
@@ -393,6 +413,12 @@ export default {
       this.isSticky = index != -1;
     },
     scrollHandler(params) {
+      this.showNav && (this.showNav = false);
+      this.timer && clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.showNav = true;
+        this.timer = null;
+      }, 1000);
       this.scrollY = -params.y;
     },
     //切换引导步骤
@@ -583,7 +609,6 @@ export default {
     this.init();
     this.initTab();
     this.listByBroadcast();
-    this.getInvestManageById();
     this.downTime();
   }
 };
@@ -609,38 +634,6 @@ export default {
       background: url("../assets/image/btn.png") no-repeat;
       background-size: 100%;
       animation: scale_1 0.6s infinite;
-    }
-  }
-  .mask-tag,
-  .tag1 {
-    position: fixed;
-    right: 16px;
-    bottom: 170px;
-    width: 72px;
-    height: 72px;
-    background: url("../assets/image/dialog/tag.png") no-repeat;
-    background-size: 100%;
-    z-index: 40;
-
-    &-btn {
-      @include flex-center;
-      position: absolute;
-      top: 46px;
-      left: 50%;
-      margin-left: -31px;
-      width: 62px;
-      height: 26px;
-      background: url("../assets/image/dialog/btn.png") no-repeat;
-      background-size: 100%;
-      animation: scale_1 0.6s infinite;
-    }
-    &.tag1 {
-      width: 72px;
-      height: 64px;
-      background-image: url("../assets/image/dialog/tag1.png");
-      .mask-tag-btn {
-        top: 51px;
-      }
     }
   }
   .tc-dialog {

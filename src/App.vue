@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import Share from "@/components/Share";
 export default {
   components: {
@@ -38,6 +38,7 @@ export default {
       "CHANGE_SHARE_TYPE",
       "UPDATE_SHARE_INFO"
     ]),
+    ...mapActions(["getInvestManageById"]),
     clickShare() {
       this.shareData.todayRemind = false;
       this.CHANGE_SHARE_TYPE(0);
@@ -78,6 +79,32 @@ export default {
 @import url("./assets/style/common.scss");
 .app {
   height: 100vh;
+}
+.mask-tag {
+  position: fixed;
+  right: -(132px - 64px);
+  bottom: 170px;
+  width: 132px;
+  height: 49px;
+  background: url("./assets/image/dialog/gift-bg.png") no-repeat;
+  background-size: 100%;
+  z-index: 40;
+  overflow: hidden;
+  transition: all 0.3s;
+  &.show {
+    right: 0;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 64px;
+    height: 49px;
+    background: url("./assets/image/dialog/gift.png") no-repeat;
+    background-size: 100%;
+    animation: scale_1 0.7s infinite;
+  }
 }
 .__dialog {
   @include flex-column-center;
@@ -247,6 +274,14 @@ export default {
   p {
     font-size: 13px;
     color: #f99e54;
+  }
+}
+@keyframes scale_1 {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

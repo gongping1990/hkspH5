@@ -136,10 +136,14 @@
         </div>
       </cube-scroll>
     </cube-sticky>
+    <div class="mask-tag" :class="{ show: showNav }">
+      <div class="mask-tag-btn"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import Calendar from "@/components/vue-calendar-component/index";
 import Item from "@/components/Item";
 export default {
@@ -163,6 +167,7 @@ export default {
       activeDate: "",
       selectDate: "",
       month: "",
+      showNav: true,
       showCalendar: false,
       tabActive: 0,
       isCollectEmpty: false,
@@ -173,10 +178,12 @@ export default {
       collectList: [],
       readDateList: [],
       listHeight: 0,
-      subject: 1
+      subject: 1,
+      timer: null
     };
   },
   computed: {
+    ...mapState(["investmanage"]),
     list() {
       return this.tabActive ? this.studyList : this.collectList;
     },
@@ -219,6 +226,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["postUA", "postIncrPVByAdvertise"]),
+    clickNav() {
+      this.postUA(4);
+      window.location = this.dialogData.suspendedFrameLink;
+    },
     resetScroll() {
       let { sticky, scroll, header, stickyEle, stickyWrap } = this.$refs;
       this.$nextTick(() => {
@@ -272,6 +284,12 @@ export default {
       }, 1000);
     },
     scrollHandler(params) {
+      this.showNav && (this.showNav = false);
+      this.timer && clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.showNav = true;
+        this.timer = null;
+      }, 1000);
       this.scrollY = -params.y;
     },
     getMyCollectList() {
