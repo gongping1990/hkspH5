@@ -140,7 +140,7 @@
       class="mask-tag"
       :class="{ show: showNav }"
       @click="clickNav"
-      v-if="dialogData.suspendedFrameLink"
+      v-if="investmanage.suspendedFrameLink"
     >
       <div class="mask-tag-btn"></div>
     </div>
@@ -234,7 +234,7 @@ export default {
     ...mapActions(["postUA", "postIncrPVByAdvertise"]),
     clickNav() {
       this.postUA(4);
-      window.location = this.dialogData.suspendedFrameLink;
+      window.location = this.investmanage.suspendedFrameLink;
     },
     resetScroll() {
       let { sticky, scroll, header, stickyEle, stickyWrap } = this.$refs;

@@ -77,7 +77,7 @@
             <div
               class="capsule"
               @click="clickCapsule"
-              v-if="dialogData.dropLink"
+              v-if="dialogData.capsuleUrl"
             >
               <img :src="dialogData.capsuleUrl" />
               <div class="capsule-btn"></div>
@@ -331,6 +331,7 @@ export default {
     ...mapActions(["postUA", "postIncrPVByAdvertise"]),
     clickNav() {
       this.postUA(4);
+      return
       window.location = this.dialogData.suspendedFrameLink;
     },
     clickCapsule() {
