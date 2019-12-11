@@ -54,7 +54,11 @@
                 </div>
               </div>
             </cube-sticky-ele>
-
+            <img
+              @click="clickTZ"
+              class="tz-img"
+              src="../assets/image/dialog/tz-img.png"
+            />
             <div
               class="list"
               ref="scrollList"
@@ -79,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 import Item from "@/components/Item";
 export default {
   components: {
@@ -106,7 +111,15 @@ export default {
       showBanner: true
     };
   },
+  computed: {
+    ...mapState(["investmanage"])
+  },
   methods: {
+    ...mapActions(["postUA"]),
+    clickTZ() {
+      this.postUA(5);
+      window.location = this.investmanage.noticeLink;
+    },
     onPullingUp() {
       let { total } = this;
       let { scroll } = this.$refs;
@@ -257,6 +270,10 @@ export default {
 
 <style lang="scss" scoped>
 .composition {
+  .tz-img {
+    width: 353px;
+    margin: 0 12px;
+  }
   .sticky {
     height: calc(100vh - 62px);
   }

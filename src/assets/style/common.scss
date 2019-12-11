@@ -31,6 +31,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 .g-tabbar-tips {
+  z-index: 999999;
   position: absolute;
   top: -42px;
   right: 8px;

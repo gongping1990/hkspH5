@@ -9,6 +9,7 @@ import "amfe-flexible";
 import "./cube-ui.js";
 import VueClipboard from "vue-clipboard2";
 import api from "./request/api";
+import { baseUrl } from "./request/base.js";
 import { isWeiXin, registerWx } from "./utils";
 import Wechat from "./utils/wx";
 import VueSocketIO from "vue-socket.io";
@@ -17,16 +18,17 @@ Vue.prototype.$day = dayjs;
 VueClipboard.config.autoSetContainer = true; // add this line
 Vue.use(VueClipboard);
 Vue.use(Vant);
+
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "http://huoke.test.k12.vip",
+    connection: baseUrl,
     vuex: {
       store,
       actionPrefix: "SOCKET_",
       mutationPrefix: "SOCKET_"
     },
-    options: { path: "/spwss" } //Optional options
+    options: { path: "/spwss", transports: ["websocket"] } //Optional options
   })
 );
 
@@ -36,6 +38,9 @@ Vue.prototype.$wechat = Wechat;
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
+  if (to.query["U-From-ChannelId"]) {
+    store.commit("UPDATE_CHANNELID", to.query["U-From-ChannelId"]);
+  }
   if (isWeiXin()) {
     registerWx({
       url: window.origin
@@ -46,6 +51,7 @@ router.beforeEach((to, from, next) => {
       .wxUserLogin({ code: to.query.code })
       .then(({ data }) => {
         store.commit("UPDATE_USER_INFO", data.resultData);
+        store.dispatch("getInvestManageById");
         next();
       })
       .catch(() => {
@@ -60,12 +66,14 @@ router.beforeEach((to, from, next) => {
       })
       .then(({ data }) => {
         store.commit("UPDATE_USER_INFO", data.resultData);
+        store.dispatch("getInvestManageById");
         next();
       });
     return;
   } else {
     api.user.getUserBaseInfo().then(({ data }) => {
       store.commit("UPDATE_USER_INFO", data.resultData);
+      store.dispatch("getInvestManageById");
       next();
     });
   }

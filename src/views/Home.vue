@@ -26,8 +26,8 @@
         class="collection"
         @click="$router.push('/collection?subject=' + subject)"
       >
-        <span>我的收藏</span
-        ><van-icon
+        <span>我的收藏</span>
+        <van-icon
           class="collection-icon"
           size="18px"
           color="#F76868"
@@ -73,6 +73,11 @@
                   </div>
                 </van-swipe-item>
               </van-swipe>
+            </div>
+            <div class="capsule" @click="clickCapsule">
+              <img :src="dialogData.capsuleUrl" v-if="dialogData.capsuleUrl" />
+              <img src="../assets/image/capsule.png" v-else />
+              <div class="capsule-btn"></div>
             </div>
           </div>
           <div class="home-scroll">
@@ -137,7 +142,23 @@
           我已关注，别再推荐
         </div>
       </div>
-      <i class="__dialog-close"></i>
+      <i
+        class="__dialog-close"
+        @click="recommendData.todayRecommend = false"
+      ></i>
+    </div>
+    <div class="tc-dialog" v-if="dialog2">
+      <div @click="clickDialog(0)" class="tc-dialog-content">
+        <div class="tc-dialog-div one"></div>
+        <div class="tc-dialog-div two"></div>
+        <div class="tc-dialog-div three"></div>
+        <div class="tc-dialog-down">
+          <span>{{ time.seconds }}</span>
+          <p>秒后福利消失</p>
+        </div>
+        <div class="tc-dialog-btn"></div>
+      </div>
+      <i class="tc-dialog-close" @click="dialog2 = false"></i>
     </div>
     <van-tabbar v-model="active" active-color="#24B592">
       <van-tabbar-item to="/">
@@ -174,7 +195,11 @@
       </van-tabbar-item>
       <van-tabbar-item to="/welfareCentre">
         <span>福利中心</span>
-        <img v-if="isShowTabBarTips" class="g-tabbar-tips"  src="../assets/image/fuli/tips-tab.png">
+        <img
+          v-if="isShowTabBarTips"
+          class="g-tabbar-tips"
+          src="../assets/image/fuli/tips-tab.png"
+        />
         <img
           slot="icon"
           slot-scope="props"
@@ -182,10 +207,16 @@
         />
       </van-tabbar-item>
     </van-tabbar>
+    <div class="mask-tag" :class="{ show: showNav }" @click="clickNav">
+      <div class="mask-tag-btn"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+import axios from "axios";
+import dayjs from "dayjs";
 import Item from "@/components/Item";
 import chineseDef from "../assets/image/tab/tabbar-button-chinese-def.png";
 import chinesePre from "../assets/image/tab/tabbar-button-chinese-pre.png";
@@ -204,8 +235,13 @@ export default {
   },
   data() {
     return {
+      num: 3034732,
+      showTag2: false,
+      showTag1: false,
       options: {},
       scrollY: 0,
+      dialog1: false,
+      dialog2: false,
       isSticky: false,
       isShowTabBarTips: false,
       categoryData: {},
@@ -219,6 +255,11 @@ export default {
       isEmpty: false,
       recommendData: {},
       lastStudyId: 0,
+      startTime: "",
+      endTime: "",
+      showNav: true,
+      timer: null,
+      time: {},
       icon: {
         chineseDef,
         chinesePre,
@@ -236,6 +277,9 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
+    },
+    dialogData() {
+      return this.$store.state.investmanage;
     },
     gradeData() {
       return this.$store.state.gradeData;
@@ -264,10 +308,34 @@ export default {
     }
   },
   mounted() {
+    this.num = parseInt(new Date().getTime() / 5000000);
     this.$store.dispatch("getCreditMsg");
-    this.isShowTabBarTips = this.$store.state.isShowTabBarTips
+    this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
+    ...mapActions(['postUA', 'postIncrPVByAdvertise']),
+    clickNav() {
+      this.postUA(4);
+      window.location = this.dialogData.suspendedFrameLink
+    },
+    clickCapsule() {
+      this.postUA(2);
+      return
+      window.location =
+        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
+    },
+    clickDialog(type) {
+      this.postUA(3);
+      window.location =
+        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
+    },
+    initDialog() {
+      let dialogIndex = window.sessionStorage.getItem("dialogIndex");
+
+      if (dialogIndex) return;
+      this.dialog2 = true;
+      window.sessionStorage.setItem("dialogIndex", 1);
+    },
     initTab() {
       let route = this.$route;
       if (route.name == "home") {
@@ -298,7 +366,6 @@ export default {
       });
     },
     clickBanner(url) {
-      console.log(url);
       if (this.subject == 1) {
         this.listWordByBook(url);
       } else {
@@ -346,6 +413,12 @@ export default {
       this.isSticky = index != -1;
     },
     scrollHandler(params) {
+      this.showNav && (this.showNav = false);
+      this.timer && clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.showNav = true;
+        this.timer = null;
+      }, 1000);
       this.scrollY = -params.y;
     },
     //切换引导步骤
@@ -426,7 +499,9 @@ export default {
         .then(({ data }) => {
           this.categoryData = data.resultData;
           if (this.categoryData) {
-            console.log(this.userInfo);
+            this.first = 1;
+            window.localStorage.setItem("first", 1);
+            this.initDialog();
             if (!this.userInfo.phone) {
               let { type } = this.$route.query;
               this.$router.push(`/select?type=${type ? type : 1}`);
@@ -442,9 +517,9 @@ export default {
             this.getArticleList();
           } else {
             this.isEmpty = true;
-          }
-          if (this.first) {
-            this.guideStep = 3;
+            if (this.first) {
+              this.guideStep = 3;
+            }
           }
         });
     },
@@ -456,11 +531,77 @@ export default {
         .then(({ data }) => {
           this.recommendData = data.resultData;
         });
+    },
+    downTime() {
+      let { endTime } = this;
+      let time = endTime - new Date().getTime();
+
+      let { checkTime } = this;
+      let days = parseInt(time / 1000 / 60 / 60 / 24, 10),
+        hours = parseInt((time / 1000 / 60 / 60) % 24, 10),
+        minutes = parseInt((time / 1000 / 60) % 60, 10),
+        seconds = parseInt((time / 1000) % 60, 10);
+
+      days = checkTime(days);
+      hours = checkTime(hours);
+      minutes = checkTime(minutes);
+      seconds = checkTime(seconds);
+      if (time <= 0) {
+        this.time = {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          formatTime: `0 : 0 : 0`
+        };
+        this.timeIsEnd = true;
+      } else {
+        this.time = {
+          days,
+          hours,
+          minutes,
+          seconds,
+          formatTime: `${hours} : ${minutes} : ${seconds}`
+        };
+      }
+
+      if (time > 0) {
+        setTimeout(() => {
+          this.downTime();
+        }, 1000);
+      }
+      if (time <= 0) {
+        this.time = {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          formatTime: `0 : 0 : 0`
+        };
+      }
+    },
+    checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
     }
   },
   created() {
+    let nowDate = new Date();
+    let end_time = window.localStorage.getItem("endTime");
     let { type } = this.$route.query;
     let tabActive = window.sessionStorage.getItem("tabActive");
+    let formateDate = dayjs(nowDate).format("YYYY/MM/DD") + " 23:59:59";
+    let endDate = new Date().getTime() + 15000;
+    this.endTime = endDate;
+    this.num = parseInt(new Date().getTime() / 5000000);
+    if (nowDate.getTime() > end_time) {
+      window.localStorage.removeItem("dialogIndex");
+      window.localStorage.removeItem("dialogNum");
+    }
+    window.localStorage.setItem("endTime", endDate);
+
     this.subject = type ? type : 1;
     if (tabActive) {
       this.tabActive = tabActive;
@@ -468,11 +609,217 @@ export default {
     this.init();
     this.initTab();
     this.listByBroadcast();
+    this.downTime();
   }
 };
 </script>
 <style lang="scss" scoped>
 .home {
+  .capsule {
+    @include flex-center;
+    position: relative;
+    margin: 0 auto;
+    padding: 19px 0;
+    width: 100%;
+    background-color: #fff;
+    img {
+      width: 100%;
+    }
+    &-btn {
+      position: absolute;
+      top: 28px;
+      right: 24px;
+      width: 62px;
+      height: 62px;
+      background: url("../assets/image/btn.png") no-repeat;
+      background-size: 100%;
+      animation: scale_1 0.6s infinite;
+    }
+  }
+  .tc-dialog {
+    @include flex-column-center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 99;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+    &-content {
+      position: relative;
+      padding-top: 0;
+      width: 295px;
+      height: 377px;
+      background: url("../assets/image/dialog.png") no-repeat;
+      background-size: 100%;
+    }
+    &-down {
+      @include flex-center;
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      padding: 0 8px;
+      height: 25px;
+      border-radius: 3px;
+      transform: translateX(-50%);
+      font-size: 15px;
+      font-weight: 500;
+      color: #2d2a29;
+      span {
+        color: #b21b24;
+      }
+    }
+    &-msg,
+    &-text {
+      @include flex-center;
+      text-align: center;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      width: 300px;
+      font-size: 10px;
+      color: #333;
+      transform: translateX(-50%);
+      span {
+        margin-bottom: 0;
+        display: inline-block;
+        color: #d47170;
+      }
+    }
+    &-close {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 36px;
+      height: 36px;
+      background: url("../assets/image/dialog/close.png");
+      background-size: 100%;
+    }
+    &-btn {
+      position: absolute;
+      margin-top: 0;
+      bottom: 31px;
+      left: 50%;
+      width: 161px;
+      height: 46px;
+      color: #a01f12;
+      font-size: 15px;
+      font-weight: 500;
+      background-image: url("../assets/image/dialog-btn.png");
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-color: transparent;
+      animation: scale 0.6s infinite;
+    }
+  }
+  .__dialog {
+    &-content.dialog1,
+    &-content.dialog2 {
+      position: relative;
+      padding-top: 0;
+      width: 301px;
+      height: 373px;
+      background-image: url("../assets/image/dialog/dialog1.png");
+    }
+    &-content.dialog2 {
+      background-image: url("../assets/image/dialog/dialog.png");
+    }
+    &-msg,
+    &-text {
+      @include flex-center;
+      text-align: center;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      width: 300px;
+      font-size: 10px;
+      color: #333;
+      transform: translateX(-50%);
+      span {
+        margin-bottom: 0;
+        display: inline-block;
+        color: #d47170;
+      }
+    }
+    &-text {
+      font-size: 11px;
+      bottom: 3px;
+    }
+    &-down {
+      @include flex-column-center;
+      position: absolute;
+      left: 50%;
+      bottom: 100px;
+      transform: translateX(-50%);
+      p {
+        line-height: 14px;
+        font-size: 10px;
+        color: #fff;
+      }
+      &-time {
+        display: flex;
+        align-items: center;
+        padding: 4px 0;
+        margin-bottom: 4px;
+        font-size: 10px;
+        color: #c7641b;
+        background: rgba(255, 219, 154, 1);
+        box-shadow: 0px 3px 4px 0px rgba(255, 144, 14, 0.21);
+        border-radius: 5px;
+        span {
+          @include flex-center;
+          margin: 0 5px;
+          padding: 3px;
+          background: rgba(255, 255, 255, 1);
+          box-shadow: 0px -1px 3px 0px rgba(255, 144, 0, 0.5);
+          border-radius: 4px;
+        }
+      }
+    }
+
+    &-close {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      right: 16px;
+      top: 16px;
+    }
+    &-btn {
+      position: absolute;
+      margin-top: 0;
+      bottom: 42px;
+      left: 50%;
+      width: 245px;
+      height: 50px;
+      color: #a01f12;
+      font-size: 15px;
+      font-weight: 500;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-color: transparent;
+      transform: translateX(-50%);
+      animation: scale 0.6s infinite;
+    }
+    .new-btn {
+      @include flex-center;
+      position: absolute;
+      bottom: 39px;
+      left: 50%;
+      width: 235px;
+      height: 50px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 230, 43, 1) 0%,
+        rgba(255, 136, 0, 1) 100%
+      );
+      box-shadow: 0px 4px 8px 0px rgba(236, 60, 23, 0.41);
+      border-radius: 25px;
+      font-size: 24px;
+      color: #fff;
+      font-weight: bold;
+      animation: scale 0.6s infinite;
+    }
+  }
   &-wrap {
     padding-bottom: 1px;
   }
@@ -483,7 +830,7 @@ export default {
     @include flex-center;
     position: absolute;
     right: 0;
-    bottom: 240px;
+    bottom: 120px;
     width: 118px;
     height: 26px;
     font-size: 13px;
@@ -655,6 +1002,24 @@ export default {
     &-list {
       min-height: calc(100vh - 136px);
     }
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: translateX(-50%) scale(0.9);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes scale_1 {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>
