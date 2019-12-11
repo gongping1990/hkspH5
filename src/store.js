@@ -6,7 +6,7 @@ import qs from "querystring";
 let url =
   process.env.NODE_ENV == "development" || process.env.NODE_ENV == "test"
     ? "http://huoke.test.k12.vip/"
-    : "http://huoke.test.k12.vip/";
+    : "http://huoke.prod.k12.vip/";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -51,7 +51,7 @@ export default new Vuex.Store({
     postIncrPVByAdvertise({ state }, payload) {
       if (!state.investmanage.id) return;
       axios.post(
-        url + "fissionprep/investmanage/incrPV",
+        url + "fissionprep/investmanage/incrPVByAdvertise",
         qs.stringify({
           id: payload.id,
           uid: state.userInfo.userId,

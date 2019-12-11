@@ -81,8 +81,9 @@
               <div
                 class="ad-banner"
                 :style="{ 'background-image': 'url(' + item.imgUrl + ')' }"
+                @click="clickBanner(item)"
               >
-                <div class="ad-btn" @click="clickBanner(item)"></div>
+                <div class="ad-btn"></div>
               </div>
             </van-swipe-item>
           </van-swipe>
@@ -236,6 +237,7 @@ export default {
         type: 1,
         id: item.id
       });
+      return;
       window.location = item.link;
     },
     closePopup() {
