@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "../store";
 import { Toast } from "vant";
 import { baseUrl } from "./base.js";
 import { isWeiXin, delUrlQuery } from "../utils";
@@ -39,8 +40,7 @@ const toLogin = () => {
  * 请求失败后的错误统一处理
  * @param {Number} status 请求失败的状态码
  */
-const errorHandle = (status, err, res) => {
-  console.log(res);
+const errorHandle = (status, err) => {
   // 状态码判断
   switch (status) {
     case 200:
@@ -78,6 +78,7 @@ var instance = axios.create({
 
 instance.interceptors.request.use(
   config => {
+    config.headers.common["U-From-ChannelId"] = store.state.channelId;
     return config;
   },
   error => Promise.error(error)

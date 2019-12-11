@@ -70,9 +70,7 @@ export default {
       await this.getShow();
       let { title, img } = this.data;
       let { shareInfo, subject } = this;
-      console.log(shareInfo);
       this.articleClick(3, res => {
-        console.log(res);
         registerWx({
           title,
           desc:
