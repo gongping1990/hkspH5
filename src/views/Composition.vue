@@ -23,7 +23,11 @@
             <div class="banner" :class="{ hide: !showBanner }" ref="banner">
               <img src="../assets/image/study/banner.png" />
             </div>
-            <cube-sticky-ele ref="stickyEle" ele-key="22">
+            <cube-sticky-ele
+              class="sticky-content"
+              ref="stickyEle"
+              ele-key="22"
+            >
               <div class="tab" ref="tab" v-if="columnList.length">
                 <div
                   class="tab-header"
@@ -53,12 +57,11 @@
                   </div>
                 </div>
               </div>
+              <div @click="clickTZ" class="tz-img">
+                {{ investmanage.noticeDoc }}
+              </div>
             </cube-sticky-ele>
-            <img
-              @click="clickTZ"
-              class="tz-img"
-              src="../assets/image/dialog/tz-img.png"
-            />
+
             <div
               class="list"
               ref="scrollList"
@@ -131,13 +134,14 @@ export default {
       }
     },
     getListHeight() {
-      let { tab, header } = this.$refs;
+      let { stickyEle, header } = this.$refs;
       let height = 0;
       let headerMargin = parseFloat(
         window.getComputedStyle(header, null).getPropertyValue("margin-bottom")
       );
-      if (tab && header) {
-        height = tab.offsetHeight + header.offsetHeight + headerMargin;
+      if (stickyEle && header) {
+        height =
+          stickyEle.$el.offsetHeight + header.offsetHeight + headerMargin;
       }
       this.listHeight = Math.ceil(height);
       this.$nextTick(() => {
@@ -271,8 +275,41 @@ export default {
 <style lang="scss" scoped>
 .composition {
   .tz-img {
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    padding-left: 38px;
     width: 353px;
+    height: 41px;
     margin: 0 12px;
+    border: 1px solid rgba(239, 249, 247, 1);
+    box-shadow: 0px 1px 9px 0px rgba(244, 245, 247, 0.89);
+    font-size: 14px;
+    color: #333333;
+    background-color: #fff;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      background: url("../assets/image/dialog/tz-icon.png") no-repeat;
+      background-size: 100%;
+      transform: translateY(-50%);
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      right: 3px;
+      top: 50%;
+      width: 24px;
+      height: 24px;
+      background: url("../assets/image/dialog/tz-arrow.png") no-repeat;
+      background-size: 100%;
+      transform: translateY(-50%);
+    }
   }
   .sticky {
     height: calc(100vh - 62px);
@@ -325,9 +362,11 @@ export default {
       height: 120px;
     }
   }
+  .sticky-content {
+    background: #fff;
+  }
   .tab {
     padding-bottom: 12px;
-    margin-bottom: 12px;
     background-color: #fff;
     &-header {
       @include flex-center;

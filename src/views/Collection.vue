@@ -136,7 +136,12 @@
         </div>
       </cube-scroll>
     </cube-sticky>
-    <div class="mask-tag" :class="{ show: showNav }">
+    <div
+      class="mask-tag"
+      :class="{ show: showNav }"
+      @click="clickNav"
+      v-if="dialogData.suspendedFrameLink"
+    >
       <div class="mask-tag-btn"></div>
     </div>
   </div>

@@ -69,7 +69,11 @@
               </router-link>
             </div>
           </div>
-          <van-swipe :autoplay="3000" :show-indicators="false">
+          <van-swipe
+            :autoplay="3000"
+            :show-indicators="false"
+            v-if="investmanage.xxtdList.length"
+          >
             <van-swipe-item
               v-for="item in investmanage.xxtdList"
               :key="item.id"

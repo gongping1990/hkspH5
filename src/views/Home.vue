@@ -74,9 +74,12 @@
                 </van-swipe-item>
               </van-swipe>
             </div>
-            <div class="capsule" @click="clickCapsule">
-              <img :src="dialogData.capsuleUrl" v-if="dialogData.capsuleUrl" />
-              <img src="../assets/image/capsule.png" v-else />
+            <div
+              class="capsule"
+              @click="clickCapsule"
+              v-if="dialogData.dropLink"
+            >
+              <img :src="dialogData.capsuleUrl" />
               <div class="capsule-btn"></div>
             </div>
           </div>
@@ -148,7 +151,11 @@
       ></i>
     </div>
     <div class="tc-dialog" v-if="dialog2">
-      <div @click="clickDialog(0)" class="tc-dialog-content">
+      <div
+        @click="clickDialog(0)"
+        class="tc-dialog-content"
+        :style="{ 'background-image': 'url(' + dialogData.popUrl + ')' }"
+      >
         <div class="tc-dialog-div one"></div>
         <div class="tc-dialog-div two"></div>
         <div class="tc-dialog-div three"></div>
@@ -156,7 +163,10 @@
           <span>{{ time.seconds }}</span>
           <p>秒后福利消失</p>
         </div>
-        <div class="tc-dialog-btn"></div>
+        <div
+          class="tc-dialog-btn"
+          :style="{ 'background-image': 'url(' + dialogData.buttonUrl + ')' }"
+        ></div>
       </div>
       <i class="tc-dialog-close" @click="dialog2 = false"></i>
     </div>
@@ -207,14 +217,19 @@
         />
       </van-tabbar-item>
     </van-tabbar>
-    <div class="mask-tag" :class="{ show: showNav }" @click="clickNav">
+    <div
+      class="mask-tag"
+      :class="{ show: showNav }"
+      @click="clickNav"
+      v-if="dialogData.suspendedFrameLink"
+    >
       <div class="mask-tag-btn"></div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 import axios from "axios";
 import dayjs from "dayjs";
 import Item from "@/components/Item";
@@ -313,21 +328,18 @@ export default {
     this.isShowTabBarTips = this.$store.state.isShowTabBarTips;
   },
   methods: {
-    ...mapActions(['postUA', 'postIncrPVByAdvertise']),
+    ...mapActions(["postUA", "postIncrPVByAdvertise"]),
     clickNav() {
       this.postUA(4);
-      window.location = this.dialogData.suspendedFrameLink
+      window.location = this.dialogData.suspendedFrameLink;
     },
     clickCapsule() {
       this.postUA(2);
-      return
-      window.location =
-        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
+      window.location = this.dialogData.dropLink;
     },
     clickDialog(type) {
       this.postUA(3);
-      window.location =
-        this.dialogData.dropLink || "http://market.k12.vip/yuwen?pageKey=yuwen";
+      window.location = this.dialogData.popLink;
     },
     initDialog() {
       let dialogIndex = window.sessionStorage.getItem("dialogIndex");
