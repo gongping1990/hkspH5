@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </div>
-              <div @click="clickTZ" class="tz-img">
+              <div @click="clickTZ" class="tz-img" v-if="investmanage.noticeDoc">
                 {{ investmanage.noticeDoc }}
               </div>
             </cube-sticky-ele>
