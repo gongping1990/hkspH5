@@ -344,7 +344,7 @@ export default {
     &-btn {
       position: absolute;
       left: 136px;
-      bottom: 3px;
+      top: 66px;
       width: 119px;
       height: 37px;
       background: url("../assets/image/dialog/gg-btn.png") no-repeat;
