@@ -331,7 +331,6 @@ export default {
     ...mapActions(["postUA", "postIncrPVByAdvertise"]),
     clickNav() {
       this.postUA(4);
-      return
       window.location = this.dialogData.suspendedFrameLink;
     },
     clickCapsule() {
@@ -675,10 +674,11 @@ export default {
       height: 25px;
       border-radius: 3px;
       transform: translateX(-50%);
-      font-size: 15px;
+      font-size: 11px;
       font-weight: 500;
-      color: #2d2a29;
+      color: #FFFFFF;
       span {
+        font-size: 15px;
         color: #b21b24;
       }
     }
@@ -713,8 +713,8 @@ export default {
       margin-top: 0;
       bottom: 31px;
       left: 50%;
-      width: 161px;
-      height: 46px;
+      width: 147px;
+      height: 49px;
       color: #a01f12;
       font-size: 15px;
       font-weight: 500;
