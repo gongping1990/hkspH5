@@ -237,7 +237,6 @@ export default {
         type: 1,
         id: item.id
       });
-      return;
       window.location = item.link;
     },
     closePopup() {
