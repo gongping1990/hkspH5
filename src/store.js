@@ -75,7 +75,7 @@ export default new Vuex.Store({
         .get(url + "fissionprep/investmanage/getInvestManage", {
           params: {
             uid: state.userInfo.userId,
-            system: 3
+            system: 6
           }
         })
         .then(({ data }) => {
