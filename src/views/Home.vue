@@ -124,7 +124,7 @@
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
     </div>
-    <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
+    <div class="__dialog qrcode" v-if="!recommendData.todayRecommend">
       <div class="__dialog-content">
         <div class="__dialog-info">
           <img :src="recommendData.icon" />
@@ -800,7 +800,7 @@ export default {
     &-btn {
       position: absolute;
       margin-top: 0;
-      bottom: 42px;
+      bottom: 0;
       left: 50%;
       width: 245px;
       height: 50px;
@@ -811,7 +811,6 @@ export default {
       background-size: 100%;
       background-color: transparent;
       transform: translateX(-50%);
-      animation: scale 0.6s infinite;
     }
     .new-btn {
       @include flex-center;
