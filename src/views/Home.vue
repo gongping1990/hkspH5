@@ -676,7 +676,7 @@ export default {
       transform: translateX(-50%);
       font-size: 11px;
       font-weight: 500;
-      color: #FFFFFF;
+      color: #ffffff;
       span {
         font-size: 15px;
         color: #b21b24;
@@ -843,7 +843,7 @@ export default {
     @include flex-center;
     position: absolute;
     right: 0;
-    bottom: 120px;
+    bottom: 80px;
     width: 118px;
     height: 26px;
     font-size: 13px;

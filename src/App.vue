@@ -83,7 +83,7 @@ export default {
 .mask-tag {
   position: fixed;
   right: -(132px - 64px);
-  bottom: 170px;
+  bottom: 120px;
   width: 132px;
   height: 49px;
   background: url("./assets/image/dialog/gift-bg.png") no-repeat;
