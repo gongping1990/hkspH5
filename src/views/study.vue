@@ -72,10 +72,10 @@
           <van-swipe
             :autoplay="3000"
             :show-indicators="false"
-            v-if="investmanage.xxtdList.length"
+            v-if="investmanage.homepageList.length"
           >
             <van-swipe-item
-              v-for="item in investmanage.xxtdList"
+              v-for="item in investmanage.homepageList"
               :key="item.id"
             >
               <div
