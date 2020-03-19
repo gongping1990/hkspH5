@@ -124,7 +124,7 @@
       <van-icon color="#F99E54" name="arrow-up" />
       <span>回到上次学习</span>
     </div>
-    <div class="__dialog qrcode" v-if="!recommendData.todayRecommend">
+    <div class="__dialog qrcode" v-if="recommendData.todayRecommend">
       <div class="__dialog-content">
         <div class="__dialog-info">
           <img :src="recommendData.icon" />
