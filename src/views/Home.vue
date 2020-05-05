@@ -641,8 +641,8 @@ export default {
       position: absolute;
       top: 28px;
       right: 24px;
-      width: 62px;
-      height: 62px;
+      width: 60px;
+      height: 65px;
       background: url("../assets/image/btn.png") no-repeat;
       background-size: 100%;
       animation: scale_1 0.6s infinite;
