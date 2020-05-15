@@ -6,7 +6,7 @@ import qs from "querystring";
 let url =
   process.env.NODE_ENV == "development" || process.env.NODE_ENV == "test"
     ? "http://huoke.test.k12.vip/"
-    : "http://huoke.prod.k12.vip/";
+    : "http://huoke.test.k12.vip/";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
