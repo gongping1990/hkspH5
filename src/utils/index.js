@@ -76,7 +76,7 @@ export const getBaseUrl = () => {
     return "http://huoke.test.k12.vip";
     //return " https://www.easy-mock.com/mock/5be102d017aacd76f64bff7a/huoke";
   }
-  return "http://huoke.prod.k12.vip";
+  return "http://huoke.test.k12.vip";
 };
 
 export const getGroupPrice = (groupPrice, price) => {
